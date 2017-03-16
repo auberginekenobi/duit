@@ -17,7 +17,7 @@ DuMi is still under development. Implemented features are indicated with a check
 - [ ] Import and sync events froom Google Calendar
 - [ ] Track your du completion trends over time
 
-For a detailed list of current individual features, see [What's New](#new).
+For a detailed list of current individual features, see [What's New](#whats-new).
 
 ## Getting Started
 
