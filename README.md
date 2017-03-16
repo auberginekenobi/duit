@@ -1,11 +1,14 @@
-# DuMi
-#### A Fantasktic App
+# DuMi: A Fantasktic App
+
+<a href="#"><img src="/img/logo-square.jpg" align="left" height="100px" hspace="8" vspace="8"></a>
 
 DuMi is a productivity manager for anyone who has ever looked at their calendar, to-do list, or jumble of sticky notes and wondered at the possibility of having one thing that could do it all. The purpose of DuMi is to organize projects, tasks, events, and other commitments (termed "du's") with a flexible, transformable interface that can go from a full weekly spread to a homework checklist to a project timeline and back again with the click of a mouse. 
 
 ## Features
 
-DuMi is still under development. Implemented features are indicated with a checked box, future features with an unchecked box.
+**DuMi is still under development;** as such, most features exist as plans.
+
+Implemented features are indicated with checked boxes, planned features with unchecked boxes.
 
 - [ ] Create, edit, and delete du's
 - [ ] Check off completed du's and mark du's as in progress
@@ -37,13 +40,22 @@ The constructor features sample data and will select several tables to display t
 
 ## What's New
 
+v0.0.1 (3-14-2017): Initializing GitHub repo
 
+* Added DB constructor
+* Added README, LICENSE, and images
+
+v0.0.0 (3-8-2017): The project is underway!
+
+* The proposed task-keeping system is named DuMi and gets a sick new logo
 
 ## Authors
 
-* **Kelli Rockwell** - *Primary developer* - [[courier-new]](https://github.com/courier-new)
-* **Owen Chapman** - *Primary developer* - [[auberginekenobi]](https://github.com/auberginekenobi)
-* **Patrick Shao** - *Primary developer* - [[courier-new]](https://github.com/patrickshao)
+<a href="https://github.com/courier-new"><img src="https://avatars2.githubusercontent.com/u/8942601?v=3&s=460" align="left" height="30px"></a> **Kelli Rockwell** - [[courier-new]](https://github.com/courier-new)
+
+<a href="https://github.com/auberginekenobi"><img src="https://avatars3.githubusercontent.com/u/5943686?v=3&s=460" align="left" height="30px"></a> **Owen Chapman** -  [[auberginekenobi]](https://github.com/auberginekenobi)
+
+<a href="https://github.com/patrickshao"><img src="https://avatars0.githubusercontent.com/u/5953037?v=3&s=460" align="left" height="30px"></a> **Patrick Shao** - [[courier-new]](https://github.com/patrickshao)
 
 ## License
 
