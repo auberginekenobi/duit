@@ -66,6 +66,8 @@ function getAll() {
 	    }
 	}
 
+	$result->close();
+
 }
 
 function getUseful() {
@@ -147,9 +149,5 @@ class du {
 
 	}
 }
-
-// Close result and db connection now that we are finished with them
-$result->close();
-$connection->close();
 
 ?>
