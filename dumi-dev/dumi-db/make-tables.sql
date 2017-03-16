@@ -4,6 +4,10 @@ DROP DATABASE IF EXISTS dumi_dev;
 CREATE DATABASE dumi_dev;
 -- CREATE DATABASE dumi;
 
+GRANT ALL PRIVILEGES ON dumi_dev.* to 'global'@'localhost' IDENTIFIED BY 'temp' WITH GRANT OPTION;
+--GRANT ALL PRIVILEGES ON dumi.* to 'global'@'localhost' IDENTIFIED BY 'temp' WITH GRANT OPTION;
+
+
 USE dumi_dev;
 
 -- Create table for du's
