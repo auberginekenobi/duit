@@ -112,9 +112,6 @@ function getUseful() {
 
 }
 
-getAll();
-
-
 class du {
 	protected $du_id;
 	protected $du_timestamp;
@@ -146,8 +143,45 @@ class du {
 			$output .= "\n";
 			echo $output;
 		}
+	}
 
+	public function getID() {
+		return $this->du_id;
+	}
+
+	public function getTimestamp() {
+		return $this->du_timestamp;
+	}
+
+	public function getName() {
+		return $this->du_name;
+	}
+
+	public function hasDate() {
+		return $this->du_has_date;
+	}
+
+	public function hasDeadline() {
+		return $this->du_has_deadline;
+	}
+
+	public function hasDuration() {
+		return $this->du_has_duration;
+	}
+
+	public function getTimeStart() {
+		return $this->du_time_start;
+	}
+
+	public function getTimeEnd() {
+		return $this->du_time_end;
+	}
+
+	public function getNote() {
+		return $this->du_note;
 	}
 }
+
+getAll();
 
 ?>
