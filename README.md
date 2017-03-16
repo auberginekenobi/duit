@@ -1,11 +1,12 @@
-# DuMi
-#### A Fantasktic App
+# DuMi: A Fantasktic App
+
+<img src="/img/logo-square.jpg" align="left" height="100px" hspace="8" vspace="8">
 
 DuMi is a productivity manager for anyone who has ever looked at their calendar, to-do list, or jumble of sticky notes and wondered at the possibility of having one thing that could do it all. The purpose of DuMi is to organize projects, tasks, events, and other commitments (termed "du's") with a flexible, transformable interface that can go from a full weekly spread to a homework checklist to a project timeline and back again with the click of a mouse. 
 
 ## Features
 
-DuMi is still under development. Implemented features are indicated with a checked box, future features with an unchecked box.
+**DuMi is still under development;** as such, most features exist as plans. Implemented features are indicated with a checked box, planned features with an unchecked box.
 
 - [ ] Create, edit, and delete du's
 - [ ] Check off completed du's and mark du's as in progress
