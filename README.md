@@ -6,7 +6,9 @@ DuMi is a productivity manager for anyone who has ever looked at their calendar,
 
 ## Features
 
-**DuMi is still under development;** as such, most features exist as plans. Implemented features are indicated with a checked box, planned features with an unchecked box.
+**DuMi is still under development;** as such, most features exist as plans.
+
+Implemented features are indicated with checked boxes, planned features with unchecked boxes.
 
 - [ ] Create, edit, and delete du's
 - [ ] Check off completed du's and mark du's as in progress
