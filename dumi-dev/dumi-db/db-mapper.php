@@ -179,7 +179,8 @@ function getAll() {
  *
  * Fetches information about du tags and priority (as determined by several
  * elements) with specific SQL query
- * 
+ *
+ * @todo finish this function
  * @return void
  */
 function getUseful() {
@@ -316,7 +317,10 @@ class du {
 
 	/**
 	 * Function setName
-	 * @param [type] $du_name [description]
+	 *
+	 * @todo  update this function description
+	 * @param [string] $du_name The new name to give a du
+	 * @global [$log | The open log file]
 	 */
 	public function setName($du_name) {
 		global $log;
@@ -338,6 +342,7 @@ class du {
 		}
 	}
 
+
 	/**
 	 * Function hasDate
 	 * @return [boolean] If the du is linked to a date
@@ -345,6 +350,7 @@ class du {
 	public function hasDate() {
 		return $this->du_has_date;
 	}
+
 
 	/**
 	 * Function hasDeadline
@@ -354,6 +360,7 @@ class du {
 		return $this->du_has_deadline;
 	}
 
+
 	/**
 	 * Function hasDuration
 	 * @return [boolean] If the du is linked to start and end time
@@ -361,6 +368,7 @@ class du {
 	public function hasDuration() {
 		return $this->du_has_duration;
 	}
+
 
 	/**
 	 * Function getTimeStart
@@ -370,6 +378,35 @@ class du {
 		return $this->du_time_start;
 	}
 
+
+	/**
+	 * Function setTimeStart
+	 *
+	 * @todo  update this function description
+	 * @param [string] $du_time_start The new strt time (or deadline) to give a du, formatted as "YYYY-MM-DD HH:MM:SS" 
+	 * @global [$log | The open log file]
+	 */
+	public function setTimeStart($du_time_start) {
+		global $log;
+		$oldtime = $this->du_time_start;
+		$this->du_time_start = $du_time_start;
+		$updateQuery       = "
+			UPDATE Dus
+			SET du_time_start = '" . $du_time_start . "'
+			WHERE du_id = '" . $this->du_id . "'"
+			;
+		if (query($updateQuery) === TRUE) {
+			// Record successful record update
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " Updated record for du_id ";
+			$output .= $this->du_id;
+			$output .= " successfully: changed du_time_start from '";
+			$output .= $oldtime . "' to '" . $du_time_start . "'. \n";
+			fwrite($log, $output, 256);
+		}
+	}
+
+
 	/**
 	 * Function getTimeEnd
 	 * @return [string] End time of the du, if it has one
@@ -377,6 +414,35 @@ class du {
 	public function getTimeEnd() {
 		return $this->du_time_end;
 	}
+
+
+	/**
+	 * Function setTimeEnd
+	 *
+	 * @todo  update this function description
+	 * @param [string] $du_time_end The new end time to give a du, formatted as "YYYY-MM-DD HH:MM:SS" 
+	 * @global [$log | The open log file]
+	 */
+	public function setTimeEnd($du_time_end) {
+		global $log;
+		$oldtime = $this->du_time_end;
+		$this->du_time_end = $du_time_end;
+		$updateQuery       = "
+			UPDATE Dus
+			SET du_time_end = '" . $du_time_end . "'
+			WHERE du_id = '" . $this->du_id . "'"
+			;
+		if (query($updateQuery) === TRUE) {
+			// Record successful record update
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " Updated record for du_id ";
+			$output .= $this->du_id;
+			$output .= " successfully: changed du_time_end from '";
+			$output .= $oldtime . "' to '" . $du_time_end . "'. \n";
+			fwrite($log, $output, 256);
+		}
+	}
+
 
 	/**
 	 * Function getNote
