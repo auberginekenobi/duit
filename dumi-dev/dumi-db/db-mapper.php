@@ -158,6 +158,7 @@ class du {
 	}
 
 	public function setName($du_name) {
+		$oldname = $this->du_name;
 		$this->du_name = $du_name;
 		$updateQuery       = "
 			UPDATE Dus
@@ -165,9 +166,11 @@ class du {
 			WHERE du_id = '" . $this->du_id . "'"
 			;
 		if (query($updateQuery) === TRUE) {
-			echo nl2br("Record updated successfully. \n");
-		} else {
-			echo nl2br("Record did not update. \n");
+			$output  = "Record for du_id ";
+			$output .= $this->du_id;
+			$output .= " updated successfully: changed du_name from '";
+			$output .= $oldname . "' to '" . $du_name . "'. \n";
+			printf(nl2br($output));
 		}
 	}
 
@@ -197,11 +200,14 @@ class du {
 }
 
 $all = getAll();
-// foreach ($all as $du) {
-// 	echo nl2br($du->getName() . "\n");
-// }
 
-// $all[1]->setName("Buy groceries");
-// echo nl2br("-------\n" . $all[1]->getName());
+// testing
+foreach ($all as $du) {
+	echo nl2br($du->getName() . "\n");
+}
+
+$all[1]->setName("Buy pasta");
+echo nl2br("-------\n" . $all[1]->getName() . "\n");
+$all[1]->setName("Buy groceries");
 
 ?>
