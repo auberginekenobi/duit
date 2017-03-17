@@ -80,7 +80,7 @@ class du {
 	 * @param  [boolean] $headers Specify whether or not to include a row of headers directly before this du
 	 * @return [string] Table row of du properties, as a string
 	 */
-	public function displayAsTable($headers) {
+	public function displayAsTableRow($headers) {
 		// Set up headers
 		$addHeaders  = "<tr><th>du_id</th>";
 		$addHeaders .= "<th>du_timestamp</th>";
@@ -117,7 +117,7 @@ class du {
 /**
  * Function addToDB
  *
- * Adds du to the database if there is not already an entry for its du_id. NOTE:
+ * Adds du to the database if there is not already an entry at its du_id. NOTE:
  * This should only be used to add NEW du's to the database, never to update
  * existing du's.
  * 
