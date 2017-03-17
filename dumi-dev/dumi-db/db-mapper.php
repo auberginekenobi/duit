@@ -22,7 +22,8 @@ function connect() {
 	// If connection was not successful
 	if($connection === false || $connection->connect_error) {
 	    // Handle error
-	    $output = "<p>Unable to connect to database </p>" . $connection->connect_error;
+		$output  = "Unable to connect to database. ";
+		$output .= mysqli_errno($connection) . ": " . mysqli_error($connection);
 	    exit($output);
 	}
 
@@ -38,35 +39,41 @@ function query($query) {
     // Query the database
     $result = $connection->query($query);
 
+    if($result === false) {
+    	// Handle error
+    	$output  = "Unable to perform query '";
+    	$output .= $query . "'. ";
+		$output .= mysqli_errno($connection) . ": " . mysqli_error($connection);
+	    exit($output);
+    }
+
     return $result;
 }
 
 function getAll() {
 
-	$all = new ArrayObject();
+	$all = array();
 
 	$result = query("SELECT * FROM Dus;");
 
-	if($result === false) {
-	    // Handle failure
-	    echo "query getAll() failed";
-	} else {
-	    while ($currRow = $result->fetch_assoc()) {
-	    	$newDu = new du();
-	    	$newDu->setDuFields($currRow['du_id'],
-	    						$currRow['du_timestamp'],
-	    						$currRow['du_name'],
-	    						$currRow['du_has_date'],
-	    						$currRow['du_has_deadline'],
-	    						$currRow['du_has_duration'],
-	    						$currRow['du_time_start'],
-	    						$currRow['du_time_end'],
-	    						$currRow['du_note']);
-	    	$all->append($newDu);
-	    }
+    while ($currRow = $result->fetch_assoc()) {
+    	$newDu = new du();
+    	$du_id = $currRow['du_id'];
+    	$newDu->setDuFields($du_id,
+    						$currRow['du_timestamp'],
+    						$currRow['du_name'],
+    						$currRow['du_has_date'],
+    						$currRow['du_has_deadline'],
+    						$currRow['du_has_duration'],
+    						$currRow['du_time_start'],
+    						$currRow['du_time_end'],
+    						$currRow['du_note']);
+    	$all[$du_id] = $newDu;   
 	}
 
 	$result->close();
+
+	return $all;
 
 }
 
@@ -101,14 +108,7 @@ function getUseful() {
 		  ) AS subq
 		GROUP BY du_name
 		ORDER BY Priority"
-	);
-
-	if($result === false) {
-	    // Handle failure
-	    echo "query getUseful() failed";
-	} else {
-	    echo "query getUseful() succeeded";
-	}
+		);
 
 }
 
@@ -128,15 +128,15 @@ class du {
 
 	public function setDuFields($du_id, $du_timestamp, $du_name, $du_has_date, $du_has_deadline, $du_has_duration, $du_time_start, $du_time_end, $du_note) {
 		try {
-			$this->du_id = $du_id;
-			$this->du_timestamp = $du_timestamp;
-			$this->du_name = $du_name;
-			$this->du_has_date = $du_has_date;
+			$this->du_id           = $du_id;
+			$this->du_timestamp    = $du_timestamp;
+			$this->du_name         = $du_name;
+			$this->du_has_date     = $du_has_date;
 			$this->du_has_deadline = $du_has_deadline;
 			$this->du_has_duration = $du_has_duration;
-			$this->du_time_start = $du_time_start;
-			$this->du_time_end = $du_time_end;
-			$this->du_note = $du_note;
+			$this->du_time_start   = $du_time_start;
+			$this->du_time_end     = $du_time_end;
+			$this->du_note         = $du_note;
 		} catch (Exception $e) {
 			$output  = "Caught exception: ";
 			$output .= $e->getMessage();
@@ -182,6 +182,12 @@ class du {
 	}
 }
 
-getAll();
+$all = getAll();
+// foreach ($all as $du) {
+// 	echo nl2br($du->getName() . "\n");
+// }
+
+// $all[1]->setName("Buy groceries");
+// echo nl2br("-------\n" . $all[1]->getName());
 
 ?>
