@@ -158,6 +158,7 @@ function getAll() {
     						$currRow['du_has_duration'],
     						$currRow['du_time_start'],
     						$currRow['du_time_end'],
+    						$currRow['du_priority'],
     						$currRow['du_note']);
     	// Store du in array at key that is du_id
     	$all[$du_id] = $newDu;   
@@ -227,9 +228,15 @@ $log = openLogFile();
 $all = getAll();
 
 // testing
+$table = "";
 foreach ($all as $du) {
-	echo nl2br($du->getName() . "\n");
+	$table .= ($du->getID() == 1 ? $du->displayAsTable(TRUE) : $du->displayAsTable(FALSE));
+	// echo nl2br($du->getName() . "\n");
 }
+
+echo "<table>";
+echo $table;
+echo "</table>";
 
 $all[1]->setName("Buy pasta");
 echo nl2br("-------\n" . $all[1]->getName() . "\n");
