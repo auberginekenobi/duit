@@ -141,7 +141,7 @@ function getAll() {
 	$all = array();
 
 	// Query the database for all du's
-	$result = query("SELECT * FROM Dus;");
+	$result = query("SELECT * FROM Dus ORDER BY 'du_id' ASC;");
 
 	// While there is another non-null row of the query result
     while ($currRow = $result->fetch_assoc()) {
@@ -223,7 +223,7 @@ function getUseful() {
 /**
  * Function displayAsTable
  *
- * Echoes a simple html table of the inputted du's
+ * Echoes a simple html table of the inputted du's; primarily used for debugging
  * 
  * @param  [array] $duArray Array of du objects slated to display in table
  * @return void
@@ -245,7 +245,7 @@ function displayAsTable($duArray) {
 
 	echo "<table>" .
 		 $table .
-		 "</table><br /><br /><br />";
+		 "</table><br /><br />";
 
 }
 
@@ -259,8 +259,12 @@ $all = getAll();
 
 // Testing
 
+$all[1]->setDuration("2016-03-17 13:30:00", "2016-03-17 14:30:00");
+
 displayAsTable($all);
 
-$all[1]->setDate("2016-03-17");
+$all[1]->unsetDuration();
+
+displayAsTable($all);
 
 ?>
