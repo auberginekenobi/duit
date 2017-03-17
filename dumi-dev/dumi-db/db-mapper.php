@@ -26,7 +26,7 @@ function connect() {
 
 		// Record successful connection
 		$success  = date("Y-m-d H:i:s T", time());
-		$success .= " Connected to database.\n";
+		$success .= " User \"" . $config['dbuser'] . "\" connected to database.\n";
 		fwrite($log, $success, 256);
 	}
 
@@ -34,7 +34,7 @@ function connect() {
 	if($connection === false || $connection->connect_error) {
 	    // Handle error
 		$output  = date("Y-m-d H:i:s T", time());
-		$output .= " Unable to connect to database. ";
+		$output .= " User \"" . $config['dbuser'] . "\" was unable to connect to database. ";
 		$output .= mysqli_errno($connection) . ": " . mysqli_error($connection) . "\n";
 		// Write to log file and kill process
 		fwrite($log, $output, 256);
