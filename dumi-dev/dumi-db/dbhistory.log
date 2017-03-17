@@ -1,0 +1,13 @@
+======================================== LOADING DB-MAPPER.PHP ========================================
+2017-03-17 16:50:57 CET Connected to database.
+2017-03-17 16:50:57 CET Performed query "SELECT * FROM Dus;".
+2017-03-17 16:50:57 CET Performed query "
+			UPDATE Dus
+			SET du_name = 'Buy pasta'
+			WHERE du_id = '1'".
+2017-03-17 16:50:57 CET Updated record for du_id 1 successfully: changed du_name from 'Buy groceries' to 'Buy pasta'. 
+2017-03-17 16:50:57 CET Performed query "
+			UPDATE Dus
+			SET du_name = 'Buy groceries'
+			WHERE du_id = '1'".
+2017-03-17 16:50:57 CET Updated record for du_id 1 successfully: changed du_name from 'Buy pasta' to 'Buy groceries'. 
