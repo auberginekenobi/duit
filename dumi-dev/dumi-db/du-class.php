@@ -17,7 +17,7 @@ class du {
 	protected $du_has_duration; // [boolean] If the du is linked to a start and end time
 	protected $du_time_start;   // [string]  Deadline or start time of the du, if it has one
 	protected $du_time_end;     // [string]  End time of the du, if it has one
-	protected $du_priority;     // [int]     Priority recorded for the du
+	protected $calc_priority;   // [int]     Priority recorded for the du, leveraged by tag priority
 	protected $du_note;         // [string]  The note recorded for the du
 
 
@@ -42,10 +42,10 @@ class du {
 	 * @param [string] $du_has_duration "0" if the du is not linked to a start and end time, "1" if the du is
 	 * @param [string] $du_time_start   Deadline or start time of the du, if it has one
 	 * @param [string] $du_time_end     End time of the du, if it has one
-	 * @param [string] $du_priority     Priority recorded for the du
+	 * @param [string] $calc_priority   Priority recorded for the du, leveraged by tag priorities
 	 * @param [string] $du_note         The note recorded for the du
 	 */
-	public function setDuFields($du_id, $du_timestamp, $du_name, $du_has_date, $du_has_deadline, $du_has_duration, $du_time_start, $du_time_end, $du_priority, $du_note) {
+	public function setDuFields($du_id, $du_timestamp, $du_name, $du_has_date, $du_has_deadline, $du_has_duration, $du_time_start, $du_time_end, $calc_priority, $du_note) {
 
 		try {
 			// Instantiate parameters as object's properties
@@ -57,7 +57,7 @@ class du {
 			$this->du_has_duration = ($du_has_duration == "0") ? FALSE : TRUE; // Convert to corresponding boolean
 			$this->du_time_start   = $du_time_start;
 			$this->du_time_end     = $du_time_end;
-			$this->du_priority     = intval($du_priority); // Conver to int
+			$this->calc_priority   = intval($calc_priority); // Conver to int
 			$this->du_note         = $du_note;
 		} catch (Exception $e) {
 			// Handle exception
@@ -90,7 +90,7 @@ class du {
 		$addHeaders .= "<th>du_has_durataion</th>";
 		$addHeaders .= "<th>du_time_start</th>";
 		$addHeaders .= "<th>du_time_end</th>";
-		$addHeaders .= "<th>du_priority</th>";
+		$addHeaders .= "<th>calc_priority</th>";
 		$addHeaders .= "<th>du_note</th></tr>";
 		// If request for du headers
 		$output   = ($headers) ? $addHeaders : "";
@@ -107,7 +107,7 @@ class du {
 		$output .= "<td>" . $duration . "</td>";
 		$output .= "<td>" . $this->du_time_start . "</td>";
 		$output .= "<td>" . $this->du_time_end . "</td>";
-		$output .= "<td>" . $this->du_priority . "</td>";
+		$output .= "<td>" . $this->calc_priority . "</td>";
 		$output .= "<td>" . $this->du_note . "</td></tr>";
 
 		// Done
@@ -536,7 +536,7 @@ class du {
 	 * @return [int] The priority recorded for the du
 	 */
 	public function getPriority() {
-		return $this->du_priority;
+		return $this->calc_priority;
 	}
 
 
@@ -544,16 +544,16 @@ class du {
 	 * Function setPriority
 	 *
 	 * @todo  update this function description
-	 * @param [string] $du_priority The new note to record for the du
+	 * @param [string] $calc_priority The new note to record for the du
 	 * @global [$log | The open log file]
 	 */
-	public function setPriority($du_priority) {
+	public function setPriority($calc_priority) {
 		global $log;
-		$oldpriority = $this->du_priority;
-		$this->du_priority = $du_priority;
+		$oldpriority = $this->calc_priority;
+		$this->calc_priority = $calc_priority;
 		$updateQuery = "
 			UPDATE Dus
-			SET du_priority = '" . $du_priority . "'
+			SET calc_priority = '" . $calc_priority . "'
 			WHERE du_id = '" . $this->du_id . "'"
 			;
 		if (query($updateQuery) === TRUE) {
@@ -561,8 +561,8 @@ class du {
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " Updated record for du_id ";
 			$output .= $this->du_id;
-			$output .= " successfully: changed du_priority from '";
-			$output .= $oldpriority . "' to '" . $du_priority . "'. \n";
+			$output .= " successfully: changed calc_priority from '";
+			$output .= $oldpriority . "' to '" . $calc_priority . "'. \n";
 			fwrite($log, $output, 256);
 		}
 	}
