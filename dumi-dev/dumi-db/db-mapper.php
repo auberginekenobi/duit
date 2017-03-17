@@ -5,7 +5,13 @@
 
 <?php
 
+// Open log file and record new instance of page load
+$log = fopen("dbhistory.log", "a");
+fwrite($log, "======================================== LOADING DB-MAPPER.PHP ========================================\n");
+
 function connect() {
+
+	global $log;
 
 	// Define connection as a static variable, to avoid connecting more than once 
     static $connection;
@@ -17,21 +23,31 @@ function connect() {
 
 		// Try and connect to the database
 		$connection = new mysqli($config['dbhost'], $config['dbuser'], $config['dbpass'], $config['dbname']);
+
+		// Record successful connection
+		$success  = date("Y-m-d H:i:s T", time());
+		$success .= " Connected to database.\n";
+		fwrite($log, $success, 256);
 	}
 
 	// If connection was not successful
 	if($connection === false || $connection->connect_error) {
 	    // Handle error
-		$output  = "Unable to connect to database. ";
-		$output .= mysqli_errno($connection) . ": " . mysqli_error($connection);
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Unable to connect to database. ";
+		$output .= mysqli_errno($connection) . ": " . mysqli_error($connection) . "\n";
+		// Write to log file and kill process
+		fwrite($log, $output, 256);
 	    exit($output);
-	}
+	} 
 
 	return $connection;
 
 }
 
 function query($query) {
+
+	global $log;
 
     // Connect to the database
     $connection = connect();
@@ -41,12 +57,19 @@ function query($query) {
 
     if($result === false) {
     	// Handle error
-    	$output  = "Unable to perform query '";
-    	$output .= $query . "'. ";
-		$output .= mysqli_errno($connection) . ": " . mysqli_error($connection);
+    	$output  = date("Y-m-d H:i:s T", time());
+    	$output .= " Unable to perform query \"";
+    	$output .= $query . "\". ";
+		$output .= mysqli_errno($connection) . ": " . mysqli_error($connection) . "\n";
+		// Write to log file and kill process
+		fwrite($log, $output, 256);
 	    exit($output);
     }
 
+    // Record successful query
+    $success  = date("Y-m-d H:i:s T", time());
+    $success .= " Performed query \"" . $query . "\".\n";
+    fwrite($log, $success, 256);
     return $result;
 }
 
@@ -113,6 +136,7 @@ function getUseful() {
 }
 
 class du {
+
 	protected $du_id;
 	protected $du_timestamp;
 	protected $du_name;
@@ -138,9 +162,12 @@ class du {
 			$this->du_time_end     = $du_time_end;
 			$this->du_note         = $du_note;
 		} catch (Exception $e) {
-			$output  = "Caught exception: ";
+			// Handle exception
+			$output  = "Tried to setDuFields, caught exception: ";
 			$output .= $e->getMessage();
 			$output .= "\n";
+			// Write to log file and echo error message
+			fwrite($log, $output, 256);
 			echo $output;
 		}
 	}
@@ -158,6 +185,7 @@ class du {
 	}
 
 	public function setName($du_name) {
+		global $log;
 		$oldname = $this->du_name;
 		$this->du_name = $du_name;
 		$updateQuery       = "
@@ -166,11 +194,13 @@ class du {
 			WHERE du_id = '" . $this->du_id . "'"
 			;
 		if (query($updateQuery) === TRUE) {
-			$output  = "Record for du_id ";
+			// Record successful record update
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " Updated record for du_id ";
 			$output .= $this->du_id;
-			$output .= " updated successfully: changed du_name from '";
+			$output .= " successfully: changed du_name from '";
 			$output .= $oldname . "' to '" . $du_name . "'. \n";
-			printf(nl2br($output));
+			fwrite($log, $output, 256);
 		}
 	}
 
