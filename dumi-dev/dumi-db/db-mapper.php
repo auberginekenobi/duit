@@ -26,7 +26,7 @@ function openLogFile() {
 
 	// Open log file for write only (existing data preserved, file pointer
 	// starts at end of file)
-	$log = fopen("dbhistory.log", "a");
+	$log = fopen("db-history.log", "a");
 
 	// Record note of new instance of page load
 	fwrite($log, "======================================== LOADING DB-MAPPER.PHP ========================================\n");
