@@ -319,7 +319,7 @@ class du {
 	 * Function setName
 	 *
 	 * @todo  update this function description
-	 * @param [string] $du_name The new name to give a du
+	 * @param [string] $du_name The new name to give the du
 	 * @global [$log | The open log file]
 	 */
 	public function setName($du_name) {
@@ -450,6 +450,34 @@ class du {
 	 */
 	public function getNote() {
 		return $this->du_note;
+	}
+
+
+	/**
+	 * Function setNote
+	 *
+	 * @todo  update this function description
+	 * @param [string] $du_note The new note to record for the du
+	 * @global [$log | The open log file]
+	 */
+	public function setNote($du_note) {
+		global $log;
+		$oldname = $this->du_note;
+		$this->du_note = $du_note;
+		$updateQuery       = "
+			UPDATE Dus
+			SET du_note = '" . $du_note . "'
+			WHERE du_id = '" . $this->du_id . "'"
+			;
+		if (query($updateQuery) === TRUE) {
+			// Record successful record update
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " Updated record for du_id ";
+			$output .= $this->du_id;
+			$output .= " successfully: changed du_note from '";
+			$output .= $oldname . "' to '" . $du_note . "'. \n";
+			fwrite($log, $output, 256);
+		}
 	}
 
 }
