@@ -157,6 +157,20 @@ class du {
 		return $this->du_name;
 	}
 
+	public function setName($du_name) {
+		$this->du_name = $du_name;
+		$updateQuery       = "
+			UPDATE Dus
+			SET du_name = '" . $du_name . "'
+			WHERE du_id = '" . $this->du_id . "'"
+			;
+		if (query($updateQuery) === TRUE) {
+			echo nl2br("Record updated successfully. \n");
+		} else {
+			echo nl2br("Record did not update. \n");
+		}
+	}
+
 	public function hasDate() {
 		return $this->du_has_date;
 	}
