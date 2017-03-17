@@ -75,7 +75,7 @@ class du {
 	/**
 	 * Function displayAsTable
 	 *
-	 * Outputs current du as a row of a table
+	 * Outputs current du as a row of a table; primarily used for debugging
 	 * 
 	 * @param  [boolean] $headers Specify whether or not to include a row of headers directly before this du
 	 * @return [string] Table row of du properties, as a string
@@ -112,6 +112,23 @@ class du {
 
 		// Done
 		return $output;
+	}
+
+/**
+ * Function addToDB
+ *
+ * Adds du to the database if there is not already an entry for its du_id. NOTE:
+ * This should only be used to add NEW du's to the database, never to update
+ * existing du's.
+ * 
+ * @todo make function
+ * @return void
+ */
+	public function addToDB() {
+		// if entry does not already exist for du_id
+			// add it	
+		// else log could not add
+
 	}
 
 
