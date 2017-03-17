@@ -72,6 +72,14 @@ class du {
 	}
 
 
+	/**
+	 * Function displayAsTable
+	 *
+	 * Outputs current du as a row of a table
+	 * 
+	 * @param  [boolean] $headers Specify whether or not to include a row of headers directly before this du
+	 * @return [string] Table row of du properties, as a string
+	 */
 	public function displayAsTable($headers) {
 		// Set up headers
 		$addHeaders  = "<tr><th>du_id</th>";
