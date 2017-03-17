@@ -73,7 +73,7 @@ class du {
 
 
 	/**
-	 * Function displayAsTable
+	 * Function displayAsTableRow
 	 *
 	 * Outputs current du as a row of a table; primarily used for debugging
 	 * 
@@ -204,7 +204,13 @@ class du {
 	 * @global [$log | The open log file]
 	 */
 	public function setDate($date) {
+
 		global $log;
+
+		// unset other date-related properties, if they were set
+		$this->unsetDeadline();
+		$this->unsetDuration();
+
 		// mark that this du has a date, if it didn't have one already
 		$this->du_has_date = TRUE;
 		// append meaningless time to inputted date
@@ -226,6 +232,7 @@ class du {
 			$output .= $date . "'. \n";
 			fwrite($log, $output, 256);
 		}
+
 	}
 
 	/**
@@ -241,15 +248,15 @@ class du {
 	public function unsetDate() {
 		global $log;
 		// if du had a date previously
-		if($this->du_time_start) {
-			$olddate = subtr($this->du_time_start, 0, 10);
+		if ($this->du_time_start) {
+			$olddate = substr($this->du_time_start, 0, 10);
 			// mark that this du no longer has a date
 			$this->du_has_date = FALSE;
 			// unset date stored in time_start field
 			$this->du_time_start = NULL;
 			$updateQuery = "
 				UPDATE Dus
-				SET du_time_start = " . NULL . ",
+				SET du_time_start = NULL,
 					du_has_date = '0'
 				WHERE du_id = '" . $this->du_id . "'"
 				;
@@ -289,7 +296,13 @@ class du {
 	 * @global [$log | The open log file]
 	 */
 	public function setDeadline($deadline) {
+
 		global $log;
+
+		// unset other date-related properties, if they were set
+		$this->unsetDate();
+		$this->unsetDuration();
+
 		// mark that this du has a deadline, if it didn't have one already
 		$this->du_has_deadline = TRUE;
 		// store deadline in time_start field
@@ -309,6 +322,7 @@ class du {
 			$output .= $deadline . "'. \n";
 			fwrite($log, $output, 256);
 		}
+
 	}
 
 	/**
@@ -328,7 +342,7 @@ class du {
 			$this->du_time_start = NULL;
 			$updateQuery = "
 				UPDATE Dus
-				SET du_time_start = " . NULL . ",
+				SET du_time_start = NULL,
 					du_has_deadline = '0'
 				WHERE du_id = '" . $this->du_id . "'"
 				;
@@ -369,7 +383,13 @@ class du {
 	 * @global [$log | The open log file]
 	 */
 	public function setDuration($start, $end) {
+
 		global $log;
+
+		// unset other date-related properties, if they were set
+		$this->unsetDate();
+		$this->unsetDeadline();
+
 		// mark that this du has a duration, if it didn't have one already
 		$this->du_has_duration = TRUE;
 		// store start and end times
@@ -391,6 +411,7 @@ class du {
 			$output .= $start . " - " . $end . "'. \n";
 			fwrite($log, $output, 256);
 		}
+
 	}
 
 	/**
@@ -412,8 +433,8 @@ class du {
 			$this->du_time_end   = NULL;
 			$updateQuery = "
 				UPDATE Dus
-				SET du_time_start = " . NULL . ",
-					du_time_end = " . NULL . ",
+				SET du_time_start = NULL,
+					du_time_end = NULL,
 					du_has_duration = '0'
 				WHERE du_id = '" . $this->du_id . "'"
 				;
