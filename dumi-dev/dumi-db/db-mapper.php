@@ -140,8 +140,60 @@ function getAll() {
 	// Create new array to hold the du's
 	$all = array();
 
+	// Query statement for large, formatted table
+	$queryStatement = "SELECT
+		  du_id,
+          du_timestamp,
+          du_name,
+          du_has_date,
+          du_has_deadline,
+          du_has_duration,
+          du_time_start,
+          du_time_end,
+          (CASE WHEN du_priority < tag_priority OR tag_priority IS NULL THEN du_priority ELSE tag_priority END) AS calc_priority,
+		  du_note,
+		  GROUP_CONCAT(tag_name separator ', '),
+		  status_type,
+          status_time_start,
+          status_time_end,
+          score
+		FROM
+		  (
+		  SELECT
+		    d.du_id,
+            d.du_timestamp,
+            d.du_name,
+            d.du_has_date,
+            d.du_has_deadline,
+            d.du_has_duration,
+            d.du_time_start,
+            d.du_time_end,
+            d.du_priority,
+		    d.du_note,
+            t.tag_id,
+		    t.tag_name,
+		    t.tag_priority,
+            t.tag_note,
+		    u.status_type,
+            u.status_time_start,
+            u.status_time_end,
+            u.score
+		  FROM Dus as d
+		  LEFT JOIN
+		    Du_Tag_Pairs AS p
+		      ON d.du_id = p.du_id
+		  LEFT JOIN
+		    Tags AS t
+		      ON p.tag_id = t.tag_id
+		  LEFT JOIN
+		    Statuses AS u
+		      ON d.du_id = u.du_id
+		  ) AS subq
+		GROUP BY du_name
+		ORDER BY du_id ASC";
+
 	// Query the database for all du's
-	$result = query("SELECT * FROM Dus ORDER BY 'du_id' ASC;");
+	$result = query($queryStatement);
 
 	// While there is another non-null row of the query result
     while ($currRow = $result->fetch_assoc()) {
@@ -158,7 +210,7 @@ function getAll() {
     						$currRow['du_has_duration'],
     						$currRow['du_time_start'],
     						$currRow['du_time_end'],
-    						$currRow['du_priority'],
+    						$currRow['calc_priority'],
     						$currRow['du_note']);
     	// Store du in array at key that is du_id
     	$all[$du_id] = $newDu;   
@@ -169,53 +221,6 @@ function getAll() {
 
 	// Done
 	return $all;
-
-}
-
-
-/**
- * UNFINISHED
- *
- * Function getUseful (tempname)
- *
- * Fetches information about du tags and priority (as determined by several
- * elements) with specific SQL query
- *
- * @todo finish this function
- * @return void
- */
-function getUseful() {
-
-	$result = query(
-		"SELECT
-		  CASE WHEN du_priority < tag_priority OR tag_priority IS NULL THEN du_priority ELSE tag_priority END AS Priority,
-		  du_name AS Du,
-		  du_note AS Note,
-		  GROUP_CONCAT(tag_name separator ', ') AS Tag,
-		  status_type as Status
-		FROM
-		  (
-		  SELECT
-		    d.du_name,
-		    d.du_note,
-		    t.tag_name,
-		    d.du_priority,
-		    t.tag_priority,
-		    u.status_type
-		  FROM Dus as d
-		  LEFT JOIN
-		    Du_Tag_Pairs AS p
-		      ON d.du_id = p.du_id
-		  LEFT JOIN
-		    Tags AS t
-		      ON p.tag_id = t.tag_id
-		  LEFT JOIN
-		    Statuses AS u
-		      ON d.du_id = u.du_id
-		  ) AS subq
-		GROUP BY du_name
-		ORDER BY Priority"
-		);
 
 }
 
