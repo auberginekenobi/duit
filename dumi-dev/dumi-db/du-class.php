@@ -85,14 +85,18 @@ class du {
 		$addHeaders .= "<th>du_priority</th>";
 		$addHeaders .= "<th>du_note</th></tr>";
 		// If request for du headers
-		$output  = ($headers) ? $addHeaders : "";
+		$output   = ($headers) ? $addHeaders : "";
+		// Convert booleans to strings
+		$date     = ($this->du_has_date) ? "TRUE" : "FALSE";
+		$deadline = ($this->du_has_deadline) ? "TRUE" : "FALSE";
+		$duration = ($this->du_has_duration) ? "TRUE" : "FALSE";
 		// Add each cell
 		$output .= "<tr><td>" . $this->du_id . "</td>";
 		$output .= "<td>" . $this->du_timestamp . "</td>";
 		$output .= "<td>" . $this->du_name . "</td>";
-		$output .= "<td>" . $this->du_has_date . "</td>";
-		$output .= "<td>" . $this->du_has_deadline . "</td>";
-		$output .= "<td>" . $this->du_has_duration . "</td>";
+		$output .= "<td>" . $date . "</td>";
+		$output .= "<td>" . $deadline . "</td>";
+		$output .= "<td>" . $duration . "</td>";
 		$output .= "<td>" . $this->du_time_start . "</td>";
 		$output .= "<td>" . $this->du_time_end . "</td>";
 		$output .= "<td>" . $this->du_priority . "</td>";
