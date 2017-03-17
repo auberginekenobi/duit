@@ -52,9 +52,9 @@ class du {
 			$this->du_id           = $du_id;
 			$this->du_timestamp    = $du_timestamp;
 			$this->du_name         = $du_name;
-			$this->du_has_date     = ($du_has_date == "0" ? FALSE : TRUE); // Convert to corresponding boolean
-			$this->du_has_deadline = ($du_has_deadline == "0" ? FALSE : TRUE); // Convert to corresponding boolean
-			$this->du_has_duration = ($du_has_duration == "0" ? FALSE : TRUE); // Convert to corresponding boolean
+			$this->du_has_date     = ($du_has_date == "0") ? FALSE : TRUE; // Convert to corresponding boolean
+			$this->du_has_deadline = ($du_has_deadline == "0") ? FALSE : TRUE; // Convert to corresponding boolean
+			$this->du_has_duration = ($du_has_duration == "0") ? FALSE : TRUE; // Convert to corresponding boolean
 			$this->du_time_start   = $du_time_start;
 			$this->du_time_end     = $du_time_end;
 			$this->du_priority     = intval($du_priority); // Conver to int
@@ -85,7 +85,7 @@ class du {
 		$addHeaders .= "<th>du_priority</th>";
 		$addHeaders .= "<th>du_note</th></tr>";
 		// If request for du headers
-		$output  = ($headers ? $addHeaders : "");
+		$output  = ($headers) ? $addHeaders : "";
 		// Add each cell
 		$output .= "<tr><td>" . $this->du_id . "</td>";
 		$output .= "<td>" . $this->du_timestamp . "</td>";

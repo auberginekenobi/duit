@@ -11,3 +11,81 @@
 			SET du_name = 'Buy groceries'
 			WHERE du_id = '1'".
 2017-03-17 17:12:29 CET Updated record for du_id 1 successfully: changed du_name from 'Buy pasta' to 'Buy groceries'. 
+======================================== LOADING DB-MAPPER.PHP ========================================
+2017-03-17 21:09:02 CET User "global" connected to database.
+2017-03-17 21:09:02 CET Performed query "SELECT * FROM Dus;".
+2017-03-17 21:09:02 CET Performed query "
+			UPDATE Dus
+			SET du_name = 'Buy pasta'
+			WHERE du_id = '1'".
+2017-03-17 21:09:02 CET Updated record for du_id 1 successfully: changed du_name from 'Buy groceries' to 'Buy pasta'. 
+2017-03-17 21:09:02 CET Performed query "
+			UPDATE Dus
+			SET du_name = 'Buy groceries'
+			WHERE du_id = '1'".
+2017-03-17 21:09:02 CET Updated record for du_id 1 successfully: changed du_name from 'Buy pasta' to 'Buy groceries'. 
+======================================== LOADING DB-MAPPER.PHP ========================================
+2017-03-17 21:18:43 CET User "global" connected to database.
+2017-03-17 21:18:43 CET Performed query "SELECT * FROM Dus;".
+2017-03-17 21:18:43 CET Performed query "
+			UPDATE Dus
+			SET du_name = 'Buy pasta'
+			WHERE du_id = '1'".
+2017-03-17 21:18:43 CET Updated record for du_id 1 successfully: changed du_name from 'Buy groceries' to 'Buy pasta'. 
+2017-03-17 21:18:43 CET Performed query "
+			UPDATE Dus
+			SET du_name = 'Buy groceries'
+			WHERE du_id = '1'".
+2017-03-17 21:18:43 CET Updated record for du_id 1 successfully: changed du_name from 'Buy pasta' to 'Buy groceries'. 
+======================================== LOADING DB-MAPPER.PHP ========================================
+2017-03-17 21:40:00 CET User "global" connected to database.
+2017-03-17 21:40:00 CET Performed query "SELECT * FROM Dus;".
+2017-03-17 21:40:00 CET Performed query "
+			UPDATE Dus
+			SET du_name = 'Buy pasta'
+			WHERE du_id = '1'".
+2017-03-17 21:40:00 CET Updated record for du_id 1 successfully: changed du_name from 'Buy groceries' to 'Buy pasta'. 
+2017-03-17 21:40:00 CET Performed query "
+			UPDATE Dus
+			SET du_name = 'Buy groceries'
+			WHERE du_id = '1'".
+2017-03-17 21:40:00 CET Updated record for du_id 1 successfully: changed du_name from 'Buy pasta' to 'Buy groceries'. 
+======================================== LOADING DB-MAPPER.PHP ========================================
+2017-03-17 21:46:50 CET User "global" connected to database.
+2017-03-17 21:46:50 CET Performed query "SELECT * FROM Dus;".
+2017-03-17 21:46:50 CET Performed query "
+			UPDATE Dus
+			SET du_name = 'Buy pasta'
+			WHERE du_id = '1'".
+2017-03-17 21:46:50 CET Updated record for du_id 1 successfully: changed du_name from 'Buy groceries' to 'Buy pasta'. 
+2017-03-17 21:46:50 CET Performed query "
+			UPDATE Dus
+			SET du_name = 'Buy groceries'
+			WHERE du_id = '1'".
+2017-03-17 21:46:50 CET Updated record for du_id 1 successfully: changed du_name from 'Buy pasta' to 'Buy groceries'. 
+======================================== LOADING DB-MAPPER.PHP ========================================
+2017-03-17 21:47:38 CET User "global" connected to database.
+2017-03-17 21:47:38 CET Performed query "SELECT * FROM Dus;".
+2017-03-17 21:47:38 CET Performed query "
+			UPDATE Dus
+			SET du_name = 'Buy pasta'
+			WHERE du_id = '1'".
+2017-03-17 21:47:38 CET Updated record for du_id 1 successfully: changed du_name from 'Buy groceries' to 'Buy pasta'. 
+2017-03-17 21:47:38 CET Performed query "
+			UPDATE Dus
+			SET du_name = 'Buy groceries'
+			WHERE du_id = '1'".
+2017-03-17 21:47:38 CET Updated record for du_id 1 successfully: changed du_name from 'Buy pasta' to 'Buy groceries'. 
+======================================== LOADING DB-MAPPER.PHP ========================================
+2017-03-17 21:48:33 CET User "global" connected to database.
+2017-03-17 21:48:33 CET Performed query "SELECT * FROM Dus;".
+2017-03-17 21:48:33 CET Performed query "
+			UPDATE Dus
+			SET du_name = 'Buy pasta'
+			WHERE du_id = '1'".
+2017-03-17 21:48:33 CET Updated record for du_id 1 successfully: changed du_name from 'Buy groceries' to 'Buy pasta'. 
+2017-03-17 21:48:33 CET Performed query "
+			UPDATE Dus
+			SET du_name = 'Buy groceries'
+			WHERE du_id = '1'".
+2017-03-17 21:48:33 CET Updated record for du_id 1 successfully: changed du_name from 'Buy pasta' to 'Buy groceries'. 

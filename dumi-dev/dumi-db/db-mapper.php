@@ -230,7 +230,7 @@ $all = getAll();
 // testing
 $table = "";
 foreach ($all as $du) {
-	$table .= ($du->getID() == 1 ? $du->displayAsTable(TRUE) : $du->displayAsTable(FALSE));
+	$table .= ($du->getID() == 1) ? $du->displayAsTable(TRUE) : $du->displayAsTable(FALSE);
 	// echo nl2br($du->getName() . "\n");
 }
 
