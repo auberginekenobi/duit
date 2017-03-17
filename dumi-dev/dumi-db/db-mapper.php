@@ -353,6 +353,82 @@ class du {
 
 
 	/**
+	 * Function setDate
+	 *
+	 * @todo  update this function description
+	 * @param [string] $date The new date to link to a du, formatted as "YYYY-MM-DD" 
+	 * @global [$log | The open log file]
+	 */
+	public function setDate($date) {
+		global $log;
+		// mark that this du has a date, if it didn't have one already
+		$this->du_has_date = TRUE;
+		// append meaningless time to inputted date
+		$date .= " 00:00:00";
+		// store date in time_start field
+		$this->du_time_start = $date;
+		$updateQuery = "
+			UPDATE Dus
+			SET du_time_start = '" . $date . "',
+				du_has_date = '1'
+			WHERE du_id = '" . $this->du_id . "'"
+			;
+		if (query($updateQuery) === TRUE) {
+			// Record successful record update
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " Updated record for du_id ";
+			$output .= $this->du_id;
+			$output .= " successfully: linked date '";
+			$output .= $date . "'. \n";
+			fwrite($log, $output, 256);
+		}
+	}
+
+	/**
+	 * Function unsetDate
+	 *
+	 * Unsets the date from a du if one was originally present. Function sets du
+	 * property du_time_start to NULL as opposed to using unset(du_time_start)
+	 * in order to maintain du_time_start as a valid variable.
+	 * 
+	 * @todo  update this function description
+	 * @global [$log | The open log file]
+	 */
+	public function unsetDate() {
+		global $log;
+		// if du had a date previously
+		if($this->du_time_start) {
+			$olddate = subtr($this->du_time_start, 0, 10);
+			// mark that this du no longer has a date
+			$this->du_has_date = FALSE;
+			// unset date stored in time_start field
+			$this->du_time_start = NULL;
+			$updateQuery = "
+				UPDATE Dus
+				SET du_time_start = " . NULL . ",
+					du_has_date = '0'
+				WHERE du_id = '" . $this->du_id . "'"
+				;
+			if (query($updateQuery) === TRUE) {
+				// Record successful record update
+				$output  = date("Y-m-d H:i:s T", time());
+				$output .= " Updated record for du_id ";
+				$output .= $this->du_id;
+				$output .= " successfully: unlinked date '";
+				$output .= $olddate . "'. \n";
+				fwrite($log, $output, 256);
+			}
+		} else {
+			// no date to unset
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " No date to unset for du_id ";
+			$output .= $this->du_id . "\n";
+			fwrite($log, $output, 256);
+		}
+	}
+
+
+	/**
 	 * Function hasDeadline
 	 * @return [boolean] If the du is linked to a deadline
 	 */
@@ -362,11 +438,157 @@ class du {
 
 
 	/**
+	 * Function setDeadline
+	 *
+	 * @todo  update this function description
+	 * @param [string] $deadline The new deadline to link to a du, formatted as "YYYY-MM-DD HH:MM:SS" 
+	 * @global [$log | The open log file]
+	 */
+	public function setDeadline($deadline) {
+		global $log;
+		// mark that this du has a deadline, if it didn't have one already
+		$this->du_has_deadline = TRUE;
+		// store deadline in time_start field
+		$this->du_time_start = $deadline;
+		$updateQuery = "
+			UPDATE Dus
+			SET du_time_start = '" . $deadline . "',
+				du_has_deadline = '1'
+			WHERE du_id = '" . $this->du_id . "'"
+			;
+		if (query($updateQuery) === TRUE) {
+			// Record successful record update
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " Updated record for du_id ";
+			$output .= $this->du_id;
+			$output .= " successfully: linked deadline '";
+			$output .= $deadline . "'. \n";
+			fwrite($log, $output, 256);
+		}
+	}
+
+	/**
+	 * Function unsetDeadline
+	 *
+	 * @todo  update this function description
+	 * @global [$log | The open log file]
+	 */
+	public function unsetDeadline() {
+		global $log;
+		// if du had a deadline previously
+		if ($this->du_time_start) {
+			$olddeadline = $this->du_time_start;
+			// mark that this du no longer has a date
+			$this->du_has_deadline = FALSE;
+			// unset deadline stored in time_start field
+			$this->du_time_start = NULL;
+			$updateQuery = "
+				UPDATE Dus
+				SET du_time_start = " . NULL . ",
+					du_has_deadline = '0'
+				WHERE du_id = '" . $this->du_id . "'"
+				;
+			if (query($updateQuery) === TRUE) {
+				// Record successful record update
+				$output  = date("Y-m-d H:i:s T", time());
+				$output .= " Updated record for du_id ";
+				$output .= $this->du_id;
+				$output .= " successfully: unlinked deadline '";
+				$output .= $olddeadline . "'. \n";
+				fwrite($log, $output, 256);
+			}
+		} else {
+			// no deadline to unset
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " No deadline to unset for du_id ";
+			$output .= $this->du_id . "\n";
+			fwrite($log, $output, 256);
+		}
+	}
+
+
+	/**
 	 * Function hasDuration
 	 * @return [boolean] If the du is linked to start and end time
 	 */
 	public function hasDuration() {
 		return $this->du_has_duration;
+	}
+
+
+	/**
+	 * Function setDuration
+	 *
+	 * @todo  update this function description
+	 * @param [string] $start The new start time to link to a du, formatted as "YYYY-MM-DD HH:MM:SS"
+	 * @param [string] $end   The new end time to link to a du, formatted as "YYYY-MM-DD HH:MM:SS" 
+	 * @global [$log | The open log file]
+	 */
+	public function setDuration($start, $end) {
+		global $log;
+		// mark that this du has a duration, if it didn't have one already
+		$this->du_has_duration = TRUE;
+		// store start and end times
+		$this->du_time_start = $start;
+		$this->du_time_end = $end;
+		$updateQuery = "
+			UPDATE Dus
+			SET du_time_start = '" . $start . "',
+				du_time_end = '" . $end . "',
+				du_has_duration = '1'
+			WHERE du_id = '" . $this->du_id . "'"
+			;
+		if (query($updateQuery) === TRUE) {
+			// Record successful record update
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " Updated record for du_id ";
+			$output .= $this->du_id;
+			$output .= " successfully: linked duration '";
+			$output .= $start . " - " . $end . "'. \n";
+			fwrite($log, $output, 256);
+		}
+	}
+
+	/**
+	 * Function unsetDuration
+	 *
+	 * @todo  update this function description
+	 * @global [$log | The open log file]
+	 */
+	public function unsetDuration() {
+		global $log;
+		// if du had a duration previously
+		if ($this->du_time_start && $this->du_time_end) {
+			$oldstart = $this->du_time_start;
+			$oldend   = $this->du_time_end;
+			// mark that this du no longer has a duration
+			$this->du_has_duration = FALSE;
+			// unset start and end times
+			$this->du_time_start = NULL;
+			$this->du_time_end   = NULL;
+			$updateQuery = "
+				UPDATE Dus
+				SET du_time_start = " . NULL . ",
+					du_time_end = " . NULL . ",
+					du_has_duration = '0'
+				WHERE du_id = '" . $this->du_id . "'"
+				;
+			if (query($updateQuery) === TRUE) {
+				// Record successful record update
+				$output  = date("Y-m-d H:i:s T", time());
+				$output .= " Updated record for du_id ";
+				$output .= $this->du_id;
+				$output .= " successfully: unlinked duration '";
+				$output .= $oldstart . " - " . $oldend . "'. \n";
+				fwrite($log, $output, 256);
+			}
+		} else {
+			// no deadline to unset
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " No duration to unset for du_id ";
+			$output .= $this->du_id . "\n";
+			fwrite($log, $output, 256);
+		}
 	}
 
 
@@ -383,7 +605,7 @@ class du {
 	 * Function setTimeStart
 	 *
 	 * @todo  update this function description
-	 * @param [string] $du_time_start The new strt time (or deadline) to give a du, formatted as "YYYY-MM-DD HH:MM:SS" 
+	 * @param [string] $du_time_start The new start time (or deadline) to give a du, formatted as "YYYY-MM-DD HH:MM:SS" 
 	 * @global [$log | The open log file]
 	 */
 	public function setTimeStart($du_time_start) {
