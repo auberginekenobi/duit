@@ -152,7 +152,7 @@ function getAll() {
           du_time_end,
           (CASE WHEN du_priority < tag_priority OR tag_priority IS NULL THEN du_priority ELSE tag_priority END) AS calc_priority,
 		  du_note,
-		  GROUP_CONCAT(tag_name separator ', '),
+		  (GROUP_CONCAT(tag_name separator ', ')) AS du_tags,
 		  status_type,
           status_time_start,
           status_time_end,
@@ -211,7 +211,8 @@ function getAll() {
     						$currRow['du_time_start'],
     						$currRow['du_time_end'],
     						$currRow['calc_priority'],
-    						$currRow['du_note']);
+    						$currRow['du_note'],
+    						$currRow['du_tags']);
     	// Store du in array at key that is du_id
     	$all[$du_id] = $newDu;   
 	}
