@@ -54,7 +54,7 @@ function connect() {
     static $connection;
 
     // If a connection has not yet been established
-    if(!isset($connection)) {
+    if (!isset($connection)) {
 		// Load db config file as an array
 		$config = parse_ini_file('config.ini'); 
 
@@ -68,7 +68,7 @@ function connect() {
 	}
 
 	// If connection was not successful
-	if($connection === false || $connection->connect_error) {
+	if ($connection === false || $connection->connect_error) {
 	    // Handle error
 		$output  = date("Y-m-d H:i:s T", time());
 		$output .= " User \"" . $config['dbuser'] . "\" was unable to connect to database. ";
@@ -104,7 +104,7 @@ function query($query) {
     // Query the database
     $result = $connection->query($query);
 
-    if($result === false) {
+    if ($result === false) {
     	// Handle error
     	$output  = date("Y-m-d H:i:s T", time());
     	$output .= " Unable to perform query \"";
@@ -219,37 +219,48 @@ function getUseful() {
 
 }
 
+
+/**
+ * Function displayAsTable
+ *
+ * Echoes a simple html table of the inputted du's
+ * 
+ * @param  [array] $duArray Array of du objects slated to display in table
+ * @return void
+ */
+function displayAsTable($duArray) {
+
+	// Create variable to hold the table output
+	$table  = "";
+	// Counter to track number of du's in table
+	$number = 0;
+
+	// for each du
+	foreach ($duArray as $du) {
+		// if it's the first, display the current du preceded by a row of headers
+		$table .= ($number == 0) ? $du->displayAsTableRow(TRUE) : $du->displayAsTableRow(FALSE);
+		// increment counter
+		$number++;
+	}
+
+	echo "<table>" .
+		 $table .
+		 "</table><br /><br /><br />";
+
+}
+
 require("du-class.php");
 
 
 
-// main executions
+// Main executions
 $log = openLogFile();
 $all = getAll();
 
-// testing
-$table = "";
-foreach ($all as $du) {
-	$table .= ($du->getID() == 1) ? $du->displayAsTable(TRUE) : $du->displayAsTable(FALSE);
-	// echo nl2br($du->getName() . "\n");
-}
+// Testing
 
-echo "<table>";
-echo $table;
-echo "</table>";
+displayAsTable($all);
 
-$all[1]->setName("Buy pasta");
-echo nl2br("-------\n" . $all[1]->getName() . "\n");
-$all[1]->setName("Buy groceries");
-
-// var_dump($all[1]->getID());
-// var_dump($all[1]->getTimestamp());
-// var_dump($all[1]->getName());
-// var_dump($all[1]->hasDate());
-// var_dump($all[1]->hasDeadline());
-// var_dump($all[1]->hasDuration());
-// var_dump($all[1]->getTimeStart());
-// var_dump($all[1]->getTimeEnd());
-// var_dump($all[1]->getNote());
+$all[1]->setDate("2016-03-17");
 
 ?>
