@@ -150,6 +150,7 @@ function getAll() {
           du_has_duration,
           du_time_start,
           du_time_end,
+          du_priority,
           (CASE WHEN du_priority < tag_priority OR tag_priority IS NULL THEN du_priority ELSE tag_priority END) AS calc_priority,
 		  du_note,
 		  (GROUP_CONCAT(tag_name separator ', ')) AS du_tags,
@@ -210,6 +211,7 @@ function getAll() {
     						$currRow['du_has_duration'],
     						$currRow['du_time_start'],
     						$currRow['du_time_end'],
+    						$currRow['du_priority'],
     						$currRow['calc_priority'],
     						$currRow['du_note'],
     						$currRow['du_tags']);
