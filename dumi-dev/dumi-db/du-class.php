@@ -210,7 +210,7 @@ class du {
 			SET    du_name = '" . $du_name . "' 
 			WHERE  du_id   = '" . $this->du_id . "'"
 			;
-		if (query($updateQuery) === TRUE) {
+		if (query($updateQuery, "setName()") === TRUE) {
 			// Record successful record update
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " Updated record for du_id ";
@@ -258,7 +258,7 @@ class du {
 			       du_has_date   = '1' 
 			WHERE  du_id         = '" . $this->du_id . "'"
 			;
-		if (query($updateQuery) === TRUE) {
+		if (query($updateQuery, "setDate()") === TRUE) {
 			// Record successful record update
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " Updated record for du_id ";
@@ -295,7 +295,7 @@ class du {
 				       du_has_date   = '0' 
 				WHERE  du_id         = '" . $this->du_id . "'"
 				;
-			if (query($updateQuery) === TRUE) {
+			if (query($updateQuery, "unsetDate()") === TRUE) {
 				// Record successful record update
 				$output  = date("Y-m-d H:i:s T", time());
 				$output .= " Updated record for du_id ";
@@ -348,7 +348,7 @@ class du {
 			       du_has_deadline = '1' 
 			WHERE  du_id           = '" . $this->du_id . "'"
 			;
-		if (query($updateQuery) === TRUE) {
+		if (query($updateQuery, "setDeadline()") === TRUE) {
 			// Record successful record update
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " Updated record for du_id ";
@@ -381,7 +381,7 @@ class du {
 				       du_has_deadline = '0' 
 				WHERE  du_id           = '" . $this->du_id . "'"
 				;
-			if (query($updateQuery) === TRUE) {
+			if (query($updateQuery, "unsetDeaadline()") === TRUE) {
 				// Record successful record update
 				$output  = date("Y-m-d H:i:s T", time());
 				$output .= " Updated record for du_id ";
@@ -437,7 +437,7 @@ class du {
 				   du_has_duration = '1'
 			WHERE  du_id           = '" . $this->du_id . "'"
 			;
-		if (query($updateQuery) === TRUE) {
+		if (query($updateQuery, "setDuration()") === TRUE) {
 			// Record successful record update
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " Updated record for du_id ";
@@ -473,7 +473,7 @@ class du {
 					   du_has_duration = '0'
 				WHERE  du_id           = '" . $this->du_id . "'"
 				;
-			if (query($updateQuery) === TRUE) {
+			if (query($updateQuery, "unsetDuration()") === TRUE) {
 				// Record successful record update
 				$output  = date("Y-m-d H:i:s T", time());
 				$output .= " Updated record for du_id ";
@@ -517,7 +517,7 @@ class du {
 			SET    du_time_start = '" . $du_time_start . "'
 			WHERE  du_id         = '" . $this->du_id . "'"
 			;
-		if (query($updateQuery) === TRUE) {
+		if (query($updateQuery, "setTimeStart()") === TRUE) {
 			// Record successful record update
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " Updated record for du_id ";
@@ -554,7 +554,7 @@ class du {
 			SET    du_time_end = '" . $du_time_end . "'
 			WHERE  du_id       = '" . $this->du_id . "'"
 			;
-		if (query($updateQuery) === TRUE) {
+		if (query($updateQuery, "setTimeEnd()") === TRUE) {
 			// Record successful record update
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " Updated record for du_id ";
@@ -598,7 +598,7 @@ class du {
 				   du_priority         = '" . $du_priority . "'
 			WHERE  du_id               = '" . $this->du_id . "'"
 			;
-		if (query($updateQuery) === TRUE) {
+		if (query($updateQuery, "setDuPriority()") === TRUE) {
 			// Record successful record update
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " Updated record for du_id ";
@@ -635,7 +635,7 @@ class du {
 					   du_priority         = '4'
 				WHERE  du_id               = '" . $this->du_id . "'"
 				;
-			if (query($updateQuery) === TRUE) {
+			if (query($updateQuery, "unsetDuPriority()") === TRUE) {
 				// Record successful record update
 				$output  = date("Y-m-d H:i:s T", time());
 				$output .= " Updated record for du_id ";
@@ -681,7 +681,7 @@ class du {
 			SET    du_note = '" . $du_note . "'
 			WHERE  du_id   = '" . $this->du_id . "'"
 			;
-		if (query($updateQuery) === TRUE) {
+		if (query($updateQuery, "setNote()") === TRUE) {
 			// Record successful record update
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " Updated record for du_id ";
