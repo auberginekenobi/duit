@@ -205,10 +205,10 @@ class du {
 		global $log;
 		$oldname = $this->du_name;
 		$this->du_name = $du_name;
-		$updateQuery       = "
-			UPDATE Dus
-			SET du_name = '" . $du_name . "'
-			WHERE du_id = '" . $this->du_id . "'"
+		$updateQuery = "
+			UPDATE dus 
+			SET    du_name = '" . $du_name . "' 
+			WHERE  du_id   = '" . $this->du_id . "'"
 			;
 		if (query($updateQuery) === TRUE) {
 			// Record successful record update
@@ -253,10 +253,10 @@ class du {
 		// store date in time_start field
 		$this->du_time_start = $date;
 		$updateQuery = "
-			UPDATE Dus
-			SET du_time_start = '" . $date . "',
-				du_has_date = '1'
-			WHERE du_id = '" . $this->du_id . "'"
+			UPDATE dus 
+			SET    du_time_start = '" . $date . "', 
+			       du_has_date   = '1' 
+			WHERE  du_id         = '" . $this->du_id . "'"
 			;
 		if (query($updateQuery) === TRUE) {
 			// Record successful record update
@@ -290,10 +290,10 @@ class du {
 			// unset date stored in time_start field
 			$this->du_time_start = NULL;
 			$updateQuery = "
-				UPDATE Dus
-				SET du_time_start = NULL,
-					du_has_date = '0'
-				WHERE du_id = '" . $this->du_id . "'"
+				UPDATE dus 
+				SET    du_time_start = NULL, 
+				       du_has_date   = '0' 
+				WHERE  du_id         = '" . $this->du_id . "'"
 				;
 			if (query($updateQuery) === TRUE) {
 				// Record successful record update
@@ -343,10 +343,10 @@ class du {
 		// store deadline in time_start field
 		$this->du_time_start = $deadline;
 		$updateQuery = "
-			UPDATE Dus
-			SET du_time_start = '" . $deadline . "',
-				du_has_deadline = '1'
-			WHERE du_id = '" . $this->du_id . "'"
+			UPDATE dus 
+			SET    du_time_start   = '" . $deadline . "', 
+			       du_has_deadline = '1' 
+			WHERE  du_id           = '" . $this->du_id . "'"
 			;
 		if (query($updateQuery) === TRUE) {
 			// Record successful record update
@@ -376,10 +376,10 @@ class du {
 			// unset deadline stored in time_start field
 			$this->du_time_start = NULL;
 			$updateQuery = "
-				UPDATE Dus
-				SET du_time_start = NULL,
-					du_has_deadline = '0'
-				WHERE du_id = '" . $this->du_id . "'"
+				UPDATE dus 
+				SET    du_time_start   = NULL, 
+				       du_has_deadline = '0' 
+				WHERE  du_id           = '" . $this->du_id . "'"
 				;
 			if (query($updateQuery) === TRUE) {
 				// Record successful record update
@@ -431,11 +431,11 @@ class du {
 		$this->du_time_start = $start;
 		$this->du_time_end = $end;
 		$updateQuery = "
-			UPDATE Dus
-			SET du_time_start = '" . $start . "',
-				du_time_end = '" . $end . "',
-				du_has_duration = '1'
-			WHERE du_id = '" . $this->du_id . "'"
+			UPDATE dus
+			SET    du_time_start   = '" . $start . "',
+				   du_time_end     = '" . $end . "',
+				   du_has_duration = '1'
+			WHERE  du_id           = '" . $this->du_id . "'"
 			;
 		if (query($updateQuery) === TRUE) {
 			// Record successful record update
@@ -467,11 +467,11 @@ class du {
 			$this->du_time_start = NULL;
 			$this->du_time_end   = NULL;
 			$updateQuery = "
-				UPDATE Dus
-				SET du_time_start = NULL,
-					du_time_end = NULL,
-					du_has_duration = '0'
-				WHERE du_id = '" . $this->du_id . "'"
+				UPDATE dus
+				SET    du_time_start   = NULL,
+					   du_time_end     = NULL,
+					   du_has_duration = '0'
+				WHERE  du_id           = '" . $this->du_id . "'"
 				;
 			if (query($updateQuery) === TRUE) {
 				// Record successful record update
@@ -512,10 +512,10 @@ class du {
 		global $log;
 		$oldtime = $this->du_time_start;
 		$this->du_time_start = $du_time_start;
-		$updateQuery       = "
-			UPDATE Dus
-			SET du_time_start = '" . $du_time_start . "'
-			WHERE du_id = '" . $this->du_id . "'"
+		$updateQuery = "
+			UPDATE dus
+			SET    du_time_start = '" . $du_time_start . "'
+			WHERE  du_id         = '" . $this->du_id . "'"
 			;
 		if (query($updateQuery) === TRUE) {
 			// Record successful record update
@@ -549,10 +549,10 @@ class du {
 		global $log;
 		$oldtime = $this->du_time_end;
 		$this->du_time_end = $du_time_end;
-		$updateQuery       = "
-			UPDATE Dus
-			SET du_time_end = '" . $du_time_end . "'
-			WHERE du_id = '" . $this->du_id . "'"
+		$updateQuery = "
+			UPDATE dus
+			SET    du_time_end = '" . $du_time_end . "'
+			WHERE  du_id       = '" . $this->du_id . "'"
 			;
 		if (query($updateQuery) === TRUE) {
 			// Record successful record update
@@ -593,10 +593,10 @@ class du {
 		$this->du_priority = intval($du_priority);
 		$this->calc_priority = intval($du_priority);
 		$updateQuery = "
-			UPDATE Dus
-			SET du_enforce_priority = '1',
-				du_priority = '" . $du_priority . "'
-			WHERE du_id = '" . $this->du_id . "'"
+			UPDATE dus
+			SET    du_enforce_priority = '1',
+				   du_priority         = '" . $du_priority . "'
+			WHERE  du_id               = '" . $this->du_id . "'"
 			;
 		if (query($updateQuery) === TRUE) {
 			// Record successful record update
@@ -630,10 +630,10 @@ class du {
 			$this->calc_priority = ($this->tag_priorities) ? min($this->tag_priorities) : 
 						                                     4;
 			$updateQuery = "
-				UPDATE Dus
-				SET du_enforce_priority = '0',
-					du_priority = " . 4 . "
-				WHERE du_id = '" . $this->du_id . "'"
+				UPDATE dus
+				SET    du_enforce_priority = '0',
+					   du_priority         = '4'
+				WHERE  du_id               = '" . $this->du_id . "'"
 				;
 			if (query($updateQuery) === TRUE) {
 				// Record successful record update
@@ -677,9 +677,9 @@ class du {
 		$oldname = $this->du_note;
 		$this->du_note = $du_note;
 		$updateQuery = "
-			UPDATE Dus
-			SET du_note = '" . $du_note . "'
-			WHERE du_id = '" . $this->du_id . "'"
+			UPDATE dus
+			SET    du_note = '" . $du_note . "'
+			WHERE  du_id   = '" . $this->du_id . "'"
 			;
 		if (query($updateQuery) === TRUE) {
 			// Record successful record update
