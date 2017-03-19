@@ -301,50 +301,10 @@ function addDu($parameters, $duArray) {
 	// Get new ID for the du by adding 1 to the last ID used in the array
 	end($duArray);
 	$du_id = key($duArray) + 1;
+	$parameters['du_id'] = $du_id;
 
-	// Preprocess $parameters array
-	$p = $parameters;
-	$p['du_id']        = $du_id;
-	$p['du_timestamp'] = date("Y-m-d H:i:s", time());
-	if (!isset($p['du_name'])) {
-	    // Name is only required field -- handle erroneous input
-		$output  = date("Y-m-d H:i:s T", time());
-		$output .= " Could not add new du: no name found specified in input. Input was:\n";
-		$output .= var_export($parameters, true);
-		// Write to log file and kill process
-		fwrite($log, $output, 2048);
-	    exit($output);
-	}
-	if (!isset($p['du_has_date'])) {
-		$p['du_has_date']         = 0;
-	}
-	if (!isset($p['du_has_deadline'])) {
-		$p['du_has_deadline']     = 0;
-	}
-	if (!isset($p['du_has_duration'])) {
-		$p['du_has_duration']     = 0;
-	}
-	if (!isset($p['du_time_start'])) {
-		$p['du_time_start']       = NULL;
-	}
-	if (!isset($p['du_time_end'])) {
-		$p['du_time_end']         = NULL;
-	}
-	if (!isset($p['du_priority'])) {
-		$p['du_enforce_priority'] = 0;
-		$p['du_priority']         = 4;
-	} else {
-		$p['du_enforce_priority'] = 1;
-	}
-	if (!isset($p['tag_priorities'])) {
-		$p['tag_priorities']      = NULL;
-	}
-	if (!isset($p['du_note'])) {
-		$p['du_note']             = NULL;
-	}
-	if (!isset($p['du_tags'])) {
-		$p['du_tags']             = NULL;
-	}
+	// Preprocess parameters
+	$p = preprocess($parameters);
 
 	// Fill fields of du to match parameter inputs
 	$newDu->setDuFields($p['du_id'],
@@ -370,7 +330,7 @@ function addDu($parameters, $duArray) {
 	    // Handle error
 		$output  = date("Y-m-d H:i:s T", time());
 		$output .= " Could not add new du to duArray. Current state of $newDu is\n";
-		$output .= var_export($newDu, true);
+		$output .= "	" . var_export($newDu, true);
 		// Write to log file and kill process
 		fwrite($log, $output, 2048);
 	    exit($output);
@@ -378,6 +338,171 @@ function addDu($parameters, $duArray) {
 
 	// Done
 	return $duArray;
+
+}
+
+/**
+ * Function preprocess
+ *
+ * 
+ * @global [$log | The open log file]
+ */
+function preprocess($parameters) {
+
+	global $log;
+
+	$p = $parameters;
+
+	// Field 'du_timestamp'        : AUTO SET
+	// 
+	// Set the timestamp (format "YYYY-MM-DD HH:MM:SS")
+	$p['du_timestamp'] = date("Y-m-d H:i:s", time());
+
+	// Field 'du_name'             : REQUIRED (string name)
+	// Handle case where du_name is not specified
+	if (!isset($p['du_name'])) {
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new du: no name found specified in input. Input was:\n";
+		$output .= "	" . var_export($parameters, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	}
+
+	// Field 'du_has_date'         : OPTIONAL (1), DEFAULT 0
+	// 
+	// Set du_has_date to 0 if it is not specified and handle case where it is
+	// mal-specified
+	if (!isset($p['du_has_date'])) {
+		$p['du_has_date'] = 0;
+	} elseif ($p['du_has_date'] != 1) { // Input mal-specified
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new du: bad 'du_has_date' value specified. Input was:\n";
+		$output .= "	" . var_export($parameters, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	}
+
+	// Field 'du_has_deadline'     : OPTIONAL (1), DEFAULT 0
+	// 
+	// Set du_has_deadline to 0 if it is not specified and handle case where it
+	// is mal-specified
+	if (!isset($p['du_has_deadline'])) {
+		$p['du_has_deadline'] = 0;
+	} elseif ($p['du_has_deadline'] != 1) { // Input mal-specified
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new du: bad 'du_has_deadline' value specified. Input was:\n";
+		$output .= "	" . var_export($parameters, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	}
+
+	// Field 'du_has_duration'     : OPTIONAL (1), DEFAULT 0
+	// 
+	// Set du_has_duration to 0 if it is not specified and handle case where it
+	// is mal-specified
+	if (!isset($p['du_has_duration'])) {
+		$p['du_has_duration'] = 0;
+	} elseif ($p['du_has_duration'] != 1) { // Input mal-specified
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new du: bad 'du_has_duration' value specified. Input was:\n";
+		$output .= "	" . var_export($parameters, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	}
+
+	// Field 'du_time_start'       : OPTIONAL (string "YYYY-MM-DD[ HH:MM:SS]")
+	// 
+	// Set du_time_start to NULL if it is not specified, add default 00:00:00
+	// if time is not specified (as in the case of linking a date), and handle
+	// case where input is mal-specified
+	if (!isset($p['du_time_start'])) {
+		$p['du_time_start'] = NULL;
+	} elseif (preg_match('/\d\d\d\d-\d\d-\d\d/', $p['du_time_start'])) {
+		// Input format matches date but not time
+		if (!preg_match('/\d\d:\d\d:\d\d/', $p['du_time_start'])) {
+			// Append default time
+			$p['du_time_start'] .= " 00:00:00";
+		}
+	} else { // Input mal-specified
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new du: 'du_time_start' specified in wrong format. Input was:\n";
+		$output .= "	" . var_export($parameters, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	}
+
+	// Field 'du_time_end'         : OPTIONAL (string "YYYY-MM-DD[ HH:MM:SS]")
+	// 
+	// Set du_time_end to NULL if it is not specified, add default 00:00:00
+	// if time is not specified (as in the case of linking a date), and handle
+	// case where input is mal-specified
+	if (!isset($p['du_time_end'])) {
+		$p['du_time_end'] = NULL;
+	} elseif (!preg_match('/\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d/', $p['du_time_end'])) { // Input mal-specified
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " Could not add new du: 'du_time_end' specified in wrong format. Input was:\n";
+			$output .= "	" . var_export($parameters, true);
+			// Write to log file and kill process
+			fwrite($log, $output, 2048);
+		    exit($output);
+	}
+
+	// Field 'du_priority'         : OPTIONAL (int 1, 2, 3, 4), DEFAULT 4
+	// Field 'du_enforce_priority' : AUTO SET
+	// 
+	// Set du_priority and du_enforce_priority: if du priority is not
+	// specified, set du_priority to 4 and do not enforce (0), otherwise
+	// enforce (1), and handle case where input is mal-specified
+	if (!isset($p['du_priority'])) {
+		$p['du_enforce_priority'] = 0;
+		$p['du_priority']         = 4;
+	} elseif (preg_match('/[1234]/', $p['du_priority'])) {
+		$p['du_enforce_priority'] = 1;
+	} else { // Input mal-specified
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new du: bad 'du_priority' value specified. Input was:\n";
+		$output .= "	" . var_export($parameters, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	}
+
+	// Field 'tag_priorities'      : OPTIONAL (array of ints)
+	// 
+	// @todo integrate with tag class
+	if (!isset($p['tag_priorities'])) {
+		$p['tag_priorities']      = NULL;
+	}
+
+	// Field 'du_note'             : OPTIONAL (string note)
+	// 
+	// Set du_note to NULL if it is not specified and handle case where it is
+	// mal-specified
+	if (!isset($p['du_note'])) {
+		$p['du_note']             = NULL;
+	} elseif (!preg_match('/[\w~!@\$%\^&\*\(\)-\+=\{\}\[]\.\?\\/,:;"\']/', $p['du_time_end'])) { // Input mal-specified
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new du: 'du_note' specified in wrong format. Input was:\n";
+		$output .= "	" . var_export($parameters, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	}
+
+	// Field 'du_tags'            : OPTIONAL (array of strings)
+	// 
+	// @todo integrate with tag class
+	if (!isset($p['du_tags'])) {
+		$p['du_tags']             = NULL;
+	}
+
+	// Done
+	return $p;
 
 }
 
@@ -405,9 +530,8 @@ $all = getAll();
 
 displayAsTable($all);
 
-$parameters = array('du_name' => 'Take out the trash', 'du_has_date' => 1, 'du_time_start' => '2017-03-25 00:00:00');
-var_dump($parameters);
-$all = addDu(array('du_name' => 'Take out the trash', 'du_has_date' => 1, 'du_time_start' => '2017-03-25 00:00:00'), $all);
+$parameters = array('du_name' => 'Take out the trash', 'du_has_date' => 1, 'du_time_start' => 'abjs');
+$all = addDu($parameters, $all);
 
 // $all[1]->unsetDuPriority();
 // $all[3]->unsetNote();
