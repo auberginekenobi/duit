@@ -43,11 +43,12 @@ class du {
 	 * @param [string] $du_has_duration "0" if the du is not linked to a start and end time, "1" if the du is
 	 * @param [string] $du_time_start   Deadline or start time of the du, if it has one
 	 * @param [string] $du_time_end     End time of the du, if it has one
+	 * @param [string] $du_priority     Priority recorded for the du
 	 * @param [string] $calc_priority   Priority recorded for the du, leveraged by tag priorities
 	 * @param [string] $du_note         The note recorded for the du
 	 * @param [string] $du_tags         Tags recorded for the du as a string, tags separated by ", "
 	 */
-	public function setDuFields($du_id, $du_timestamp, $du_name, $du_has_date, $du_has_deadline, $du_has_duration, $du_time_start, $du_time_end, $calc_priority, $du_note, $du_tags) {
+	public function setDuFields($du_id, $du_timestamp, $du_name, $du_has_date, $du_has_deadline, $du_has_duration, $du_time_start, $du_time_end, $du_priority, $calc_priority, $du_note, $du_tags) {
 
 		try {
 			// Instantiate parameters as object's properties
@@ -59,6 +60,7 @@ class du {
 			$this->du_has_duration = ($du_has_duration == "0") ? FALSE : TRUE; // Convert to corresponding boolean
 			$this->du_time_start   = $du_time_start;
 			$this->du_time_end     = $du_time_end;
+			$this->du_priority     = $du_priority;
 			$this->calc_priority   = intval($calc_priority); // Conver to int
 			$this->du_note         = $du_note;
 			$this->du_tags         = explode(", ", $du_tags);
@@ -92,7 +94,8 @@ class du {
 		$addHeaders .= "<th>du_has_deadline</th>";
 		$addHeaders .= "<th>du_has_durataion</th>";
 		$addHeaders .= "<th>du_time_start</th>";
-		$addHeaders .= "<th>du_time_end</th>";
+		$addHeaders .= "<th>du_time_end</th>";		
+		$addHeaders .= "<th>du_priority</th>";
 		$addHeaders .= "<th>calc_priority</th>";
 		$addHeaders .= "<th>du_note</th>";
 		$addHeaders .= "<th>du_tags</th></tr>";
@@ -111,6 +114,7 @@ class du {
 		$output .= "<td>" . $duration . "</td>";
 		$output .= "<td>" . $this->du_time_start . "</td>";
 		$output .= "<td>" . $this->du_time_end . "</td>";
+		$output .= "<td>" . $this->du_priority . "</td>";
 		$output .= "<td>" . $this->calc_priority . "</td>";
 		$output .= "<td>" . $this->du_note . "</td>";
 		$output .= "<td>" . implode(", ", $this->du_tags) . "</td></tr>";
