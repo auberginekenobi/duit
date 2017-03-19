@@ -169,6 +169,7 @@ class du {
 
 	/**
 	 * Function getID
+	 * Du ID's should never be set or unset
 	 * @return [string] The du's du_id
 	 */
 	public function getID() {
@@ -178,6 +179,7 @@ class du {
 
 	/**
 	 * Function getTimestamp
+	 * Du Timestamps set automatically and should never be unset
 	 * @return [string] The timestamp recorded for the du
 	 */
 	public function getTimestamp() {
@@ -198,10 +200,11 @@ class du {
 	 * Function setName
 	 *
 	 * Sets or updates the name of a du at both object- and db-levels and logs
-	 * any changes.
+	 * any changes. Du names should never be unset.
 	 * 
 	 * @param [string] $du_name The new name to give the du
 	 * @global [$log | The open log file]
+	 * @return void
 	 */
 	public function setName($du_name) {
 		global $log;
@@ -242,6 +245,7 @@ class du {
 	 * 
 	 * @param [string] $date The new date to link to a du, formatted as "YYYY-MM-DD"
 	 * @global [$log | The open log file]
+	 * @return void
 	 */
 	public function setDate($date) {
 
@@ -287,6 +291,7 @@ class du {
 	 * to maintain du_time_start as a valid variable.
 	 * 
 	 * @global [$log | The open log file]
+	 * @return void
 	 */
 	public function unsetDate() {
 		global $log;
@@ -340,6 +345,7 @@ class du {
 	 * @param [string] $deadline The new deadline to link to a du, formatted as
 	 * "YYYY-MM-DD HH:MM:SS"
 	 * @global [$log | The open log file]
+	 * @return void
 	 */
 	public function setDeadline($deadline) {
 
@@ -380,6 +386,7 @@ class du {
 	 * was originally present, and logs any changes.
 	 * 
 	 * @global [$log | The open log file]
+	 * @return void
 	 */
 	public function unsetDeadline() {
 		global $log;
@@ -435,6 +442,7 @@ class du {
 	 * @param [string] $end   The new end time to link to a du, formatted as
 	 * "YYYY-MM-DD HH:MM:SS"
 	 * @global [$log | The open log file]
+	 * @return void
 	 */
 	public function setDuration($start, $end) {
 
@@ -479,6 +487,7 @@ class du {
 	 * and db-levels, if one was originally present, and logs any changes.
 	 * 
 	 * @global [$log | The open log file]
+	 * @return void
 	 */
 	public function unsetDuration() {
 		global $log;
@@ -530,11 +539,14 @@ class du {
 	 * Function setTimeStart
 	 *
 	 * Sets or updates the start time of a du at both object- and db-levels and
-	 * logs any changes.
+	 * logs any changes. Start time should only ever be unset as part of
+	 * unsetting a date, deadline, or duration, and unsetting it by itself may
+	 * cause problems.
 	 * 
 	 * @param [string] $du_time_start The new start time (or deadline) to give a
 	 * du, formatted as "YYYY-MM-DD HH:MM:SS"
 	 * @global [$log | The open log file]
+	 * @return void
 	 */
 	public function setTimeStart($du_time_start) {
 		global $log;
@@ -571,11 +583,13 @@ class du {
 	 * Function setTimeEnd
 	 *
 	 * Sets or updates the end time of a du at both object- and db-levels and
-	 * logs any changes.
+	 * logs any changes. End time should only ever be unset as part of unsetting
+	 * a duration, and unsetting it by itself may cause problems.
 	 * 
 	 * @param [string] $du_time_end The new end time to give a du, formatted as
 	 * "YYYY-MM-DD HH:MM:SS"
 	 * @global [$log | The open log file]
+	 * @return void
 	 */
 	public function setTimeEnd($du_time_end) {
 		global $log;
@@ -624,6 +638,7 @@ class du {
 	 * 
 	 * @param [string] $du_priority The new priority to record and enforce for the du
 	 * @global [$log | The open log file]
+	 * @return void
 	 */
 	public function setDuPriority($du_priority) {
 		global $log;
@@ -669,6 +684,7 @@ class du {
 	 * Unsetting the du priority un-enforces its priority.
 	 * 
 	 * @global [$log | The open log file]
+	 * @return void
 	 */
 	public function unsetDuPriority() {
 		global $log;
@@ -726,6 +742,7 @@ class du {
 	 * 
 	 * @param [string] $du_note The new note to record for the du
 	 * @global [$log | The open log file]
+	 * @return void
 	 */
 	public function setNote($du_note) {
 		global $log;
@@ -734,7 +751,7 @@ class du {
 		$this->du_note = $du_note;
 		$updateQuery = "
 			UPDATE dus
-			SET    du_note = '" . $du_note . "'
+			SET    du_note = " . (($du_note) ? "'" . $du_note . "'" : "NULL") . "
 			WHERE  du_id   = '" . $this->du_id . "'"
 			;
 		if (query($updateQuery, "setNote()") === TRUE) {
@@ -746,6 +763,18 @@ class du {
 								    "set note to '" . $du_note . "'.\n";
 			fwrite($log, $output, 256);
 		}
+	}
+
+
+	/**
+	 * Function unsetNote
+	 *
+	 * Sets note to NULL with setNote(NULL).
+	 * 
+	 * @return void
+	 */
+	public function unsetNote() {
+		$this->setNote(NULL);
 	}
 
 }
