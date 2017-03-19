@@ -264,17 +264,4 @@ require("du-class.php");
 $log = openLogFile();
 $all = getAll();
 
-// Testing
-
-
-$all[1]->setDuPriority("4");
-
-displayAsTable($all);
-
-$all[1]->unsetDuPriority();
-
-displayAsTable($all);
-
-$all[1]->setDuPriority("4");
-
 ?>
