@@ -292,6 +292,7 @@ function addDu($parameters, $duArray) {
 	// Record add call
 	$addAlert      = date("Y-m-d H:i:s T", time()) . " ";
 	$addAlert     .= "Preparing to add new du with parameters:\n";
+
 	// Unpack parameter array passed
 	foreach ($parameters as $p => $v) {
 		$addAlert .= "	";
@@ -506,6 +507,17 @@ function preprocess($parameters) {
 		$p['du_tags']             = NULL;
 	}
 
+	// Record successful preprocessing
+	$success      = date("Y-m-d H:i:s T", time()) . " ";
+	$success     .= "Preprocessed du successfuly. Preprocessed parameters:\n";
+	// Unpack preprocessed parameters
+	foreach ($p as $f => $v) {
+		$success .= "	";
+		$success .= var_export($f, true) . " => ";
+		$success .= var_export($v, true) . "\n";
+	}
+	fwrite($log, $success, 4096);
+
 	// Done
 	return $p;
 
@@ -535,7 +547,7 @@ $all = getAll();
 
 displayAsTable($all);
 
-$parameters = array('du_name' => 'Take out the trash', 'du_has_date' => 1, 'du_time_start' => 'abjs');
+$parameters = array('du_name' => 'Take out the trash', 'du_has_date' => 1, 'du_time_start' => '2017-03-30');
 $all = addDu($parameters, $all);
 
 // $all[1]->unsetDuPriority();
