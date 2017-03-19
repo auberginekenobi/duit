@@ -232,7 +232,7 @@ function getAll() {
  *
  * Echoes a simple html table of the inputted du's; primarily used for debugging
  * 
- * @param  [array] $duArray Array of du objects slated to display in table
+ * @param [array(du)] $duArray Array of du objects slated to display in table
  * @return void
  */
 function displayAsTable($duArray) {
@@ -257,7 +257,43 @@ function displayAsTable($duArray) {
 }
 
 
+/**
+ * Function addDu
+ *
+ * Adds a new du with a specified set of properties at both object- and
+ * db-levels.
+ *
+ * Example of how to call the function:
+ * $all = addDu(array(
+ * 					'du_name' => 'Take out the trash',
+ * 					'du_has_date' => 1,
+ * 					'du_time_start' => '2017-03-25 00:00:00'
+ * 				), $all);
+ *
+ * All booleans default to false and must be specified 1 otherwise. See function
+ * preprocess($parameters) for more details on how $parameters is handled.
+ * 
+ * @param [array(string => various)] $parameters Array of parameters specifying
+ * the properties to be used on the new du. Parameter 'du_name' => 'name' is the
+ * only mandatory parameter. All parameters should be specified in the array as
+ * 'field_name' => field_value.
+ * @param [array(du)]                $duArray Array of du objects to take new du
+ * @global [$log | The open log file]
+ */
 function addDu($parameters, $duArray) {
+
+	global $log;
+
+	// Record add call
+	$addAlert      = date("Y-m-d H:i:s T", time()) . " ";
+	$addAlert     .= "Preparing to add new du with parameters:\n";
+	// Unpack parameter array passed
+	foreach ($parameters as $p => $v) {
+		$addAlert .= "	";
+		$addAlert .= var_export($p, true) . " => ";
+		$addAlert .= var_export($v, true) . "\n";
+	}
+	fwrite($log, $addAlert, 4096);
 
 	// Create a new du
 	$newDu = new du();
@@ -328,7 +364,7 @@ function addDu($parameters, $duArray) {
 	// Store du in array at key that is du_id
 	$duArray[$du_id] = $newDu;
 	// Push the new du and its properties to the database
-	$duArray[$du_id]->addToDB();
+	// $duArray[$du_id]->addToDB();
 
 	if ($duArray[$du_id] === false) {
 	    // Handle error
@@ -369,14 +405,16 @@ $all = getAll();
 
 displayAsTable($all);
 
-//$all = addDu(array('du_name' => 'Take out the trash', 'du_has_date' => 1, 'du_time_start' => '2017-03-25 00:00:00'), $all);
+$parameters = array('du_name' => 'Take out the trash', 'du_has_date' => 1, 'du_time_start' => '2017-03-25 00:00:00');
+var_dump($parameters);
+$all = addDu(array('du_name' => 'Take out the trash', 'du_has_date' => 1, 'du_time_start' => '2017-03-25 00:00:00'), $all);
 
 // $all[1]->unsetDuPriority();
 // $all[3]->unsetNote();
 
 displayAsTable($all);
 
-$all = deleteDu(7, $all);
+// $all = deleteDu(6, $all);
 
 displayAsTable($all);
 
