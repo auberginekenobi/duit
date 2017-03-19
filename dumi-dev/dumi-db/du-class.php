@@ -308,7 +308,7 @@ class du {
 			// no date to unset
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " No date to unset for du_id ";
-			$output .= $this->du_id . "\n";
+			$output .= $this->du_id . ".\n";
 			fwrite($log, $output, 256);
 		}
 	}
@@ -394,7 +394,7 @@ class du {
 			// no deadline to unset
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " No deadline to unset for du_id ";
-			$output .= $this->du_id . "\n";
+			$output .= $this->du_id . ".\n";
 			fwrite($log, $output, 256);
 		}
 	}
@@ -486,7 +486,7 @@ class du {
 			// no deadline to unset
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " No duration to unset for du_id ";
-			$output .= $this->du_id . "\n";
+			$output .= $this->du_id . ".\n";
 			fwrite($log, $output, 256);
 		}
 	}
@@ -567,39 +567,92 @@ class du {
 
 
 	/**
-	 * Function getPriority
+	 * Function getDuPriority
 	 * @return [int] The priority recorded for the du
 	 */
-	public function getPriority() {
-		return $this->calc_priority;
+	public function getDuPriority() {
+		return $this->du_priority;
 	}
 
 
 	/**
-	 * Function setPriority
+	 * Function setDuPriority
 	 *
 	 * @todo  update this function description
-	 * @param [string] $calc_priority The new note to record for the du
+	 * @param [string] $du_priority The new priority to record for the du
 	 * @global [$log | The open log file]
 	 */
-	public function setPriority($calc_priority) {
+	public function setDuPriority($du_priority) {
 		global $log;
-		$oldpriority = $this->calc_priority;
-		$this->calc_priority = $calc_priority;
+		$oldpriority = ($this->du_enforce_priority) ? $this->du_priority : NULL;
+		$oldcalc = $this->calc_priority;
+
+		// mark that this du has a priority, if it didn't have one already
+		$this->du_enforce_priority = TRUE;
+		// store new priority
+		$this->du_priority = intval($du_priority);
+		$this->calc_priority = intval($du_priority);
 		$updateQuery = "
 			UPDATE Dus
-			SET calc_priority = '" . $calc_priority . "'
+			SET du_enforce_priority = '1',
+				du_priority = '" . $du_priority . "'
 			WHERE du_id = '" . $this->du_id . "'"
 			;
 		if (query($updateQuery) === TRUE) {
 			// Record successful record update
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " Updated record for du_id ";
-			$output .= $this->du_id;
-			$output .= " successfully: changed calc_priority from '";
-			$output .= $oldpriority . "' to '" . $calc_priority . "'. \n";
+			$output .= $this->du_id . " successfully: ";
+			$output .= ($oldpriority) ? "changed priority from '" . $oldpriority . "' to '" . $du_priority . "'. " :
+			                            "set priority to '" . $du_priority . "'. ";
+			$output .= "Set calc_priority to '" . $du_priority . "'. \n";
 			fwrite($log, $output, 256);
 		}
+	}
+
+
+	/**
+	 * Function unsetDuPriority
+	 *
+	 * @todo  update this function description
+	 * @global [$log | The open log file]
+	 */
+	public function unsetDuPriority() {
+		global $log;
+		// if du had a priority previously
+		if ($this->du_enforce_priority) {
+			$oldpriority = $this->du_priority;
+			// mark that this du no longer has a priority
+			$this->du_enforce_priority = FALSE;
+			// reset du priority to default
+			$this->du_priority = 4;
+			// reset calc_priority
+			$this->calc_priority = ($this->tag_priorities) ? min($this->tag_priorities) : 
+						                                     4;
+			$updateQuery = "
+				UPDATE Dus
+				SET du_enforce_priority = '0',
+					du_priority = " . 4 . "
+				WHERE du_id = '" . $this->du_id . "'"
+				;
+			if (query($updateQuery) === TRUE) {
+				// Record successful record update
+				$output  = date("Y-m-d H:i:s T", time());
+				$output .= " Updated record for du_id ";
+				$output .= $this->du_id;
+				$output .= " successfully: unset priority '";
+				$output .= $oldpriority;
+				$output .= "'. Set calc_priority to '" . $this->calc_priority . "'. \n";
+				fwrite($log, $output, 256);
+			}	
+		} else {
+			// no priority to unset
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " No priority to unset for du_id ";
+			$output .= $this->du_id . ".\n";
+			fwrite($log, $output, 256);
+	}
+		
 	}
 
 
