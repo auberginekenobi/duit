@@ -3,8 +3,8 @@
 /**
  * Class du
  *
- * Holds protected information for each du in database as individual PHP object
- * with particular object functions for access and modification
+ * Holds properties about each du in database as individual PHP object
+ * with methods defined for accessing and modifying the properties
  */
 class du {
 
@@ -76,7 +76,7 @@ class du {
 			$this->du_tags             = ($du_tags)                    ? explode(", ", $du_tags) :
 			                                                             NULL; // Explode, if tags exist
 
-			// Calculation of tag priority follows the flow below:
+			// Calculation of overall du priority follows the flow below:
 			// If du_enforce_priority is TRUE  --> calc_priority = du_priority
 			// If du_enforce_priority is FALSE --> calc_priority = min(tag_priorities) or 4 if tag_priorities is NULL
 			$this->calc_priority       = ($this->du_enforce_priority)  ? $this->du_priority :
@@ -197,12 +197,15 @@ class du {
 	/**
 	 * Function setName
 	 *
-	 * @todo  update this function description
+	 * Sets or updates the name of a du at both object- and db-levels and logs
+	 * any changes.
+	 * 
 	 * @param [string] $du_name The new name to give the du
 	 * @global [$log | The open log file]
 	 */
 	public function setName($du_name) {
 		global $log;
+		// Remember old name, if there was one originally
 		$oldname = ($this->du_name) ? $this->du_name : NULL;
 		$this->du_name = $du_name;
 		$updateQuery = "
@@ -234,25 +237,28 @@ class du {
 	/**
 	 * Function setDate
 	 *
-	 * @todo  update this function description
-	 * @param [string] $date The new date to link to a du, formatted as "YYYY-MM-DD" 
+	 * Sets or updates the date linked to a du at both object- and db-levels and
+	 * logs any changes.
+	 * 
+	 * @param [string] $date The new date to link to a du, formatted as "YYYY-MM-DD"
 	 * @global [$log | The open log file]
 	 */
 	public function setDate($date) {
 
 		global $log;
+		// Remember old date, if there was one originally
 		$olddate = ($this->du_has_date) ? substr($this->du_time_start, 0, 10) : NULL;
 		$justdate = $date;
 
-		// unset other date-related properties, if they were set
+		// Unset other date-related properties, if they were set
 		$this->unsetDeadline();
 		$this->unsetDuration();
 
-		// mark that this du has a date, if it didn't have one already
+		// Mark that this du has a date, if it didn't have one already
 		$this->du_has_date = TRUE;
-		// append meaningless time to inputted date
+		// Append meaningless time to inputted date
 		$date .= " 00:00:00";
-		// store date in time_start field
+		// Store date in time_start field
 		$this->du_time_start = $date;
 		$updateQuery = "
 			UPDATE dus 
@@ -275,21 +281,21 @@ class du {
 	/**
 	 * Function unsetDate
 	 *
-	 * Unsets the date from a du if one was originally present. Function sets du
-	 * property du_time_start to NULL as opposed to using unset(du_time_start)
-	 * in order to maintain du_time_start as a valid variable.
+	 * Unsets the date linked to a du at both object- and db-levels, if one was
+	 * originally present, and logs any changes. Function sets du property
+	 * du_time_start to NULL as opposed to using unset(du_time_start) in order
+	 * to maintain du_time_start as a valid variable.
 	 * 
-	 * @todo  update this function description
 	 * @global [$log | The open log file]
 	 */
 	public function unsetDate() {
 		global $log;
-		// if du had a date previously
+		// If du had a date previously
 		if ($this->du_has_date && $this->du_time_start) {
 			$olddate = substr($this->du_time_start, 0, 10);
-			// mark that this du no longer has a date
+			// Mark that this du no longer has a date
 			$this->du_has_date = FALSE;
-			// unset date stored in time_start field
+			// Unset date stored in time_start field
 			$this->du_time_start = NULL;
 			$updateQuery = "
 				UPDATE dus 
@@ -307,7 +313,7 @@ class du {
 				fwrite($log, $output, 256);
 			}
 		} else {
-			// no date to unset
+			// No date to unset
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " No date to unset for du_id ";
 			$output .= $this->du_id . ".\n";
@@ -328,22 +334,26 @@ class du {
 	/**
 	 * Function setDeadline
 	 *
-	 * @todo  update this function description
-	 * @param [string] $deadline The new deadline to link to a du, formatted as "YYYY-MM-DD HH:MM:SS" 
+	 * Sets or updates the deadline linked to a du at both object- and db-levels
+	 * and logs any changes.
+	 * 
+	 * @param [string] $deadline The new deadline to link to a du, formatted as
+	 * "YYYY-MM-DD HH:MM:SS"
 	 * @global [$log | The open log file]
 	 */
 	public function setDeadline($deadline) {
 
 		global $log;
+		// Remember old deadline, if there was one originally
 		$olddeadline = ($this->du_has_deadline) ? $this->du_time_start : NULL;
 
-		// unset other date-related properties, if they were set
+		// Unset other date-related properties, if they were set
 		$this->unsetDate();
 		$this->unsetDuration();
 
-		// mark that this du has a deadline, if it didn't have one already
+		// Mark that this du has a deadline, if it didn't have one already
 		$this->du_has_deadline = TRUE;
-		// store deadline in time_start field
+		// Store deadline in time_start field
 		$this->du_time_start = $deadline;
 		$updateQuery = "
 			UPDATE dus 
@@ -366,17 +376,19 @@ class du {
 	/**
 	 * Function unsetDeadline
 	 *
-	 * @todo  update this function description
+	 * Unsets the deadline linked to a du at both object- and db-levels, if one
+	 * was originally present, and logs any changes.
+	 * 
 	 * @global [$log | The open log file]
 	 */
 	public function unsetDeadline() {
 		global $log;
-		// if du had a deadline previously
+		// If du had a deadline previously
 		if ($this->du_has_deadline && $this->du_time_start) {
 			$olddeadline = $this->du_time_start;
-			// mark that this du no longer has a date
+			// Mark that this du no longer has a date
 			$this->du_has_deadline = FALSE;
-			// unset deadline stored in time_start field
+			// Unset deadline stored in time_start field
 			$this->du_time_start = NULL;
 			$updateQuery = "
 				UPDATE dus 
@@ -394,7 +406,7 @@ class du {
 				fwrite($log, $output, 256);
 			}
 		} else {
-			// no deadline to unset
+			// No deadline to unset
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " No deadline to unset for du_id ";
 			$output .= $this->du_id . ".\n";
@@ -415,24 +427,29 @@ class du {
 	/**
 	 * Function setDuration
 	 *
-	 * @todo  update this function description
-	 * @param [string] $start The new start time to link to a du, formatted as "YYYY-MM-DD HH:MM:SS"
-	 * @param [string] $end   The new end time to link to a du, formatted as "YYYY-MM-DD HH:MM:SS" 
+	 * Sets or updates the duration (start and end time) linked to a du at both
+	 * object- and db-levels and logs any changes.
+	 * 
+	 * @param [string] $start The new start time to link to a du, formatted as
+	 * "YYYY-MM-DD HH:MM:SS"
+	 * @param [string] $end   The new end time to link to a du, formatted as
+	 * "YYYY-MM-DD HH:MM:SS"
 	 * @global [$log | The open log file]
 	 */
 	public function setDuration($start, $end) {
 
 		global $log;
+		// Remember old start and end times, if there were ones originally
 		$oldstart = ($this->du_has_date) ? $this->du_time_start : NULL;
 		$oldend   = ($this->du_has_date) ? $this->du_time_end   : NULL;
 
-		// unset other date-related properties, if they were set
+		// Unset other date-related properties, if they were set
 		$this->unsetDate();
 		$this->unsetDeadline();
 
-		// mark that this du has a duration, if it didn't have one already
+		// Mark that this du has a duration, if it didn't have one already
 		$this->du_has_duration = TRUE;
-		// store start and end times
+		// Store start and end times
 		$this->du_time_start = $start;
 		$this->du_time_end = $end;
 		$updateQuery = "
@@ -458,18 +475,20 @@ class du {
 	/**
 	 * Function unsetDuration
 	 *
-	 * @todo  update this function description
+	 * Unsets the duration (start and end time) linked to a du at both object-
+	 * and db-levels, if one was originally present, and logs any changes.
+	 * 
 	 * @global [$log | The open log file]
 	 */
 	public function unsetDuration() {
 		global $log;
-		// if du had a duration previously
+		// If du had a duration previously
 		if ($this->du_has_duration && $this->du_time_start && $this->du_time_end) {
 			$oldstart = $this->du_time_start;
 			$oldend   = $this->du_time_end;
-			// mark that this du no longer has a duration
+			// Mark that this du no longer has a duration
 			$this->du_has_duration = FALSE;
-			// unset start and end times
+			// Unset start and end times
 			$this->du_time_start = NULL;
 			$this->du_time_end   = NULL;
 			$updateQuery = "
@@ -489,7 +508,7 @@ class du {
 				fwrite($log, $output, 256);
 			}
 		} else {
-			// no deadline to unset
+			// No deadline to unset
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " No duration to unset for du_id ";
 			$output .= $this->du_id . ".\n";
@@ -510,12 +529,16 @@ class du {
 	/**
 	 * Function setTimeStart
 	 *
-	 * @todo  update this function description
-	 * @param [string] $du_time_start The new start time (or deadline) to give a du, formatted as "YYYY-MM-DD HH:MM:SS" 
+	 * Sets or updates the start time of a du at both object- and db-levels and
+	 * logs any changes.
+	 * 
+	 * @param [string] $du_time_start The new start time (or deadline) to give a
+	 * du, formatted as "YYYY-MM-DD HH:MM:SS"
 	 * @global [$log | The open log file]
 	 */
 	public function setTimeStart($du_time_start) {
 		global $log;
+		// Remember old start time, if there was one originally
 		$oldtime = ($this->du_time_start) ? $this->du_time_start : NULL;
 		$this->du_time_start = $du_time_start;
 		$updateQuery = "
@@ -547,12 +570,16 @@ class du {
 	/**
 	 * Function setTimeEnd
 	 *
-	 * @todo  update this function description
-	 * @param [string] $du_time_end The new end time to give a du, formatted as "YYYY-MM-DD HH:MM:SS" 
+	 * Sets or updates the end time of a du at both object- and db-levels and
+	 * logs any changes.
+	 * 
+	 * @param [string] $du_time_end The new end time to give a du, formatted as
+	 * "YYYY-MM-DD HH:MM:SS"
 	 * @global [$log | The open log file]
 	 */
 	public function setTimeEnd($du_time_end) {
 		global $log;
+		// Remember old end time, if there was one originally
 		$oldtime = ($this->du_time_end) ? $this->du_time_end : NULL;
 		$this->du_time_end = $du_time_end;
 		$updateQuery = "
@@ -584,18 +611,29 @@ class du {
 	/**
 	 * Function setDuPriority
 	 *
-	 * @todo  update this function description
-	 * @param [string] $du_priority The new priority to record for the du
+	 * Sets or updates the priority associated with a du at both object- and
+	 * db-levels and logs any changes. As outlined earlier with regards to
+	 * calculating the overall du priority, calc_priority follows a specific
+	 * flow:
+	 * 
+	 * If du_enforce_priority is TRUE --> calc_priority = du_priority
+	 * If du_enforce_priority is FALSE --> calc_priority = min(tag_priorities)
+	 * or 4 if tag_priorities is NULL
+	 * 
+	 * Setting or updating the du priority enforces its priority.
+	 * 
+	 * @param [string] $du_priority The new priority to record and enforce for the du
 	 * @global [$log | The open log file]
 	 */
 	public function setDuPriority($du_priority) {
 		global $log;
+		// Remember old du priority, if there was one originally specified
 		$oldpriority = ($this->du_enforce_priority) ? $this->du_priority : NULL;
 		$oldcalc = $this->calc_priority;
 
-		// mark that this du has a priority, if it didn't have one already
+		// Mark that this du has a priority, if it wasn't already marked
 		$this->du_enforce_priority = TRUE;
-		// store new priority
+		// Store new priority
 		$this->du_priority = intval($du_priority);
 		$this->calc_priority = intval($du_priority);
 		$updateQuery = "
@@ -620,19 +658,28 @@ class du {
 	/**
 	 * Function unsetDuPriority
 	 *
-	 * @todo  update this function description
+	 * Unsets the priority associated with a du at both object- and db-levels
+	 * and logs any changes. As outlined earlier with regards to calculating the
+	 * overall du priority, calc_priority follows a specific flow:
+	 *
+	 * If du_enforce_priority is TRUE --> calc_priority = du_priority
+	 * If du_enforce_priority is FALSE --> calc_priority = min(tag_priorities)
+	 * or 4 if tag_priorities is NULL
+	 *
+	 * Unsetting the du priority un-enforces its priority.
+	 * 
 	 * @global [$log | The open log file]
 	 */
 	public function unsetDuPriority() {
 		global $log;
-		// if du had a priority previously
+		// If du had a priority previously
 		if ($this->du_enforce_priority) {
 			$oldpriority = $this->du_priority;
-			// mark that this du no longer has a priority
+			// Mark that this du no longer has a priority
 			$this->du_enforce_priority = FALSE;
-			// reset du priority to default
+			// Reset du priority to default
 			$this->du_priority = 4;
-			// reset calc_priority
+			// Reset calc_priority
 			$this->calc_priority = ($this->tag_priorities) ? min($this->tag_priorities) : 
 						                                     4;
 			$updateQuery = "
@@ -652,7 +699,7 @@ class du {
 				fwrite($log, $output, 256);
 			}	
 		} else {
-			// no priority to unset
+			// No priority to unset
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " No priority to unset for du_id ";
 			$output .= $this->du_id . ".\n";
@@ -674,12 +721,15 @@ class du {
 	/**
 	 * Function setNote
 	 *
-	 * @todo  update this function description
+	 * Sets or updates the note of a du at both object- and db-levels and logs
+	 * any changes.
+	 * 
 	 * @param [string] $du_note The new note to record for the du
 	 * @global [$log | The open log file]
 	 */
 	public function setNote($du_note) {
 		global $log;
+		// Remember old note, if there was one originally
 		$oldnote = ($this->du_note) ? $this->du_note : NULL;
 		$this->du_note = $du_note;
 		$updateQuery = "
