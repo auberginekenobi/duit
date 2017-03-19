@@ -280,14 +280,19 @@ function displayAsTable($duArray) {
  * 
  * @param [array(string => various)] $parameters Array of parameters specifying
  * the properties to be used on the new du. Parameter 'du_name' => 'name' is the
- * only mandatory parameter. All parameters should be specified in the array as
+ * only mandatory property. All parameters should be specified in the array as
  * 'field_name' => field_value.
  * @param [array(du)]                $duArray Array of du objects to take new du
  * @global [$log | The open log file]
+ * @return [array] $duArray with the new du element added
  */
-function addDu($parameters, $duArray) {
+function addDu($parameters, $duArray = NULL) {
 
 	global $log;
+
+	// If duArray is not specified, add it to array of all du's
+	$duArray = ($duArray) ?: $GLOBALS['all'];
+	$isAll = ($duArray) ? false : true;
 
 	// Record add call
 	$addAlert      = date("Y-m-d H:i:s T", time()) . " ";
@@ -329,8 +334,6 @@ function addDu($parameters, $duArray) {
 
 	// Store du in array at key that is du_id
 	$duArray[$du_id] = $newDu;
-	// Push the new du and its properties to the database
-	// $duArray[$du_id]->addToDB();
 
 	if ($duArray[$du_id] === false) {
 	    // Handle error
@@ -340,7 +343,15 @@ function addDu($parameters, $duArray) {
 		// Write to log file and kill process
 		fwrite($log, $output, 2048);
 	    exit($output);
+	} else {
+		// Record success
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Added new du to " . (($isAll) ? "\$all" : "duArray") . ".\n";
+		fwrite($log, $output, 2048);
 	}
+
+	// Push the new du and its properties to the database
+	// $duArray[$du_id]->addToDB();
 
 	// Done
 	return $duArray;
@@ -350,8 +361,16 @@ function addDu($parameters, $duArray) {
 /**
  * Function preprocess
  *
- * 
+ * Fills in unspecified properties of $parameters array and handles bad or
+ * misformatted inputs. See individual fields for more detailed information on
+ * how they are preprocessed.
+ *
+ * @param [array(string => various)] $parameters Array of parameters specifying
+ * the properties to be used on the new du. Parameter 'du_name' => 'name' is the
+ * only mandatory property. All parameters should be specified in the array as
+ * 'field_name' => field_value.
  * @global [$log | The open log file]
+ * @return [array(string => various)] Preprocessed array of parameters
  */
 function preprocess($parameters) {
 
@@ -524,7 +543,22 @@ function preprocess($parameters) {
 }
 
 
-function deleteDu($id, $duArray) {
+/**
+ * Function deleteDu
+ *
+ * Deletes the du of a specified du_id at both object- and db-levels.
+ * 
+ * @param [int]       $id      Id of du to be removed
+ * @param [array(du)] $duArray Array of du objects to take new du
+ * @global [$log | The open log file]
+ * @return [array] $duArray with the specified du element removed
+ */
+function deleteDu($id, $duArray = NULL) {
+
+	global $log;
+
+	// If duArray is not specified, delete it from array of all du's
+	$duArray = ($duArray) ?: $GLOBALS['all'];
 
 	$duArray[$id]->deleteFromDB();
 	unset($duArray[$id]);
@@ -534,7 +568,7 @@ function deleteDu($id, $duArray) {
 
 }
 
-
+// Get du class object definitions
 require("du-class.php");
 
 
@@ -548,14 +582,14 @@ $all = getAll();
 displayAsTable($all);
 
 $parameters = array('du_name' => 'Take out the trash', 'du_has_date' => 1, 'du_time_start' => '2017-03-30');
-$all = addDu($parameters, $all);
+$all = addDu($parameters);
 
 // $all[1]->unsetDuPriority();
 // $all[3]->unsetNote();
 
 displayAsTable($all);
 
-// $all = deleteDu(6, $all);
+$all = deleteDu(5);
 
 displayAsTable($all);
 
