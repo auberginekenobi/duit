@@ -21,7 +21,8 @@ Kelli's notes for db-mapper/kelli branch. Contains references, issues, plans, et
 ```
 
 ### Todo
-1. update other setThing methods with if (oldvalue) // du-class.php 
-2. create addDu, editDu function // db-mapper.php
-3. make tag class
-4. make status class
+1. update other setThing methods with if (oldvalue) // du-class.php
+2. update setThing descriptions 
+3. create addDu, editDu function // db-mapper.php
+4. make tag class
+5. make status class
