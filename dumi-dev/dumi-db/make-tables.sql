@@ -37,7 +37,7 @@ CREATE TABLE Tags (
   -- Identifier: tag id
   tag_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   -- Name of tag, required
-  tag_name VARCHAR(24) NOT NULL,
+  tag_name VARCHAR(24) UNIQUE NOT NULL,
   -- Priority will take a value between 1 and 4 where 1 is most critical, optional (defaults to 4 if unspecified)
   tag_priority INT NOT NULL DEFAULT 4,
   -- Longer description of tag, optional
@@ -71,7 +71,7 @@ CREATE TABLE Statuses (
 -- SAMPLE DATA
 
 INSERT INTO Dus (du_name, du_priority)
-  VALUES ('Buy groceries', 2),
+  VALUES ('Buy groceries', 4),
     ('Reserve campground', 4);
 INSERT INTO Dus (du_name, du_has_duration, du_time_start, du_time_end, du_priority, du_note)
   VALUES ('Cook dinner', TRUE, '2016-03-14 17:00:00', '2016-03-14 18:00:00', 4, 'Make it extra yummy');
@@ -79,10 +79,10 @@ INSERT INTO Dus (du_name, du_has_deadline, du_time_start, du_priority, du_note)
   VALUES ('Study for test', TRUE, '2016-03-15 13:00:00', 1, 'Tbh you\'ll probably fail tho');
 
 INSERT INTO Tags (tag_name)
-  VALUES ('food'),
-    ('errands');
+  VALUES ('food');
 INSERT INTO Tags (tag_name, tag_priority)
-  VALUES ('spanish', 3);
+  VALUES ('spanish', 3),
+         ('errands', 3);
 
 INSERT INTO Du_Tag_Pairs (du_id, tag_id)
   VALUES (1, 1),
