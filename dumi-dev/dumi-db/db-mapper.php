@@ -90,11 +90,12 @@ function connect() {
  * Queries the database for a given SQL statement and returns the result,
  * recording any information about the success or failure of the query.
  * 
- * @param  [string] $query The SQL query statement as a string
+ * @param  [string] $query    The SQL query statement as a string
+ * @param  [string] $function *OPTIONAL* The name of the function executing the query
  * @global [$log | The open log file]
  * @return [object(mysqli_result)] The result of the query       
  */
-function query($query) {
+function query($query, $function = NULL) {
 
 	global $log;
 
@@ -106,8 +107,9 @@ function query($query) {
 
     if ($result === false) {
     	// Handle error
-    	$output  = date("Y-m-d H:i:s T", time());
-    	$output .= " Unable to perform query \"";
+    	$output  = date("Y-m-d H:i:s T", time()) . " ";
+    	$output .= ($function) ? $function . " was u" : "U"; 
+    	$output .= "nable to perform query \"";
     	$output .= $query . "\". ";
 		$output .= mysqli_errno($connection) . ": " . mysqli_error($connection) . "\n";
 		// Write to log file and kill process
@@ -116,8 +118,9 @@ function query($query) {
     }
 
     // Record successful query
-    $success  = date("Y-m-d H:i:s T", time());
-    $success .= " Performed query: " . $query . ".\n";
+    $success  = date("Y-m-d H:i:s T", time()) . " ";
+    $success .= ($function) ? $function . " p" : "P";
+    $success .= "erformed query: " . $query . ".\n";
     fwrite($log, $success, 4096);
 
     // Done
@@ -189,7 +192,7 @@ function getAll() {
 	ORDER  BY du_id ASC";
 
 	// Query the database for all du's
-	$result = query($queryStatement);
+	$result = query($queryStatement, "getAll()");
 
 	// While there is another non-null row of the query result
     while ($currRow = $result->fetch_assoc()) {
@@ -271,5 +274,7 @@ displayAsTable($all);
 $all[1]->unsetDuPriority();
 
 displayAsTable($all);
+
+$all[1]->setDuPriority("4");
 
 ?>
