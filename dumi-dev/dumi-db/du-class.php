@@ -9,17 +9,20 @@
 class du {
 
 	// Protected properties of du
-	protected $du_id;		    // [string]  The du's du_id
-	protected $du_timestamp;    // [string]  The timestamp recorded for the du
-	protected $du_name;         // [string]  The name recorded for the du
-	protected $du_has_date;     // [boolean] If the du is linked to a date
-	protected $du_has_deadline; // [boolean] If the du is linked to a deadline
-	protected $du_has_duration; // [boolean] If the du is linked to a start and end time
-	protected $du_time_start;   // [string]  Deadline or start time of the du, if it has one
-	protected $du_time_end;     // [string]  End time of the du, if it has one
-	protected $calc_priority;   // [int]     Priority recorded for the du, leveraged by tag priority
-	protected $du_note;         // [string]  The note recorded for the du
-	protected $du_tags;         // [array]   Tags recorded for the du
+	protected $du_id;		        // [string]          The du's du_id
+	protected $du_timestamp;        // [string]          The timestamp recorded for the du
+	protected $du_name;             // [string]          The name recorded for the du
+	protected $du_has_date;         // [boolean]         If the du is linked to a date
+	protected $du_has_deadline;     // [boolean]         If the du is linked to a deadline
+	protected $du_has_duration;     // [boolean]         If the du is linked to a start and end time
+	protected $du_time_start;       // [string]          Deadline or start time of the du, if it has one
+	protected $du_time_end;         // [string]          End time of the du, if it has one
+	protected $du_priority;         // [int]             Priority recorded for the du
+	protected $du_enforce_priority; // [boolean]         If the du has been set to a priority
+	protected $tag_priorities;      // [array(int)]      Priorities specifications for each tag recorded for the du
+	protected $calc_priority;       // [int]             Priority calculated for the du; see setting of $calc_priority for more detailed information
+	protected $du_note;             // [string]          The note recorded for the du
+	protected $du_tags;             // [array(string)]   Tags recorded for the du
 
 
 	/**
@@ -35,35 +38,51 @@ class du {
 	 * Accomplishes main constructional tasks of creating a du by assigning
 	 * values to all du properties at once
 	 * 
-	 * @param [string] $du_id           The du's du_id
-	 * @param [string] $du_timestamp    The timestamp recorded for the du
-	 * @param [string] $du_name         The name recorded for the du
-	 * @param [string] $du_has_date     "0" if the du is not linked to a date, "1" if the du is
-	 * @param [string] $du_has_deadline "0" if the du is not linked to a deadline, "1" if the du is
-	 * @param [string] $du_has_duration "0" if the du is not linked to a start and end time, "1" if the du is
-	 * @param [string] $du_time_start   Deadline or start time of the du, if it has one
-	 * @param [string] $du_time_end     End time of the du, if it has one
-	 * @param [string] $du_priority     Priority recorded for the du
-	 * @param [string] $calc_priority   Priority recorded for the du, leveraged by tag priorities
-	 * @param [string] $du_note         The note recorded for the du
-	 * @param [string] $du_tags         Tags recorded for the du as a string, tags separated by ", "
+	 * @param [string] $du_id                 The du's du_id
+	 * @param [string] $du_timestamp          The timestamp recorded for the du
+	 * @param [string] $du_name               The name recorded for the du
+	 * @param [string] $du_has_date           "0" if the du is not linked to a date, "1" if the du is
+	 * @param [string] $du_has_deadline       "0" if the du is not linked to a deadline, "1" if the du is
+	 * @param [string] $du_has_duration       "0" if the du is not linked to a start and end time, "1" if the du is
+	 * @param [string] $du_time_start         Deadline or start time of the du, if it has one
+	 * @param [string] $du_time_end           End time of the du, if it has one
+	 * @param [string] $du_priority           Priority recorded for the du
+	 * @param [string] $du_enforce_priority   "0" if the du is not given a priority, "1" if the du is
+	 * @param [string] $tag_priorities        Priority specifications for each tag recorded for the du as a string, entries separated by ", ""
+	 * @param [string] $du_note               The note recorded for the du
+	 * @param [string] $du_tags               Tags recorded for the du as a string, entries separated by ", "
 	 */
-	public function setDuFields($du_id, $du_timestamp, $du_name, $du_has_date, $du_has_deadline, $du_has_duration, $du_time_start, $du_time_end, $du_priority, $calc_priority, $du_note, $du_tags) {
+	public function setDuFields($du_id, $du_timestamp, $du_name, $du_has_date, $du_has_deadline, $du_has_duration, $du_time_start, $du_time_end, $du_priority, $du_enforce_priority, $tag_priorities, $du_note, $du_tags) {
 
 		try {
 			// Instantiate parameters as object's properties
-			$this->du_id           = $du_id;
-			$this->du_timestamp    = $du_timestamp;
-			$this->du_name         = $du_name;
-			$this->du_has_date     = ($du_has_date == "0") ? FALSE : TRUE; // Convert to corresponding boolean
-			$this->du_has_deadline = ($du_has_deadline == "0") ? FALSE : TRUE; // Convert to corresponding boolean
-			$this->du_has_duration = ($du_has_duration == "0") ? FALSE : TRUE; // Convert to corresponding boolean
-			$this->du_time_start   = $du_time_start;
-			$this->du_time_end     = $du_time_end;
-			$this->du_priority     = $du_priority;
-			$this->calc_priority   = intval($calc_priority); // Conver to int
-			$this->du_note         = $du_note;
-			$this->du_tags         = explode(", ", $du_tags);
+			$this->du_id               = $du_id;
+			$this->du_timestamp        = $du_timestamp;
+			$this->du_name             = $du_name;
+			$this->du_has_date         = ($du_has_date == "0")         ? FALSE :
+																         TRUE; // Convert to corresponding boolean
+			$this->du_has_deadline     = ($du_has_deadline == "0")     ? FALSE : 
+																	     TRUE; // Convert to corresponding boolean
+			$this->du_has_duration     = ($du_has_duration == "0")     ? FALSE : 
+																	     TRUE; // Convert to corresponding boolean
+			$this->du_time_start       = $du_time_start;
+			$this->du_time_end         = $du_time_end;
+			$this->du_priority         = intval($du_priority); // Convert to int
+			$this->du_enforce_priority = ($du_enforce_priority == "0") ? FALSE :
+			                                                             TRUE; // Convert to corresponding boolean
+			$this->tag_priorities      = ($tag_priorities)             ? array_map('intval', explode(", ", $tag_priorities)) : 
+															             NULL; // Explode and convert to ints, if tag priorities exist
+			$this->du_note             = $du_note;
+			$this->du_tags             = ($du_tags)                    ? explode(", ", $du_tags) :
+			                                                             NULL; // Explode, if tags exist
+
+			// Calculation of tag priority follows the flow below:
+			// If du_enforce_priority is TRUE  --> calc_priority = du_priority
+			// If du_enforce_priority is FALSE --> calc_priority = min(tag_priorities) or 4 if tag_priorities is NULL
+			$this->calc_priority       = ($this->du_enforce_priority)  ? $this->du_priority :
+			                                                             (($this->tag_priorities) ? min($this->tag_priorities) : 
+			                                                             	                        4);
+
 		} catch (Exception $e) {
 			// Handle exception
 			$output  = "Tried to setDuFields, caught exception: ";
@@ -96,15 +115,18 @@ class du {
 		$addHeaders .= "<th>du_time_start</th>";
 		$addHeaders .= "<th>du_time_end</th>";		
 		$addHeaders .= "<th>du_priority</th>";
+		$addHeaders .= "<th>du_enforce_priority</th>";
+		$addHeaders .= "<th>tag_priorities</th>";
 		$addHeaders .= "<th>calc_priority</th>";
 		$addHeaders .= "<th>du_note</th>";
 		$addHeaders .= "<th>du_tags</th></tr>";
 		// If request for du headers
 		$output   = ($headers) ? $addHeaders : "";
 		// Convert booleans to strings
-		$date     = ($this->du_has_date) ? "TRUE" : "FALSE";
-		$deadline = ($this->du_has_deadline) ? "TRUE" : "FALSE";
-		$duration = ($this->du_has_duration) ? "TRUE" : "FALSE";
+		$date     = ($this->du_has_date)         ? "TRUE" : "FALSE";
+		$deadline = ($this->du_has_deadline)     ? "TRUE" : "FALSE";
+		$duration = ($this->du_has_duration)     ? "TRUE" : "FALSE";
+		$priority = ($this->du_enforce_priority) ? "TRUE" : "FALSE";
 		// Add each cell
 		$output .= "<tr><td>" . $this->du_id . "</td>";
 		$output .= "<td>" . $this->du_timestamp . "</td>";
@@ -114,10 +136,14 @@ class du {
 		$output .= "<td>" . $duration . "</td>";
 		$output .= "<td>" . $this->du_time_start . "</td>";
 		$output .= "<td>" . $this->du_time_end . "</td>";
-		$output .= "<td>" . $this->du_priority . "</td>";
+		$output .= "<td>" . $this->du_priority . "</td>";		
+		$output .= "<td>" . $priority . "</td>";
+		$output .= "<td>" . (($this->tag_priorities) ? implode(", ", $this->tag_priorities) : 
+			                                           "" ) . "</td>";
 		$output .= "<td>" . $this->calc_priority . "</td>";
 		$output .= "<td>" . $this->du_note . "</td>";
-		$output .= "<td>" . implode(", ", $this->du_tags) . "</td></tr>";
+		$output .= "<td>" . (($this->du_tags)        ? implode(", ", $this->du_tags) :
+			                                           "") . "</td></tr>";
 
 		// Done
 		return $output;
