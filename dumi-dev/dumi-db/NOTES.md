@@ -21,17 +21,6 @@ Kelli's notes for db-mapper/kelli branch. Contains references, issues, plans, et
 ```
 
 ### Todo
-1. update setThing descriptions // db-class.php
-2. create addDu, editDu function // db-mapper.php
-3. make tag class
-4. make status class
-
-public function setDuPriority($du_priority) {
-	global $log;
-	$olddate = ($this->du_has_date) ? substr($this->du_time_start, 0, 10) : NULL;
-	if (query($updateQuery, "setDuPriority()") === TRUE) {
-		$output .= $this->du_id . " successfully: ";
-		$output .= ($olddate) ? "changed date from '" . $olddate . "' to '" . $justdate . "'.\n" :
-							    "linked date '" . $justdate . "'.\n";
-	}
-}
+1. create addDu, editDu function // db-mapper.php
+2. make tag class
+3. make status class
