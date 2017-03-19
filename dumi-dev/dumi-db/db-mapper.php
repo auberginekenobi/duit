@@ -550,7 +550,7 @@ function preprocess($parameters) {
  * Deletes the du of a specified du_id at both object- and db-levels.
  * 
  * @param [int]       $id      Id of du to be removed
- * @param [array(du)] $duArray Array of du objects to take new du
+ * @param [array(du)] $duArray Array of du objects to delete du from
  * @global [$log | The open log file]
  * @return [array] $duArray with the specified du element removed
  */
