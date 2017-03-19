@@ -125,7 +125,7 @@ function query($query, $function = NULL) {
     // Record successful query
     $success  = date("Y-m-d H:i:s T", time()) . " ";
     $success .= ($function) ? $function . " p" : "P";
-    $success .= "erformed query: " . $query . ".\n";
+    $success .= "erformed query: " . $query . "\n";
     fwrite($log, $success, 4096);
 
     // Done
