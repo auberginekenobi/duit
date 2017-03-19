@@ -19,10 +19,15 @@
  *
  * Sets up log file and records new instance of loading.
  * db-mapper.php
- * 
+ *
+ * @param [boolean] $clearContents Specify whether or not to clear the current
+ * contents of the log file
  * @return [resource(file stream)] The open log file
  */
-function openLogFile() {
+function openLogFile($clearContents = false) {
+
+	// Clear log file, if specified to
+	if ($clearContents) file_put_contents("db-history.log", "");
 
 	// Open log file for write only (existing data preserved, file pointer
 	// starts at end of file)
@@ -523,7 +528,7 @@ require("du-class.php");
 
 
 // Main executions
-$log = openLogFile();
+$log = openLogFile(true);
 $all = getAll();
 
 // Testing Example
