@@ -167,14 +167,35 @@ class du {
  * Adds du to the database if there is not already an entry at its du_id. NOTE:
  * This should only be used to add NEW du's to the database, never to update
  * existing du's.
- * 
- * @todo make function
+ *
+ * @todo finish conditions
+ * @global [$log | The open log file]
  * @return void
  */
 	public function addToDB() {
+
+		global $log;
+
 		// if entry does not already exist for du_id
 			// add it	
 		// else log could not add
+		
+		// Reset dus auto-incrementer in case of deletions to ensure proper
+		// du_id is recorded
+		$resetValQuery    = "
+			SELECT MAX(du_id)
+			FROM   dus"
+		;
+		$resetValResult   = query($resetValQuery, "addToDB()");
+		// Get actual value of max du_id
+		$resetVal         = $resetValResult->fetch_array()[0];
+		// Reset
+		$resetQuery       = "
+			ALTER TABLE dus auto_increment = " . ($resetVal + 1)
+		;
+		query($resetQuery, "addToDB()");
+
+		// Insert where
 		$insertQuery  = "
 			INSERT INTO dus
 						(du_name";
@@ -192,8 +213,10 @@ class du {
 						 du_priority,
 						 du_enforce_priority" : "";
 		$insertQuery .= ($this->du_note) ? ",
-						 du_note)" : ")";
+						 du_note)" : ")"
+		;
 
+		// Insert what
 		$insertQuery .= "
 			VALUES ('" . $this->du_name . "'";
 		$insertQuery .= ($this->du_has_date) ? ",
@@ -210,15 +233,28 @@ class du {
 						 " . $this->du_priority . ",
 						 1" : "";
 		$insertQuery .= ($this->du_note) ? ",
-						 '" . $this->du_note . "')" : ");";
+						 '" . $this->du_note . "')" : ");"
+		;
 
 		query($insertQuery, "addToDB()");
+
+		// Record success
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Added new du to database.\n";
+		fwrite($log, $output, 2048);
 
 		// if du_id inserted at =/= du_id in array, print warning and change array one
 	}
 
 
+	/**
+	 * [deleteFromDB description]
+	 * @return [type] [description]
+	 * @global [$log | The open log file]
+	 */
 	public function deleteFromDB() {
+
+		global $log;
 
 		$deleteQuery = "
 			DELETE FROM dus
@@ -226,6 +262,12 @@ class du {
 			;
 
 		query($deleteQuery, "deleteFromDB()");
+
+		// Record success
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Deleted du with du_id of '";
+		$output .= $this->du_id . "' from database.\n";
+		fwrite($log, $output, 2048);
 
 	}
 
