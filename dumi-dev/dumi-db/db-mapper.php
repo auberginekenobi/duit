@@ -117,8 +117,8 @@ function query($query) {
 
     // Record successful query
     $success  = date("Y-m-d H:i:s T", time());
-    $success .= " Performed query \"" . $query . "\".\n";
-    fwrite($log, $success, 256);
+    $success .= " Performed query: " . $query . ".\n";
+    fwrite($log, $success, 4096);
 
     // Done
     return $result;
@@ -141,7 +141,8 @@ function getAll() {
 	$all = array();
 
 	// Query statement for large, formatted table
-	$queryStatement = "SELECT du_id, 
+	$queryStatement = "
+	SELECT du_id, 
 	       du_timestamp, 
 	       du_name, 
 	       du_has_date, 
@@ -185,7 +186,7 @@ function getAll() {
 	               LEFT JOIN statuses AS u 
 	                      ON d.du_id = u.du_id) AS subq 
 	GROUP  BY du_name 
-	ORDER  BY du_id ASC ";
+	ORDER  BY du_id ASC";
 
 	// Query the database for all du's
 	$result = query($queryStatement);
@@ -262,11 +263,12 @@ $all = getAll();
 
 // Testing
 
-$all[1]->setDuration("2016-03-17 13:30:00", "2016-03-17 14:30:00");
+
+$all[1]->setDuPriority("4");
 
 displayAsTable($all);
 
-$all[1]->unsetDuration();
+$all[1]->unsetDuPriority();
 
 displayAsTable($all);
 
