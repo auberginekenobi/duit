@@ -256,6 +256,104 @@ function displayAsTable($duArray) {
 
 }
 
+
+function addDu($parameters, $duArray) {
+
+	// Create a new du
+	$newDu = new du();
+
+	// Get new ID for the du by adding 1 to the last ID used in the array
+	end($duArray);
+	$du_id = key($duArray) + 1;
+
+	// Preprocess $parameters array
+	$p = $parameters;
+	$p['du_id'] = $du_id;
+	$p['du_timestamp'] = date("Y-m-d H:i:s", time());
+	if (!isset($p['du_name'])) {
+	    // Name is only required field -- handle erroneous input
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new du: no name found specified in input. Input was:\n";
+		$output .= var_export($parameters, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	}
+	if (!isset($p['du_has_date'])) {
+		$p['du_has_date'] = 0;
+	}
+	if (!isset($p['du_has_deadline'])) {
+		$p['du_has_deadline'] = 0;
+	}
+	if (!isset($p['du_has_duration'])) {
+		$p['du_has_duration'] = 0;
+	}
+	if (!isset($p['du_time_start'])) {
+		$p['du_time_start'] = NULL;
+	}
+	if (!isset($p['du_time_end'])) {
+		$p['du_time_end'] = NULL;
+	}
+	if (!isset($p['du_priority'])) {
+		$p['du_enforce_priority'] = 0;
+		$p['du_priority'] = 4;
+	} else {
+		$p['du_enforce_priority'] = 1;
+	}
+	if (!isset($p['tag_priorities'])) {
+		$p['tag_priorities'] = NULL;
+	}
+	if (!isset($p['du_note'])) {
+		$p['du_note'] = NULL;
+	}
+	if (!isset($p['du_tags'])) {
+		$p['du_tags'] = NULL;
+	}
+
+	// Fill fields of du to match parameter inputs
+	$newDu->setDuFields($p['du_id'],
+						$p['du_timestamp'],
+						$p['du_name'],
+						$p['du_has_date'],
+						$p['du_has_deadline'],
+						$p['du_has_duration'],
+						$p['du_time_start'],
+						$p['du_time_end'],
+						$p['du_priority'],
+						$p['du_enforce_priority'],
+						$p['tag_priorities'],
+						$p['du_note'],
+						$p['du_tags']);
+
+	// Store du in array at key that is du_id
+	$duArray[$du_id] = $newDu;
+
+	if ($duArray[$du_id] === false) {
+	    // Handle error
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new du to duArray. Current state of $newDu is\n";
+		$output .= var_export($newDu, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	}
+
+	// Done
+	return $duArray;
+
+}
+
+
+function deleteDu($id, $duArray) {
+
+	unset($duArray[$id]);
+
+	// Done
+	return $duArray;
+	
+}
+
+
 require("du-class.php");
 
 
@@ -266,12 +364,18 @@ $all = getAll();
 
 // Testing Example
 
-// displayAsTable($all);
+displayAsTable($all);
+
+$all = addDu(array('du_name' => 'Take out the trash'), $all);
 
 // $all[1]->unsetDuPriority();
 // $all[3]->unsetNote();
 
-// displayAsTable($all);
+displayAsTable($all);
+
+$all = deleteDu(5, $all);
+
+displayAsTable($all);
 
 // $all[1]->setDuPriority("4");
 // $all[3]->setNote("Make it extra yummy");
