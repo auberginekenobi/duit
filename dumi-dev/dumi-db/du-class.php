@@ -175,6 +175,57 @@ class du {
 		// if entry does not already exist for du_id
 			// add it	
 		// else log could not add
+		$insertQuery  = "
+			INSERT INTO dus
+						(du_name";
+		$insertQuery .= ($this->du_has_date) ? ",
+						 du_has_date" : "";
+		$insertQuery .= ($this->du_has_deadline) ? ",
+						 du_has_deadline" : "";
+		$insertQuery .= ($this->du_has_duration) ? ",
+						 du_has_duration" : "";
+		$insertQuery .= ($this->du_time_start) ? ",
+						 du_time_start" : "";
+		$insertQuery .= ($this->du_time_end) ? ",
+						 du_time_end" : "";
+		$insertQuery .= ($this->du_enforce_priority) ? ",
+						 du_priority,
+						 du_enforce_priority" : "";
+		$insertQuery .= ($this->du_note) ? ",
+						 du_note)" : ")";
+
+		$insertQuery .= "
+			VALUES ('" . $this->du_name . "'";
+		$insertQuery .= ($this->du_has_date) ? ",
+						 1" : "";
+		$insertQuery .= ($this->du_has_deadline) ? ",
+						 1" : "";
+		$insertQuery .= ($this->du_has_duration) ? ",
+						 1" : "";
+		$insertQuery .= ($this->du_time_start) ? ",
+						 '" . $this->du_time_start . "'" : "";
+		$insertQuery .= ($this->du_time_end) ? ",
+						 '" . $this->du_time_end . "'" : "";
+		$insertQuery .= ($this->du_enforce_priority) ? ",
+						 " . $this->du_priority . ",
+						 1" : "";
+		$insertQuery .= ($this->du_note) ? ",
+						 '" . $this->du_note . "')" : ");";
+
+		query($insertQuery, "addToDB()");
+
+		// if du_id inserted at =/= du_id in array, print warning and change array one
+	}
+
+
+	public function deleteFromDB() {
+
+		$deleteQuery = "
+			DELETE FROM dus
+			WHERE du_id   = '" . $this->du_id . "'"
+			;
+
+		query($deleteQuery, "deleteFromDB()");
 
 	}
 
