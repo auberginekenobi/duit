@@ -24,3 +24,4 @@ Kelli's notes for db-mapper/kelli branch. Contains references, issues, plans, et
 1. create addDu, editDu function // db-mapper.php
 2. make tag class
 3. make status class
+4. investigate timestamps
