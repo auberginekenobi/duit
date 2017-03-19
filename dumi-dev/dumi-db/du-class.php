@@ -52,7 +52,19 @@ class du {
 	 * @param [string] $du_note               The note recorded for the du
 	 * @param [string] $du_tags               Tags recorded for the du as a string, entries separated by ", "
 	 */
-	public function setDuFields($du_id, $du_timestamp, $du_name, $du_has_date, $du_has_deadline, $du_has_duration, $du_time_start, $du_time_end, $du_priority, $du_enforce_priority, $tag_priorities, $du_note, $du_tags) {
+	public function setDuFields($du_id,
+								$du_timestamp,
+								$du_name,
+								$du_has_date,
+								$du_has_deadline,
+								$du_has_duration,
+								$du_time_start,
+								$du_time_end,
+								$du_priority,
+								$du_enforce_priority,
+								$tag_priorities,
+								$du_note,
+								$du_tags) {
 
 		try {
 			// Instantiate parameters as object's properties
@@ -424,7 +436,7 @@ class du {
 
 	/**
 	 * Function hasDuration
-	 * @return [boolean] If the du is linked to start and end time
+	 * @return [boolean] If the du is linked to a start and end time
 	 */
 	public function hasDuration() {
 		return $this->du_has_duration;
@@ -527,6 +539,15 @@ class du {
 
 
 	/**
+	 * Function hasTimeStart
+	 * @return [boolean] If the du is linked to a start time
+	 */
+	public function hasTimeStart() {
+		return isset($this->du_time_start);
+	}
+
+
+	/**
 	 * Function getTimeStart
 	 * @return [string] Deadline or start time of the du, if it has one
 	 */
@@ -571,6 +592,15 @@ class du {
 
 
 	/**
+	 * Function hasTimeEnd
+	 * @return [boolean] If the du is linked to an end time
+	 */
+	public function hasTimeEnd() {
+		return isset($this->du_time_start);
+	}
+
+
+	/**
 	 * Function getTimeEnd
 	 * @return [string] End time of the du, if it has one
 	 */
@@ -610,6 +640,15 @@ class du {
 								    "set time_start to '" . $du_time_end . "'.\n";
 			fwrite($log, $output, 256);
 		}
+	}
+
+
+	/**
+	 * Function hasPriority
+	 * @return [boolean] If the du is associated with (and enforces) a priority
+	 */
+	public function hasDuPriority() {
+		return $this->du_enforce_priority;
 	}
 
 
@@ -720,8 +759,17 @@ class du {
 			$output .= " No priority to unset for du_id ";
 			$output .= $this->du_id . ".\n";
 			fwrite($log, $output, 256);
-	}
+		}
 		
+	}
+
+
+	/**
+	 * Function hasNote
+	 * @return [boolean] If the du is linked to note
+	 */
+	public function hasNote() {
+		return isset($this->du_note);
 	}
 
 
