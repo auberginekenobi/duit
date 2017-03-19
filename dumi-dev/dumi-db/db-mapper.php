@@ -291,8 +291,8 @@ function addDu($parameters, $duArray = NULL) {
 	global $log;
 
 	// If duArray is not specified, add it to array of all du's
-	$duArray = ($duArray) ?: $GLOBALS['all'];
 	$isAll = ($duArray) ? false : true;
+	$duArray = ($duArray) ?: $GLOBALS['all'];
 
 	// Record add call
 	$addAlert      = date("Y-m-d H:i:s T", time()) . " ";
@@ -559,8 +559,8 @@ function deleteDu($id, $duArray = NULL) {
 	global $log;
 
 	// If duArray is not specified, delete it from array of all du's
-	$duArray = ($duArray) ?: $GLOBALS['all'];
 	$isAll = ($duArray) ? false : true;
+	$duArray = ($duArray) ?: $GLOBALS['all'];
 
 	// If no du exists for specified ID
 	if ($duArray[$id] === false) {
@@ -572,8 +572,8 @@ function deleteDu($id, $duArray = NULL) {
 		fwrite($log, $output, 2048);
 	    exit($output);
 	} else {
-		// Remove it from DB
-		$duArray[$id]->deleteFromDB();
+		// Remember current element to delete
+		$thisDu = $duArray[$id];
 		// Remove it from du array
 		unset($duArray[$id]);
 		// Record success
@@ -581,6 +581,8 @@ function deleteDu($id, $duArray = NULL) {
 		$output .= " Deleted du from " . (($isAll) ? "\$all" : "duArray");
 		$output .= " with du_id of '" . $id . "'.\n";
 		fwrite($log, $output, 2048);
+		// Remove it from DB
+		$thisDu->deleteFromDB();
 	}
 
 	// Done
