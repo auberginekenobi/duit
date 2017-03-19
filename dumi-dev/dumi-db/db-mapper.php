@@ -346,12 +346,13 @@ function addDu($parameters, $duArray = NULL) {
 	} else {
 		// Record success
 		$output  = date("Y-m-d H:i:s T", time());
-		$output .= " Added new du to " . (($isAll) ? "\$all" : "duArray") . ".\n";
+		$output .= " Added new du to " . (($isAll) ? "\$all" : "duArray");
+		$output .= " with du_id of '" . $du_id . "'.\n";
 		fwrite($log, $output, 2048);
 	}
 
 	// Push the new du and its properties to the database
-	// $duArray[$du_id]->addToDB();
+	$duArray[$du_id]->addToDB();
 
 	// Done
 	return $duArray;
@@ -559,9 +560,28 @@ function deleteDu($id, $duArray = NULL) {
 
 	// If duArray is not specified, delete it from array of all du's
 	$duArray = ($duArray) ?: $GLOBALS['all'];
+	$isAll = ($duArray) ? false : true;
 
-	$duArray[$id]->deleteFromDB();
-	unset($duArray[$id]);
+	// If no du exists for specified ID
+	if ($duArray[$id] === false) {
+	    // Handle error
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not find du in " . (($isAll) ? "\$all" : "duArray");
+		$output .= " with du_id of '" . $id . "' to delete.\n";
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	} else {
+		// Remove it from DB
+		$duArray[$id]->deleteFromDB();
+		// Remove it from du array
+		unset($duArray[$id]);
+		// Record success
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Deleted du from " . (($isAll) ? "\$all" : "duArray");
+		$output .= " with du_id of '" . $id . "'.\n";
+		fwrite($log, $output, 2048);
+	}
 
 	// Done
 	return $duArray;
