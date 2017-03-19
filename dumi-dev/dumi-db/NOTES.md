@@ -21,7 +21,8 @@ Kelli's notes for db-mapper/kelli branch. Contains references, issues, plans, et
 ```
 
 ### Todo
-1. create addDu, editDu function // db-mapper.php
-2. make tag class
+1. comment addDu, deleteDu, addToDB, removeFromDB functions
+2. create editDu function // db-mapper.php
 3. make status class
-4. investigate timestamps
+4. make tag class
+5. investigate timestamps
