@@ -268,7 +268,7 @@ function addDu($parameters, $duArray) {
 
 	// Preprocess $parameters array
 	$p = $parameters;
-	$p['du_id'] = $du_id;
+	$p['du_id']        = $du_id;
 	$p['du_timestamp'] = date("Y-m-d H:i:s", time());
 	if (!isset($p['du_name'])) {
 	    // Name is only required field -- handle erroneous input
@@ -280,34 +280,34 @@ function addDu($parameters, $duArray) {
 	    exit($output);
 	}
 	if (!isset($p['du_has_date'])) {
-		$p['du_has_date'] = 0;
+		$p['du_has_date']         = 0;
 	}
 	if (!isset($p['du_has_deadline'])) {
-		$p['du_has_deadline'] = 0;
+		$p['du_has_deadline']     = 0;
 	}
 	if (!isset($p['du_has_duration'])) {
-		$p['du_has_duration'] = 0;
+		$p['du_has_duration']     = 0;
 	}
 	if (!isset($p['du_time_start'])) {
-		$p['du_time_start'] = NULL;
+		$p['du_time_start']       = NULL;
 	}
 	if (!isset($p['du_time_end'])) {
-		$p['du_time_end'] = NULL;
+		$p['du_time_end']         = NULL;
 	}
 	if (!isset($p['du_priority'])) {
 		$p['du_enforce_priority'] = 0;
-		$p['du_priority'] = 4;
+		$p['du_priority']         = 4;
 	} else {
 		$p['du_enforce_priority'] = 1;
 	}
 	if (!isset($p['tag_priorities'])) {
-		$p['tag_priorities'] = NULL;
+		$p['tag_priorities']      = NULL;
 	}
 	if (!isset($p['du_note'])) {
-		$p['du_note'] = NULL;
+		$p['du_note']             = NULL;
 	}
 	if (!isset($p['du_tags'])) {
-		$p['du_tags'] = NULL;
+		$p['du_tags']             = NULL;
 	}
 
 	// Fill fields of du to match parameter inputs
@@ -327,6 +327,8 @@ function addDu($parameters, $duArray) {
 
 	// Store du in array at key that is du_id
 	$duArray[$du_id] = $newDu;
+	// Push the new du and its properties to the database
+	$duArray[$du_id]->addToDB();
 
 	if ($duArray[$du_id] === false) {
 	    // Handle error
@@ -346,11 +348,12 @@ function addDu($parameters, $duArray) {
 
 function deleteDu($id, $duArray) {
 
+	$duArray[$id]->deleteFromDB();
 	unset($duArray[$id]);
 
 	// Done
 	return $duArray;
-	
+
 }
 
 
@@ -366,14 +369,14 @@ $all = getAll();
 
 displayAsTable($all);
 
-$all = addDu(array('du_name' => 'Take out the trash'), $all);
+//$all = addDu(array('du_name' => 'Take out the trash', 'du_has_date' => 1, 'du_time_start' => '2017-03-25 00:00:00'), $all);
 
 // $all[1]->unsetDuPriority();
 // $all[3]->unsetNote();
 
 displayAsTable($all);
 
-$all = deleteDu(5, $all);
+$all = deleteDu(7, $all);
 
 displayAsTable($all);
 
