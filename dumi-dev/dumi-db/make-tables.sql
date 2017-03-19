@@ -28,6 +28,8 @@ CREATE TABLE Dus (
   du_time_end DATETIME,
   -- Priority will take a value between 1 and 4 where 1 is most critical, optional (defaults to 4 if unspecified)
   du_priority INT NOT NULL DEFAULT 4,
+  -- Indicate if du priority was specified
+  du_enforce_priority BOOL NOT NULL DEFAULT FALSE,
   -- Longer description of du, optional
   du_note VARCHAR(256)
 );
@@ -70,13 +72,13 @@ CREATE TABLE Statuses (
 
 -- SAMPLE DATA
 
-INSERT INTO Dus (du_name, du_priority)
-  VALUES ('Buy groceries', 4),
-    ('Reserve campground', 4);
-INSERT INTO Dus (du_name, du_has_duration, du_time_start, du_time_end, du_priority, du_note)
-  VALUES ('Cook dinner', TRUE, '2016-03-14 17:00:00', '2016-03-14 18:00:00', 4, 'Make it extra yummy');
-INSERT INTO Dus (du_name, du_has_deadline, du_time_start, du_priority, du_note)
-  VALUES ('Study for test', TRUE, '2016-03-15 13:00:00', 1, 'Tbh you\'ll probably fail tho');
+INSERT INTO Dus (du_name, du_priority, du_enforce_priority)
+  VALUES ('Buy groceries', 4, TRUE),
+    ('Reserve campground', 4, TRUE);
+INSERT INTO Dus (du_name, du_has_duration, du_time_start, du_time_end, du_note)
+  VALUES ('Cook dinner', TRUE, '2016-03-14 17:00:00', '2016-03-14 18:00:00', 'Make it extra yummy');
+INSERT INTO Dus (du_name, du_has_deadline, du_time_start, du_priority, du_enforce_priority, du_note)
+  VALUES ('Study for test', TRUE, '2016-03-15 13:00:00', 1, TRUE, 'Tbh you\'ll probably fail tho');
 
 INSERT INTO Tags (tag_name)
   VALUES ('food');
@@ -85,10 +87,10 @@ INSERT INTO Tags (tag_name, tag_priority)
          ('errands', 3);
 
 INSERT INTO Du_Tag_Pairs (du_id, tag_id)
-  VALUES (1, 1),
-    (1, 2),
+  VALUES (1, 3),
+    (1, 1),
     (3, 1),
-    (4, 3);
+    (4, 2);
 
 INSERT INTO Statuses (du_id)
   VALUES (1),
@@ -106,32 +108,57 @@ SELECT * FROM Tags;
 
 SELECT 'CONSOLIDATED AGGREGATE VIEW OF DU\'S' AS '';
 SELECT
-  CASE WHEN du_priority < tag_priority OR tag_priority IS NULL THEN du_priority ELSE tag_priority END AS Priority,
-  du_name AS Du,
-  du_note AS Note,
-  GROUP_CONCAT(tag_name separator ', ') AS Tag,
-  status_type as Status
-FROM
-  (
-  SELECT
-    d.du_name,
-    d.du_note,
-    t.tag_name,
-    d.du_priority,
-    t.tag_priority,
-    u.status_type
-  FROM Dus as d
-  LEFT JOIN
-    Du_Tag_Pairs AS p
-      ON d.du_id = p.du_id
-  LEFT JOIN
-    Tags AS t
-      ON p.tag_id = t.tag_id
-  LEFT JOIN
-    Statuses AS u
-      ON d.du_id = u.du_id
-  ) AS subq
-GROUP BY du_name
-ORDER BY Priority;
+      du_id,
+      -- du_timestamp,
+      du_name,
+      -- du_has_date,
+      -- du_has_deadline,
+      -- du_has_duration,
+      -- du_time_start,
+      -- du_time_end,
+      du_priority,
+      -- du_enforce_priority,
+      (GROUP_CONCAT(tag_priority separator ', ')) AS tag_priorities,
+      -- du_note,
+      (GROUP_CONCAT(tag_name separator ', ')) AS du_tags,
+      status_type
+      -- status_time_start,
+      -- status_time_end,
+      -- score
+    FROM
+      (
+      SELECT
+        d.du_id,
+            d.du_timestamp,
+            d.du_name,
+            d.du_has_date,
+            d.du_has_deadline,
+            d.du_has_duration,
+            d.du_time_start,
+            d.du_time_end,
+            d.du_priority,
+            d.du_enforce_priority,
+        d.du_note,
+            t.tag_id,
+        t.tag_name,
+        t.tag_priority,
+            t.tag_note,
+        u.status_type,
+            u.status_time_start,
+            u.status_time_end,
+            u.score
+      FROM Dus as d
+      LEFT JOIN
+        Du_Tag_Pairs AS p
+          ON d.du_id = p.du_id
+      LEFT JOIN
+        Tags AS t
+          ON p.tag_id = t.tag_id
+      LEFT JOIN
+        Statuses AS u
+          ON d.du_id = u.du_id
+      ) AS subq
+    GROUP BY du_name
+    ORDER BY du_id ASC;
 
 
