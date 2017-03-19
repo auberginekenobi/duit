@@ -240,7 +240,8 @@ class du {
 
 		// Record success
 		$output  = date("Y-m-d H:i:s T", time());
-		$output .= " Added new du to database.\n";
+		$output .= " Added new du to database with du_id of '";
+		$output .= $this->du_id . "'.\n";
 		fwrite($log, $output, 2048);
 
 		// if du_id inserted at =/= du_id in array, print warning and change array one
@@ -265,8 +266,8 @@ class du {
 
 		// Record success
 		$output  = date("Y-m-d H:i:s T", time());
-		$output .= " Deleted du with du_id of '";
-		$output .= $this->du_id . "' from database.\n";
+		$output .= " Deleted du from database with du_id of '";
+		$output .= $this->du_id . "'.\n";
 		fwrite($log, $output, 2048);
 
 	}
