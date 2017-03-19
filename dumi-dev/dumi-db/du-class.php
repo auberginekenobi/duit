@@ -203,7 +203,7 @@ class du {
 	 */
 	public function setName($du_name) {
 		global $log;
-		$oldname = $this->du_name;
+		$oldname = ($this->du_name) ? $this->du_name : NULL;
 		$this->du_name = $du_name;
 		$updateQuery = "
 			UPDATE dus 
@@ -214,9 +214,9 @@ class du {
 			// Record successful record update
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " Updated record for du_id ";
-			$output .= $this->du_id;
-			$output .= " successfully: changed du_name from '";
-			$output .= $oldname . "' to '" . $du_name . "'. \n";
+			$output .= $this->du_id . " successfully: ";
+			$output .= ($oldname) ? "changed du_name from '" . $oldname . "' to '" . $du_name . "'.\n" :
+			                        "set name to '" . $du_name . "'.\n";
 			fwrite($log, $output, 256);
 		}
 	}
@@ -241,6 +241,8 @@ class du {
 	public function setDate($date) {
 
 		global $log;
+		$olddate = ($this->du_has_date) ? substr($this->du_time_start, 0, 10) : NULL;
+		$justdate = $date;
 
 		// unset other date-related properties, if they were set
 		$this->unsetDeadline();
@@ -262,9 +264,9 @@ class du {
 			// Record successful record update
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " Updated record for du_id ";
-			$output .= $this->du_id;
-			$output .= " successfully: linked date '";
-			$output .= $date . "'. \n";
+			$output .= $this->du_id . " successfully: ";
+			$output .= ($olddate) ? "changed date from '" . $olddate . "' to '" . $justdate . "'.\n" :
+									"linked date '" . $justdate . "'.\n";
 			fwrite($log, $output, 256);
 		}
 
@@ -283,7 +285,7 @@ class du {
 	public function unsetDate() {
 		global $log;
 		// if du had a date previously
-		if ($this->du_time_start) {
+		if ($this->du_has_date && $this->du_time_start) {
 			$olddate = substr($this->du_time_start, 0, 10);
 			// mark that this du no longer has a date
 			$this->du_has_date = FALSE;
@@ -333,6 +335,7 @@ class du {
 	public function setDeadline($deadline) {
 
 		global $log;
+		$olddeadline = ($this->du_has_deadline) ? $this->du_time_start : NULL;
 
 		// unset other date-related properties, if they were set
 		$this->unsetDate();
@@ -352,9 +355,9 @@ class du {
 			// Record successful record update
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " Updated record for du_id ";
-			$output .= $this->du_id;
-			$output .= " successfully: linked deadline '";
-			$output .= $deadline . "'. \n";
+			$output .= $this->du_id . " successfully: ";
+			$output .= ($olddate) ? "changed deadline from '" . $olddeadline . "' to '" . $deadline . "'.\n" :
+								    "linked deadline '" . $deadline . "'.\n";
 			fwrite($log, $output, 256);
 		}
 
@@ -369,7 +372,7 @@ class du {
 	public function unsetDeadline() {
 		global $log;
 		// if du had a deadline previously
-		if ($this->du_time_start) {
+		if ($this->du_has_deadline && $this->du_time_start) {
 			$olddeadline = $this->du_time_start;
 			// mark that this du no longer has a date
 			$this->du_has_deadline = FALSE;
@@ -420,6 +423,8 @@ class du {
 	public function setDuration($start, $end) {
 
 		global $log;
+		$oldstart = ($this->du_has_date) ? $this->du_time_start : NULL;
+		$oldend   = ($this->du_has_date) ? $this->du_time_end   : NULL;
 
 		// unset other date-related properties, if they were set
 		$this->unsetDate();
@@ -441,9 +446,10 @@ class du {
 			// Record successful record update
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " Updated record for du_id ";
-			$output .= $this->du_id;
-			$output .= " successfully: linked duration '";
-			$output .= $start . " - " . $end . "'. \n";
+			$output .= $this->du_id . " successfully: ";
+			$output .= ($oldstart) ? "changed duration from '" . $oldstart . " - " . $oldend . "' to '"
+															   . $start    . " - " . $end    . "'.\n" :
+								     "linked duration '" . $start . " - " . $end . "'.\n";
 			fwrite($log, $output, 256);
 		}
 
@@ -458,7 +464,7 @@ class du {
 	public function unsetDuration() {
 		global $log;
 		// if du had a duration previously
-		if ($this->du_time_start && $this->du_time_end) {
+		if ($this->du_has_duration && $this->du_time_start && $this->du_time_end) {
 			$oldstart = $this->du_time_start;
 			$oldend   = $this->du_time_end;
 			// mark that this du no longer has a duration
@@ -510,7 +516,7 @@ class du {
 	 */
 	public function setTimeStart($du_time_start) {
 		global $log;
-		$oldtime = $this->du_time_start;
+		$oldtime = ($this->du_time_start) ? $this->du_time_start : NULL;
 		$this->du_time_start = $du_time_start;
 		$updateQuery = "
 			UPDATE dus
@@ -521,9 +527,9 @@ class du {
 			// Record successful record update
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " Updated record for du_id ";
-			$output .= $this->du_id;
-			$output .= " successfully: changed du_time_start from '";
-			$output .= $oldtime . "' to '" . $du_time_start . "'. \n";
+			$output .= $this->du_id . " successfully: ";
+			$output .= ($oldtime) ? "changed time_start from '" . $oldtime . "' to '" . $du_time_start . "'.\n" :
+								    "set time_start to '" . $du_time_start . "'.\n";
 			fwrite($log, $output, 256);
 		}
 	}
@@ -547,7 +553,7 @@ class du {
 	 */
 	public function setTimeEnd($du_time_end) {
 		global $log;
-		$oldtime = $this->du_time_end;
+		$oldtime = ($this->du_time_end) ? $this->du_time_end : NULL;
 		$this->du_time_end = $du_time_end;
 		$updateQuery = "
 			UPDATE dus
@@ -558,9 +564,9 @@ class du {
 			// Record successful record update
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " Updated record for du_id ";
-			$output .= $this->du_id;
-			$output .= " successfully: changed du_time_end from '";
-			$output .= $oldtime . "' to '" . $du_time_end . "'. \n";
+			$output .= $this->du_id . " successfully: ";
+			$output .= ($oldtime) ? "changed time_start from '" . $oldtime . "' to '" . $du_time_end . "'.\n" :
+								    "set time_start to '" . $du_time_end . "'.\n";
 			fwrite($log, $output, 256);
 		}
 	}
@@ -674,7 +680,7 @@ class du {
 	 */
 	public function setNote($du_note) {
 		global $log;
-		$oldname = $this->du_note;
+		$oldnote = ($this->du_note) ? $this->du_note : NULL;
 		$this->du_note = $du_note;
 		$updateQuery = "
 			UPDATE dus
@@ -685,9 +691,9 @@ class du {
 			// Record successful record update
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " Updated record for du_id ";
-			$output .= $this->du_id;
-			$output .= " successfully: changed du_note from '";
-			$output .= $oldname . "' to '" . $du_note . "'. \n";
+			$output .= $this->du_id . " successfully: ";
+			$output .= ($oldnote) ? "changed note from '" . $oldnote . "' to '" . $du_note . "'.\n" :
+								    "set note to '" . $du_note . "'.\n";
 			fwrite($log, $output, 256);
 		}
 	}
