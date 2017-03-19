@@ -250,6 +250,15 @@ class du {
 
 
 	/**
+	 * Function getDate
+	 * @return [string] The date linked to a du, formatted as "YYYY-MM-DD"
+	 */
+	public function getDate() {
+		return ($this->du_has_date) ? substr($this->du_time_start, 0, 10) : NULL;
+	}
+
+
+	/**
 	 * Function setDate
 	 *
 	 * Sets or updates the date linked to a du at both object- and db-levels and
@@ -349,6 +358,16 @@ class du {
 
 
 	/**
+	 * Function getDeadline
+	 * @return [string] The deadline linked to a du, formatted as "YYYY-MM-DD
+	 * HH:MM:SS"
+	 */
+	public function getDeadline() {
+		return ($this->du_has_deadline) ? $this->du_time_start : NULL;
+	}
+
+
+	/**
 	 * Function setDeadline
 	 *
 	 * Sets or updates the deadline linked to a du at both object- and db-levels
@@ -440,6 +459,17 @@ class du {
 	 */
 	public function hasDuration() {
 		return $this->du_has_duration;
+	}
+
+
+	/**
+	 * Function getDuration
+	 * @return [array(string)] The duration linked to a du as a pair whose first
+	 * element is the start time and whose second element is the end time, each
+	 * formatted as "YYYY-MM-DD HH:MM:SS"
+	 */
+	public function getDuration() {
+		return ($this->du_has_duration) ? array($this->du_time_start, $this->du_time_end) : NULL;
 	}
 
 
