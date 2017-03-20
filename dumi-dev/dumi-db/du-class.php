@@ -256,17 +256,22 @@ class du {
 
 			// Get ID created for du in database
 			$getIDResult = query("SELECT LAST_INSERT_ID()", "addToDB()");
-			$getId       = $getIDResult->fetch_array()[0];
+			$getID       = $getIDResult->fetch_array()[0];
 
 			// If du_id does not match ID created in database
 			if ($this->du_id != $getID) {
 				// Alert bad add
 				$output  = date("Y-m-d H:i:s T", time());
-				$output .= " Alert: du_id in array and du_id in database do not match. Changing du_id in array to '" . $getID . "'.";
+				$output .= " Alert: du_id in array and du_id in database do not match. Changing du_id in array to '" . $getID . "'.\n";
 				fwrite($log, $output, 2048);
 
 				// Force du_id to match database
 				$this->du_id = $getID;
+			} else {
+				// Record ID match
+				$output  = date("Y-m-d H:i:s T", time());
+				$output .= " Confirmed du_id in array (" . $this->du_id . ") matches du_id in database (" . $getID . ").\n";
+				fwrite($log, $output, 2048);
 			}
 
 		}
