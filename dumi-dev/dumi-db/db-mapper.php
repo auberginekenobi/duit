@@ -503,7 +503,7 @@ function preprocess($parameters) {
 	// Pair check                  : du_has_date => !deadline & !duration
 	// 							   : du_has_deadline => !date & !duration
 	// 							   : du_has_duration => !date & !deadline
-	if ( ($p['du_time_date']    && ($p['du_has_deadline'] || $p['du_has_duration'])) ||
+	if ( ($p['du_has_date']     && ($p['du_has_deadline'] || $p['du_has_duration'])) ||
 		 ($p['du_has_deadline'] && ($p['du_has_date']     || $p['du_has_duration'])) ||
 		 ($p['du_has_duration'] && ($p['du_has_date']     || $p['du_has_deadline'])) ) { // if any combination of two
 		$output  = date("Y-m-d H:i:s T", time());
