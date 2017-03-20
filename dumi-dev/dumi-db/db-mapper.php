@@ -410,6 +410,9 @@ function preprocess($parameters) {
 	    exit($output);
 	}
 
+	// Pair check                  : du_has_date <=> du_time_start
+	// TODO PUT STUFF HERE
+
 	// Field 'du_has_deadline'     : OPTIONAL (1), DEFAULT 0
 	// 
 	// Set du_has_deadline to 0 if it is not specified and handle case where it
@@ -425,6 +428,9 @@ function preprocess($parameters) {
 	    exit($output);
 	}
 
+	// Pair check                  : du_has_deadline <=> du_time_start
+	// TODO PUT STUFF HERE
+
 	// Field 'du_has_duration'     : OPTIONAL (1), DEFAULT 0
 	// 
 	// Set du_has_duration to 0 if it is not specified and handle case where it
@@ -439,6 +445,9 @@ function preprocess($parameters) {
 		fwrite($log, $output, 2048);
 	    exit($output);
 	}
+
+	// Pair check                  : du_has_duration <=> du_time_start && du_time_end
+	// TODO PUT STUFF HERE
 
 	// Field 'du_time_start'       : OPTIONAL (string "YYYY-MM-DD[ HH:MM:SS]")
 	// 
