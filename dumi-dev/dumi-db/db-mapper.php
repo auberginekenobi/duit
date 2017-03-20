@@ -410,8 +410,17 @@ function preprocess($parameters) {
 	    exit($output);
 	}
 
-	// Pair check                  : du_has_date <=> du_time_start
-	// TODO PUT STUFF HERE
+	// Pair check                  : du_has_date => du_time_start
+	if ($p['du_has_date']) {
+		if (!isset($p['du_time_start'])) { // if has_date but no date set
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " Could not add new du: 'du_has_date' set to true but no date specified. Input was:\n";
+			$output .= "	" . var_export($parameters, true);
+			// Write to log file and kill process
+			fwrite($log, $output, 2048);
+		    exit($output);
+		}
+	}
 
 	// Field 'du_has_deadline'     : OPTIONAL (1), DEFAULT 0
 	// 
@@ -428,8 +437,17 @@ function preprocess($parameters) {
 	    exit($output);
 	}
 
-	// Pair check                  : du_has_deadline <=> du_time_start
-	// TODO PUT STUFF HERE
+	// Pair check                  : du_has_deadline => du_time_start
+	if ($p['du_has_deadline']) {
+		if (!isset($p['du_time_start'])) { // if has_deadline but no date set
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " Could not add new du: 'du_has_deadline' set to true but no deadline specified. Input was:\n";
+			$output .= "	" . var_export($parameters, true);
+			// Write to log file and kill process
+			fwrite($log, $output, 2048);
+		    exit($output);
+		}
+	}
 
 	// Field 'du_has_duration'     : OPTIONAL (1), DEFAULT 0
 	// 
@@ -446,8 +464,56 @@ function preprocess($parameters) {
 	    exit($output);
 	}
 
-	// Pair check                  : du_has_duration <=> du_time_start && du_time_end
-	// TODO PUT STUFF HERE
+	// Pair check                  : du_has_duration => du_time_start && du_time_end
+	if ($p['du_has_duration']) {
+		if (!isset($p['du_time_start']) || !isset($p['du_time_endt'])) { // if has_duration but no start/end time set
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " Could not add new du: 'du_has_duration' set to true but no start and/or end time specified. Input was:\n";
+			$output .= "	" . var_export($parameters, true);
+			// Write to log file and kill process
+			fwrite($log, $output, 2048);
+		    exit($output);
+		}
+	}
+	
+	// Pair check                  : du_time_start => du_has_date || deadline || duration
+	if (isset($p['du_time_start'])) {
+		if (!($p['du_has_date'] || $p['du_has_deadline'] || $p['du_has_duration'])) { // if has start time but no date/deadline/duration
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " Could not add new du: found 'du_time_start' but 'du_has_date/deadline/duration' set to false. Input was:\n";
+			$output .= "	" . var_export($parameters, true);
+			// Write to log file and kill process
+			fwrite($log, $output, 2048);
+		    exit($output);
+		}
+	}
+	
+	// Pair check                  : du_time_end => du_has_duration
+	if (isset($p['du_time_end'])) {
+		if (!$p['du_has_duration']) { // if has end time but no duration
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " Could not add new du: found 'du_time_end' but 'du_has_duration' set to false. Input was:\n";
+			$output .= "	" . var_export($parameters, true);
+			// Write to log file and kill process
+			fwrite($log, $output, 2048);
+		    exit($output);
+		}
+	}
+	
+	// Pair check                  : du_has_date => !deadline & !duration
+	// 							   : du_has_deadline => !date & !duration
+	// 							   : du_has_duration => !date & !deadline
+	if ( ($p['du_time_date']    && ($p['du_has_deadline'] || $p['du_has_duration'])) ||
+		 ($p['du_has_deadline'] && ($p['du_has_date']     || $p['du_has_duration'])) ||
+		 ($p['du_has_duration'] && ($p['du_has_date']     || $p['du_has_deadline'])) ) { // if any combination of two
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new du: more than one of 'du_has_date', 'du_has_duration', 'du_has_deadline' set to true. Input was:\n";
+		$output .= "	" . var_export($parameters, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+		exit($output);
+	}
+	
 
 	// Field 'du_time_start'       : OPTIONAL (string "YYYY-MM-DD[ HH:MM:SS]")
 	// 
