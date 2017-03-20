@@ -21,10 +21,9 @@ Kelli's notes for db-mapper/kelli branch. Contains references, issues, plans, et
 ```
 
 ### Todo
-1. finish commenting addToDB, removeFromDB functions // du-class.php
-2. add pairwise (e.g. has\_date <=> time\_start) restrictions // db-mapper.php
-3. create editDu function // db-mapper.php
-4. make status class // du-status.php
-5. make tag class // du-tag.php
-6. implement better tag and status integration // du-class.php/db-mapper.php
-7. investigate du timestamps
+1. add pairwise (e.g. has\_date <=> time\_start) restrictions // db-mapper.php
+2. create editDu function // db-mapper.php
+3. make status class // du-status.php
+4. make tag class // du-tag.php
+5. implement better tag and status integration // du-class.php/db-mapper.php
+6. investigate du timestamps
