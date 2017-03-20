@@ -113,7 +113,7 @@ function query($query, $function = NULL) {
     if ($result === false) {
     	// Handle error
     	$output  = date("Y-m-d H:i:s T", time()) . " ";
-    	$output .= ($function) ? $function . " was u" : "U"; 
+    	$output .= ($function) ? "Function " . $function . " was u" : "U"; 
     	$output .= "nable to perform query \"";
     	$output .= $query . "\". ";
 		$output .= mysqli_errno($connection) . ": " . mysqli_error($connection) . "\n";
@@ -124,7 +124,7 @@ function query($query, $function = NULL) {
 
     // Record successful query
     $success  = date("Y-m-d H:i:s T", time()) . " ";
-    $success .= ($function) ? $function . " p" : "P";
+    $success .= ($function) ? "Function " . $function . " p" : "P";
     $success .= "erformed query: " . $query . "\n";
     fwrite($log, $success, 4096);
 
