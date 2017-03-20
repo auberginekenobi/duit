@@ -168,7 +168,6 @@ class du {
  * This should only be used to add NEW du's to the database, never to update
  * existing du's.
  *
- * @todo finish conditions
  * @global [$log | The open log file]
  * @return void
  */
@@ -176,99 +175,146 @@ class du {
 
 		global $log;
 
-		// if entry does not already exist for du_id
-			// add it	
-		// else log could not add
+		// Check if there is a du already with this new du's du_id
+		$checkQuery = "
+			SELECT *
+			FROM   dus
+			WHERE  du_id = " . $this->du_id
+		;
+		if (query($checkQuery, "addToDB()")->fetch_array()) { // If a du already exists
+			// Handle failure
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " Could not add new du to database: item with du_id '";
+			$output .= $this->du_id . "' already exists.\n";
+			// Write to log file and kill process
+			fwrite($log, $output, 2048);
+		    exit($output);
+		} else { // If no such du exists
+			// Get current max du_id from dus table 
+			$resetValQuery  = "
+				SELECT MAX(du_id)
+				FROM   dus"
+			;
+			$resetValResult = query($resetValQuery, "addToDB()");
+			// Get actual value of max du_id query result
+			$resetVal       = $resetValResult->fetch_array()[0];
+			// Reset dus auto-incrementer in case of deletions to ensure proper
+			// du_id is recorded 
+			$resetQuery     = "
+				ALTER TABLE dus auto_increment = " . ($resetVal + 1)
+			;
+			query($resetQuery, "addToDB()");
+
+			// Insert where
+			$insertQuery  = "
+				INSERT INTO dus
+							(du_name";
+			$insertQuery .= ($this->du_has_date) ? ",
+							 du_has_date" : "";
+			$insertQuery .= ($this->du_has_deadline) ? ",
+							 du_has_deadline" : "";
+			$insertQuery .= ($this->du_has_duration) ? ",
+							 du_has_duration" : "";
+			$insertQuery .= ($this->du_time_start) ? ",
+							 du_time_start" : "";
+			$insertQuery .= ($this->du_time_end) ? ",
+							 du_time_end" : "";
+			$insertQuery .= ($this->du_enforce_priority) ? ",
+							 du_priority,
+							 du_enforce_priority" : "";
+			$insertQuery .= ($this->du_note) ? ",
+							 du_note)" : ")"
+			;
+
+			// Insert what
+			$insertQuery .= "
+				VALUES ('" . $this->du_name . "'";
+			$insertQuery .= ($this->du_has_date) ? ",
+							 1" : "";
+			$insertQuery .= ($this->du_has_deadline) ? ",
+							 1" : "";
+			$insertQuery .= ($this->du_has_duration) ? ",
+							 1" : "";
+			$insertQuery .= ($this->du_time_start) ? ",
+							 '" . $this->du_time_start . "'" : "";
+			$insertQuery .= ($this->du_time_end) ? ",
+							 '" . $this->du_time_end . "'" : "";
+			$insertQuery .= ($this->du_enforce_priority) ? ",
+							 " . $this->du_priority . ",
+							 1" : "";
+			$insertQuery .= ($this->du_note) ? ",
+							 '" . $this->du_note . "')" : ");"
+			;
+
+			query($insertQuery, "addToDB()");
+
+			// Record success
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " Added new du to database with du_id of '";
+			$output .= $this->du_id . "'.\n";
+			fwrite($log, $output, 2048);
+
+			// Get ID created for du in database
+			$getIDResult = query("SELECT LAST_INSERT_ID()", "addToDB()");
+			$getId       = $getIDResult->fetch_array()[0];
+
+			// If du_id does not match ID created in database
+			if ($this->du_id != $getID) {
+				// Alert bad add
+				$output  = date("Y-m-d H:i:s T", time());
+				$output .= " Alert: du_id in array and du_id in database do not match. Changing du_id in array to '" . $getID . "'.";
+				fwrite($log, $output, 2048);
+
+				// Force du_id to match database
+				$this->du_id = $getID;
+			}
+
+		}
 		
-		// Reset dus auto-incrementer in case of deletions to ensure proper
-		// du_id is recorded
-		$resetValQuery    = "
-			SELECT MAX(du_id)
-			FROM   dus"
-		;
-		$resetValResult   = query($resetValQuery, "addToDB()");
-		// Get actual value of max du_id
-		$resetVal         = $resetValResult->fetch_array()[0];
-		// Reset
-		$resetQuery       = "
-			ALTER TABLE dus auto_increment = " . ($resetVal + 1)
-		;
-		query($resetQuery, "addToDB()");
-
-		// Insert where
-		$insertQuery  = "
-			INSERT INTO dus
-						(du_name";
-		$insertQuery .= ($this->du_has_date) ? ",
-						 du_has_date" : "";
-		$insertQuery .= ($this->du_has_deadline) ? ",
-						 du_has_deadline" : "";
-		$insertQuery .= ($this->du_has_duration) ? ",
-						 du_has_duration" : "";
-		$insertQuery .= ($this->du_time_start) ? ",
-						 du_time_start" : "";
-		$insertQuery .= ($this->du_time_end) ? ",
-						 du_time_end" : "";
-		$insertQuery .= ($this->du_enforce_priority) ? ",
-						 du_priority,
-						 du_enforce_priority" : "";
-		$insertQuery .= ($this->du_note) ? ",
-						 du_note)" : ")"
-		;
-
-		// Insert what
-		$insertQuery .= "
-			VALUES ('" . $this->du_name . "'";
-		$insertQuery .= ($this->du_has_date) ? ",
-						 1" : "";
-		$insertQuery .= ($this->du_has_deadline) ? ",
-						 1" : "";
-		$insertQuery .= ($this->du_has_duration) ? ",
-						 1" : "";
-		$insertQuery .= ($this->du_time_start) ? ",
-						 '" . $this->du_time_start . "'" : "";
-		$insertQuery .= ($this->du_time_end) ? ",
-						 '" . $this->du_time_end . "'" : "";
-		$insertQuery .= ($this->du_enforce_priority) ? ",
-						 " . $this->du_priority . ",
-						 1" : "";
-		$insertQuery .= ($this->du_note) ? ",
-						 '" . $this->du_note . "')" : ");"
-		;
-
-		query($insertQuery, "addToDB()");
-
-		// Record success
-		$output  = date("Y-m-d H:i:s T", time());
-		$output .= " Added new du to database with du_id of '";
-		$output .= $this->du_id . "'.\n";
-		fwrite($log, $output, 2048);
-
-		// if du_id inserted at =/= du_id in array, print warning and change array one
 	}
 
 
 	/**
-	 * [deleteFromDB description]
-	 * @return [type] [description]
+	 * Function deleteFromDB
+	 *
+	 * Removes du from the database if it finds one at its du_id.
+	 *
+	 * @todo finish conditions
 	 * @global [$log | The open log file]
+	 * @return void
 	 */
 	public function deleteFromDB() {
 
 		global $log;
 
-		$deleteQuery = "
-			DELETE FROM dus
-			WHERE du_id   = '" . $this->du_id . "'"
-			;
+		// Check if there is a du with this new du's du_id to delete
+		$checkQuery = "
+			SELECT *
+			FROM   dus
+			WHERE  du_id = " . $this->du_id
+		;
+		if (query($checkQuery, "deleteFromDB()")->fetch_array()) { // If there is a du
+			$deleteQuery = "
+				DELETE FROM dus
+				WHERE du_id   = '" . $this->du_id . "'"
+				;
+			// Delete it
+			query($deleteQuery, "deleteFromDB()");
 
-		query($deleteQuery, "deleteFromDB()");
-
-		// Record success
-		$output  = date("Y-m-d H:i:s T", time());
-		$output .= " Deleted du from database with du_id of '";
-		$output .= $this->du_id . "'.\n";
-		fwrite($log, $output, 2048);
+			// Record success
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " Deleted du from database with du_id of '";
+			$output .= $this->du_id . "'.\n";
+			fwrite($log, $output, 2048);
+		} else { // If no du is found
+			// Handle failure
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " Could not delete du from database: item with du_id '";
+			$output .= $this->du_id . "' does not exist.\n";
+			// Write to log file and kill process
+			fwrite($log, $output, 2048);
+		    exit($output);
+		}
 
 	}
 
