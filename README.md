@@ -10,7 +10,8 @@ DUiT is a productivity manager for anyone who has ever looked at their calendar,
 
 Implemented features are indicated with checked boxes, planned features with unchecked boxes.
 
-- [o] Create, edit, and delete du's
+- [x] Create and delete du's
+- [ ] Edit and duplicate du's
 - [ ] Check off completed du's and mark du's as in progress
 - [x] Link dates and times to du’s or leave them as stand-alone
 - [ ] Set du's to repeat daily, weekly, or monthly
@@ -30,15 +31,31 @@ The project relies on MySQL for managing its database.
 
 ### Install
 
-Currently there is only the database constructor, `make-tables.sql`, which can be run from within MySQL as root user:
+After cloning the repository and setting up your preferred configuration of a LAMP stack, you can build the database with the constructor file, `duit-db/make-tables.sql`, which can be run from within MySQL as root user:
 
 ```
 mysql> source path/to/make-tables.sql;
 ```
 
-The constructor features sample data and will select several tables to display to the console.
+The constructor features sample data and will select several tables to display to the console for example purposes only. These examples can be removed by opening the file for editing and commenting out the last fifth of the file, beginning at line 167 with:
+
+```sql
+-- SAMPLE SELECTS 
+
+SELECT 'TABLE OF DU\'S' AS '';
+...
+```
+
+The backend is primarily handled by `duit-db/db-mapper.php`, which features a plethora of functions, all individually documented within the file itself. These will be consolidated into a separate documentation location in the near future. For now, `db-mappy.php` provides a sandbox space for testing the collection of functions that interact with the database.
+
 
 ## What's New
+
+v0.0.2 (3-14-2017): Du's and the database
+
+* Fleshed out du objects
+* Introduced collection of functions for interacting with the database
+* Added extensive logging for backend function calls
 
 v0.0.1 (3-14-2017): Initializing GitHub repo
 
