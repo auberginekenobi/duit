@@ -5,6 +5,11 @@
  *
  * Holds properties about each du in database as individual PHP object
  * with methods defined for accessing and modifying the properties
+ *  PHP v5.6
+ *
+ * @author    Kelli Rockwell <kellirockwell@mail.com>
+ * @copyright 2017 DUiT
+ * @since     File available since release 0.0.2  
  */
 class du {
 
