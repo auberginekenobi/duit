@@ -1,0 +1,66 @@
+======================================== LOADING DB-MAPPER.PHP ========================================
+2017-03-19 04:33:52 CET User "global" connected to database.
+2017-03-19 04:33:52 CET getAll() performed query: 
+	SELECT du_id, 
+	       du_timestamp, 
+	       du_name, 
+	       du_has_date, 
+	       du_has_deadline, 
+	       du_has_duration, 
+	       du_time_start, 
+	       du_time_end, 
+	       du_priority, 
+	       du_enforce_priority, 
+	       ( Group_concat(tag_priority SEPARATOR ', ') ) AS tag_priorities, 
+	       du_note, 
+	       ( Group_concat(tag_name SEPARATOR ', ') )     AS du_tags, 
+	       status_type, 
+	       status_time_start, 
+	       status_time_end, 
+	       score 
+	FROM   (SELECT d.du_id, 
+	               d.du_timestamp, 
+	               d.du_name, 
+	               d.du_has_date, 
+	               d.du_has_deadline, 
+	               d.du_has_duration, 
+	               d.du_time_start, 
+	               d.du_time_end, 
+	               d.du_priority, 
+	               d.du_enforce_priority, 
+	               d.du_note, 
+	               t.tag_id, 
+	               t.tag_name, 
+	               t.tag_priority, 
+	               t.tag_note, 
+	               u.status_type, 
+	               u.status_time_start, 
+	               u.status_time_end, 
+	               u.score 
+	        FROM   dus AS d 
+	               LEFT JOIN du_tag_pairs AS p 
+	                      ON d.du_id = p.du_id 
+	               LEFT JOIN tags AS t 
+	                      ON p.tag_id = t.tag_id 
+	               LEFT JOIN statuses AS u 
+	                      ON d.du_id = u.du_id) AS subq 
+	GROUP  BY du_name 
+	ORDER  BY du_id ASC.
+2017-03-19 04:33:52 CET setDuPriority() performed query: 
+			UPDATE dus
+			SET    du_enforce_priority = '1',
+				   du_priority         = '4'
+			WHERE  du_id               = '1'.
+2017-03-19 04:33:52 CET Updated record for du_id 1 successfully: changed priority from '4' to '4'. Set calc_priority to '4'. 
+2017-03-19 04:33:52 CET unsetDuPriority() performed query: 
+				UPDATE dus
+				SET    du_enforce_priority = '0',
+					   du_priority         = '4'
+				WHERE  du_id               = '1'.
+2017-03-19 04:33:52 CET Updated record for du_id 1 successfully: unset priority '4'. Set calc_priority to '3'. 
+2017-03-19 04:33:52 CET setDuPriority() performed query: 
+			UPDATE dus
+			SET    du_enforce_priority = '1',
+				   du_priority         = '4'
+			WHERE  du_id               = '1'.
+2017-03-19 04:33:52 CET Updated record for du_id 1 successfully: set priority to '4'. Set calc_priority to '4'. 
