@@ -1,14 +1,14 @@
 -- Delete databases if they are set and recreate blank new ones
-DROP DATABASE IF EXISTS dumi_dev;
--- DROP DATABASE IF EXISTS dumi;
-CREATE DATABASE dumi_dev;
--- CREATE DATABASE dumi;
+DROP DATABASE IF EXISTS duit_dev;
+-- DROP DATABASE IF EXISTS duit;
+CREATE DATABASE duit_dev;
+-- CREATE DATABASE duit;
 
-GRANT ALL PRIVILEGES ON dumi_dev.* to 'global'@'localhost' IDENTIFIED BY 'temp' WITH GRANT OPTION;
--- GRANT ALL PRIVILEGES ON dumi.* to 'global'@'localhost' IDENTIFIED BY 'temp' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON duit_dev.* to 'global'@'localhost' IDENTIFIED BY 'temp' WITH GRANT OPTION;
+-- GRANT ALL PRIVILEGES ON duit.* to 'global'@'localhost' IDENTIFIED BY 'temp' WITH GRANT OPTION;
 
 
-USE dumi_dev;
+USE duit_dev;
 
 -- Create table for du's
 CREATE TABLE dus 
