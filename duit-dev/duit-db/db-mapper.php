@@ -9,7 +9,7 @@
  * PHP v5.6
  *
  * @author    Kelli Rockwell <kellirockwell@mail.com>
- * @copyright 2017 DuMi
+ * @copyright 2017 DUiT
  * @since     File available since release 0.0.1  
  */
 
