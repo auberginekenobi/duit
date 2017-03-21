@@ -1,18 +1,18 @@
-# DuMi: A Fantasktic App
+# DUiT: A Fantasktic App
 
 <a href="#"><img src="/img/logo-square.jpg" align="left" height="100px" hspace="8" vspace="8"></a>
 
-DuMi is a productivity manager for anyone who has ever looked at their calendar, to-do list, or jumble of sticky notes and wondered at the possibility of having one thing that could do it all. The purpose of DuMi is to organize projects, tasks, events, and other commitments (termed "du's") with a flexible, transformable interface that can go from a full weekly spread to a homework checklist to a project timeline and back again with the click of a mouse. 
+DUiT is a productivity manager for anyone who has ever looked at their calendar, to-do list, or jumble of sticky notes and wondered at the possibility of having one thing that could do it all. The purpose of DUiT is to organize projects, tasks, events, and other commitments (termed "du's") with a flexible, transformable interface that can go from a full weekly spread to a homework checklist to a project timeline and back again with the click of a mouse. 
 
 ## Features
 
-**DuMi is still under development;** as such, most features exist as plans.
+**DUiT is still under development;** as such, most features exist as plans.
 
 Implemented features are indicated with checked boxes, planned features with unchecked boxes.
 
-- [ ] Create, edit, and delete du's
+- [o] Create, edit, and delete du's
 - [ ] Check off completed du's and mark du's as in progress
-- [ ] Link dates and times to du’s or leave them as stand-alone
+- [x] Link dates and times to du’s or leave them as stand-alone
 - [ ] Set du's to repeat daily, weekly, or monthly
 - [ ] Group du's into categories by assigning them custom tags
 - [ ] Arrange priority schemes for du's
@@ -47,7 +47,7 @@ v0.0.1 (3-14-2017): Initializing GitHub repo
 
 v0.0.0 (3-8-2017): The project is underway!
 
-* The proposed task-keeping system is named DuMi and gets a sick new logo
+* The proposed task-keeping system is named DUiT and gets a sick new logo
 
 ## Authors
 
@@ -55,8 +55,8 @@ v0.0.0 (3-8-2017): The project is underway!
 
 <a href="https://github.com/auberginekenobi"><img src="https://avatars3.githubusercontent.com/u/5943686?v=3&s=460" align="left" height="30px"></a> **Owen Chapman** -  [[auberginekenobi]](https://github.com/auberginekenobi)
 
-<a href="https://github.com/patrickshao"><img src="https://avatars0.githubusercontent.com/u/5953037?v=3&s=460" align="left" height="30px"></a> **Patrick Shao** - [[courier-new]](https://github.com/patrickshao)
+<a href="https://github.com/patrickshao"><img src="https://avatars0.githubusercontent.com/u/5953037?v=3&s=460" align="left" height="30px"></a> **Patrick Shao** - [[patrickshao]](https://github.com/patrickshao)
 
 ## License
 
-DuMi is released under the [MIT](/LICENSE) license.
+DUiT is released under the [MIT](/LICENSE) license.
