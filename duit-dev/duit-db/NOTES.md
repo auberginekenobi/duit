@@ -1,4 +1,4 @@
-# DuMI DB Notes
+# DUiT DB Notes
 
 Kelli's notes for db-mapper/kelli branch. Contains references, issues, plans, etc.
 

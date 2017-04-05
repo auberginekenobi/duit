@@ -1,0 +1,341 @@
+$b-green: #468f77;
+$y-grown: #b4c66e;
+$gray10 : #dce5e2;
+$gray40 : #939e9a;
+$gray60 : #616c68;
+$gray80 : #323836;
+$purple : #26263a;
+
+// Logo font Amsi 600
+
+$title-stack: 'Amsi', sans-serif;
+$header-stack: 'Amsi Condensed', sans-serif;
+$main-stack: 'Open Sans', sans-serif;
+
+// Amsi weights 200-800
+
+@font-face {
+	font-family: 'Amsi';
+	font-style: normal;
+	font-weight: 200;
+	src: url('../../fonts/AmsiPro-XLight.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi';
+	font-style: italic;
+	font-weight: 200;
+	src: url('../../fonts/AmsiPro-XLightItalic.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi';
+	font-style: normal;
+	font-weight: 300;
+	src: url('../../fonts/AmsiPro-Light.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi';
+	font-style: italic;
+	font-weight: 300;
+	src: url('../../fonts/AmsiPro-LightItalic.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi';
+	font-style: normal;
+	font-weight: 400;
+	src: url('../../fonts/AmsiPro-Regular.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi';
+	font-style: italic;
+	font-weight: 400;
+	src: url('../../fonts/AmsiPro-Italic.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi';
+	font-style: normal;
+	font-weight: 500;
+	src: url('../../fonts/AmsiPro-SemiBold.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi';
+	font-style: italic;
+	font-weight: 500;
+	src: url('../../fonts/AmsiPro-SemiBoldItalic.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi';
+	font-style: normal;
+	font-weight: 600;
+	src: url('../../fonts/AmsiPro-Bold.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi';
+	font-style: italic;
+	font-weight: 600;
+	src: url('../../fonts/AmsiPro-BoldItalic.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi';
+	font-style: normal;
+	font-weight: 700;
+	src: url('../../fonts/AmsiPro-Black.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi';
+	font-style: italic;
+	font-weight: 700;
+	src: url('../../fonts/AmsiPro-BlackItalic.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi';
+	font-style: normal;
+	font-weight: 800;
+	src: url('../../fonts/AmsiPro-Ultra.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi';
+	font-style: italic;
+	font-weight: 800;
+	src: url('../../fonts/AmsiPro-UltraItalic.ttf');
+}
+
+// Amsi Narrow weights 100-800
+
+@font-face {
+	font-family: 'Amsi Narrow';
+	font-style: normal;
+	font-weight: 100;
+	src: url('../../fonts/AmsiProNarw-Thin.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Narrow';
+	font-style: italic;
+	font-weight: 100;
+	src: url('../../fonts/AmsiProNarw-ThinItalic.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Narrow';
+	font-style: normal;
+	font-weight: 200;
+	src: url('../../fonts/AmsiProNarw-XLight.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Narrow';
+	font-style: italic;
+	font-weight: 200;
+	src: url('../../fonts/AmsiProNarw-XLightItalic.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Narrow';
+	font-style: normal;
+	font-weight: 300;
+	src: url('../../fonts/AmsiProNarw-Light.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Narrow';
+	font-style: italic;
+	font-weight: 300;
+	src: url('../../fonts/AmsiProNarw-LightItalic.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Narrow';
+	font-style: normal;
+	font-weight: 400;
+	src: url('../../fonts/AmsiProNarw-Regular.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Narrow';
+	font-style: italic;
+	font-weight: 400;
+	src: url('../../fonts/AmsiProNarw-Italic.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Narrow';
+	font-style: normal;
+	font-weight: 500;
+	src: url('../../fonts/AmsiProNarw-SemiBold.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Narrow';
+	font-style: italic;
+	font-weight: 500;
+	src: url('../../fonts/AmsiProNarw-SemiBoldItalic.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Narrow';
+	font-style: normal;
+	font-weight: 600;
+	src: url('../../fonts/AmsiProNarw-Bold.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Narrow';
+	font-style: italic;
+	font-weight: 600;
+	src: url('../../fonts/AmsiProNarw-BoldItalic.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Narrow';
+	font-style: normal;
+	font-weight: 700;
+	src: url('../../fonts/AmsiProNarw-Black.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Narrow';
+	font-style: italic;
+	font-weight: 700;
+	src: url('../../fonts/AmsiProNarw-BlackItalic.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Narrow';
+	font-style: normal;
+	font-weight: 800;
+	src: url('../../fonts/AmsiProNarw-Ultra.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Narrow';
+	font-style: italic;
+	font-weight: 800;
+	src: url('../../fonts/AmsiProNarw-UltraItalic.ttf');
+}
+
+// Amsi Condensed weights 100-800
+
+@font-face {
+	font-family: 'Amsi Condensed';
+	font-style: normal;
+	font-weight: 100;
+	src: url('../../fonts/AmsiProCond-Thin.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Condensed';
+	font-style: italic;
+	font-weight: 100;
+	src: url('../../fonts/AmsiProCond-ThinItalic.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Condensed';
+	font-style: normal;
+	font-weight: 200;
+	src: url('../../fonts/AmsiProCond-XLight.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Condensed';
+	font-style: italic;
+	font-weight: 200;
+	src: url('../../fonts/AmsiProCond-XLightItalic.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Condensed';
+	font-style: normal;
+	font-weight: 300;
+	src: url('../../fonts/AmsiProCond-Light.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Condensed';
+	font-style: italic;
+	font-weight: 300;
+	src: url('../../fonts/AmsiProCond-LightItalic.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Condensed';
+	font-style: normal;
+	font-weight: 400;
+	src: url('../../fonts/AmsiProCond-Regular.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Condensed';
+	font-style: italic;
+	font-weight: 400;
+	src: url('../../fonts/AmsiProCond-Italic.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Condensed';
+	font-style: normal;
+	font-weight: 500;
+	src: url('../../fonts/AmsiProCond-SemiBold.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Condensed';
+	font-style: italic;
+	font-weight: 500;
+	src: url('../../fonts/AmsiProCond-SemiBoldItalic.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Condensed';
+	font-style: normal;
+	font-weight: 600;
+	src: url('../../fonts/AmsiProCond-Bold.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Condensed';
+	font-style: italic;
+	font-weight: 600;
+	src: url('../../fonts/AmsiProCond-BoldItalic.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Condensed';
+	font-style: normal;
+	font-weight: 700;
+	src: url('../../fonts/AmsiProCond-Black.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Condensed';
+	font-style: italic;
+	font-weight: 700;
+	src: url('../../fonts/AmsiProCond-BlackItalic.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Condensed';
+	font-style: normal;
+	font-weight: 800;
+	src: url('../../fonts/AmsiProCond-Ultra.ttf');
+}
+
+@font-face {
+	font-family: 'Amsi Condensed';
+	font-style: italic;
+	font-weight: 800;
+	src: url('../../fonts/AmsiProCond-UltraItalic.ttf');
+}
