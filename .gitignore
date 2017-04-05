@@ -1,1 +1,5 @@
-dumi-dev/dumi-db/db-history.log
+duit-dev/duit-db/db-history.log
+*.css.map
+prepros-6.config
+duit-dev/duit-core/.sass-cache/*
+.csscomb.json

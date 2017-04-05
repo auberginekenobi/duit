@@ -1,0 +1,34 @@
+// List of breakpoints
+$breakpoints: (
+  'tiny'   : ( min-width:    0px ),
+  'small'  : ( min-width:  600px ),
+  'medium' : ( min-width: 1024px ),
+  'large'  : ( min-width: 1200px )
+);
+
+// Example use case:
+// @include respond-to('tiny') {
+//     display: flex;
+//     justify-content: space-between;
+//     padding: 5%;
+// }
+// @include respond-to('small') {
+//     display: block;
+//     padding: 8%;
+// }
+ 
+@mixin respond-to($name) {
+  // If the key exists in the map
+  @if map-has-key($breakpoints, $name) {
+    // Prints a media query based on the value
+    @media #{inspect(map-get($breakpoints, $name))} {
+      @content;
+    }
+  }
+
+  // If the key doesn't exist in the map
+  @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+        + "Please make sure it is defined in `$breakpoints` map.";
+  }
+}
