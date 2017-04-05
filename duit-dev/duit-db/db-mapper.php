@@ -26,12 +26,14 @@
  */
 function openLogFile($clearContents = false) {
 
+	$logPath = "C:/xampp/htdocs/duit/duit-dev/duit-db/db-history.log";
+
 	// Clear log file, if specified to
-	if ($clearContents) file_put_contents("db-history.log", "");
+	if ($clearContents) file_put_contents($logPath, "");
 
 	// Open log file for write only (existing data preserved, file pointer
 	// starts at end of file)
-	$log = fopen("db-history.log", "a");
+	$log = fopen($logPath, "a");
 
 	// Record note of new instance of page load
 	fwrite($log, "======================================== LOADING DB-MAPPER.PHP ========================================\n");
@@ -673,24 +675,5 @@ require("du-class.php");
 // Main executions
 $log = openLogFile(true);
 $all = getAll();
-
-// Testing Example
-
-displayAsTable($all);
-
-$parameters = array('du_name' => 'Take out the trash', 'du_has_date' => 1, 'du_time_start' => '2017-03-30');
-$all = addDu($parameters);
-
-// $all[1]->unsetDuPriority();
-// $all[3]->unsetNote();
-
-displayAsTable($all);
-
-$all = deleteDu(5);
-
-displayAsTable($all);
-
-// $all[1]->setDuPriority("4");
-// $all[3]->setNote("Make it extra yummy");
 
 ?>
