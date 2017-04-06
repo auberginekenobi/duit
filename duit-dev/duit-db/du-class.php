@@ -7,7 +7,7 @@
  * with methods defined for accessing and modifying the properties
  *  PHP v5.6
  *
- * @author    Kelli Rockwell <kellirockwell@mail.com>
+ * @author    Kelli Rockwell <kellirockwell@mail.com>, Patrick Shao <shao.pat@gmail.com>, and Owen Chapman <osc12013@pomona.edu>
  * @copyright 2017 DUiT
  * @since     File available since release 0.0.2  
  */
@@ -28,6 +28,7 @@ class du {
 	protected $calc_priority;       // [int]             Priority calculated for the du; see setting of $calc_priority for more detailed information
 	protected $du_note;             // [string]          The note recorded for the du
 	protected $du_tags;             // [array(string)]   Tags recorded for the du
+	protected $du_status;						// [string]					 The status of a given Du. (Open/Active/Completed)
 
 
 	/**
@@ -56,6 +57,7 @@ class du {
 	 * @param [string] $tag_priorities        Priority specifications for each tag recorded for the du as a string, entries separated by ", ""
 	 * @param [string] $du_note               The note recorded for the du
 	 * @param [string] $du_tags               Tags recorded for the du as a string, entries separated by ", "
+	 * @param [string] $du_status							The status of a given Du. (Open/Active/Completed)
 	 */
 	public function setDuFields($du_id,
 								$du_timestamp,
@@ -69,7 +71,8 @@ class du {
 								$du_enforce_priority,
 								$tag_priorities,
 								$du_note,
-								$du_tags) {
+								$du_tags,
+								$du_status) {
 
 		try {
 			// Instantiate parameters as object's properties
@@ -92,6 +95,8 @@ class du {
 			$this->du_note             = $du_note;
 			$this->du_tags             = ($du_tags)                    ? explode(", ", $du_tags) :
 			                                                             NULL; // Explode, if tags exist
+
+			$this->du_status 					 = $du_status;			                                                          
 
 			// Calculation of overall du priority follows the flow below:
 			// If du_enforce_priority is TRUE  --> calc_priority = du_priority
@@ -136,7 +141,10 @@ class du {
 		$addHeaders .= "<th>tag_priorities</th>";
 		$addHeaders .= "<th>calc_priority</th>";
 		$addHeaders .= "<th>du_note</th>";
-		$addHeaders .= "<th>du_tags</th></tr>";
+		$addHeaders .= "<th>du_tags</th>";
+		$addHeaders .= "<th>du_status</th>";
+		$addHeaders .= "</tr>";
+
 		// If request for du headers
 		$output   = ($headers) ? $addHeaders : "";
 		// Convert booleans to strings
@@ -160,7 +168,9 @@ class du {
 		$output .= "<td>" . $this->calc_priority . "</td>";
 		$output .= "<td>" . $this->du_note . "</td>";
 		$output .= "<td>" . (($this->du_tags)        ? implode(", ", $this->du_tags) :
-			                                           "") . "</td></tr>";
+			                                           "") . "</td>";
+		$output .= "<td>" . $this->du_status . "</td>";
+		$output .= "</tr>";
 
 		// Done
 		return $output;
@@ -228,8 +238,9 @@ class du {
 							 du_priority,
 							 du_enforce_priority" : "";
 			$insertQuery .= ($this->du_note) ? ",
-							 du_note)" : ")"
-			;
+							 du_note" : "";
+			$insertQuery .= ", du_status"
+			$insertQuery .= ")";
 
 			// Insert what
 			$insertQuery .= "
@@ -248,8 +259,9 @@ class du {
 							 " . $this->du_priority . ",
 							 1" : "";
 			$insertQuery .= ($this->du_note) ? ",
-							 '" . $this->du_note . "')" : ");"
-			;
+							 '" . $this->du_note . "'" : "";
+			$insertQuery .= "'" . $this->du_status . "'";
+			$insertQuery .= ");";
 
 			query($insertQuery, "addToDB()");
 
@@ -356,7 +368,6 @@ class du {
 	public function getName() {
 		return $this->du_name;
 	}
-
 
 	/**
 	 * Function setName
@@ -1003,6 +1014,42 @@ class du {
 	 */
 	public function unsetNote() {
 		$this->setNote(NULL);
+	}
+
+	/**
+	 * Function getStatus
+	 * @return [string]  The status of a given Du. (Open/Active/Completed)
+	 */ 
+	public function getStatus() {
+		return $this->du_status;
+	}	
+
+	/**
+	 * Function setStatus
+	 *
+	 * Updates the status 
+	 * 
+	 * @param [string] $du_status The new status for the du
+	 * @global [$log | The open log file]
+	 * @return If successful
+	 */
+	public function setStatus($du_status) {
+		if ($du_status == "Open" || $du_status == "Active" || $du_status == "Complete") {
+			// remember the old status 
+			$oldstatus = ($this->du_status);
+			$this->du_status = $du_status;
+
+			$updateQuery = "
+				UPDATE dus 
+				SET du_status = '" . $du_status . "'
+				WHERE du_id = '" . $this->du_id . "'"; 
+
+				//TODO LOG THE CHANGES
+
+			return true; 
+		} else {
+			return false;
+		}
 	}
 
 }
