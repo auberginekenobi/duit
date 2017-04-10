@@ -184,7 +184,7 @@ function getAll() {
 	               LEFT JOIN du_tag_pairs AS p 
 	                      ON d.du_id = p.du_id 
 	               LEFT JOIN tags AS t 
-	                      ON p.tag_id = t.tag_id 
+	                      ON p.tag_id = t.tag_id ) AS subq
 	GROUP  BY du_name 
 	ORDER  BY du_id ASC";
 

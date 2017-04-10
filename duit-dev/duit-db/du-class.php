@@ -56,8 +56,9 @@ class du {
 	 * @param [string] $du_enforce_priority   "0" if the du is not given a priority, "1" if the du is
 	 * @param [string] $tag_priorities        Priority specifications for each tag recorded for the du as a string, entries separated by ", ""
 	 * @param [string] $du_note               The note recorded for the du
+     * @param [string] $du_status			  The status of a given Du. (Open/Active/Completed)
 	 * @param [string] $du_tags               Tags recorded for the du as a string, entries separated by ", "
-	 * @param [string] $du_status							The status of a given Du. (Open/Active/Completed)
+
 	 */
 	public function setDuFields($du_id,
 								$du_timestamp,
@@ -71,8 +72,9 @@ class du {
 								$du_enforce_priority,
 								$tag_priorities,
 								$du_note,
-								$du_tags,
-								$du_status) {
+                                $du_status,
+								$du_tags
+								) {
 
 		try {
 			// Instantiate parameters as object's properties
@@ -93,10 +95,10 @@ class du {
 			$this->tag_priorities      = ($tag_priorities)             ? array_map('intval', explode(", ", $tag_priorities)) : 
 															             NULL; // Explode and convert to ints, if tag priorities exist
 			$this->du_note             = $du_note;
+            $this->du_status 		   = $du_status;			                                                          
 			$this->du_tags             = ($du_tags)                    ? explode(", ", $du_tags) :
 			                                                             NULL; // Explode, if tags exist
 
-			$this->du_status 					 = $du_status;			                                                          
 
 			// Calculation of overall du priority follows the flow below:
 			// If du_enforce_priority is TRUE  --> calc_priority = du_priority
@@ -141,8 +143,8 @@ class du {
 		$addHeaders .= "<th>tag_priorities</th>";
 		$addHeaders .= "<th>calc_priority</th>";
 		$addHeaders .= "<th>du_note</th>";
+        $addHeaders .= "<th>du_status</th>";
 		$addHeaders .= "<th>du_tags</th>";
-		$addHeaders .= "<th>du_status</th>";
 		$addHeaders .= "</tr>";
 
 		// If request for du headers
@@ -167,9 +169,9 @@ class du {
 			                                           "" ) . "</td>";
 		$output .= "<td>" . $this->calc_priority . "</td>";
 		$output .= "<td>" . $this->du_note . "</td>";
+        $output .= "<td>" . $this->du_status . "</td>";
 		$output .= "<td>" . (($this->du_tags)        ? implode(", ", $this->du_tags) :
 			                                           "") . "</td>";
-		$output .= "<td>" . $this->du_status . "</td>";
 		$output .= "</tr>";
 
 		// Done
@@ -239,7 +241,7 @@ class du {
 							 du_enforce_priority" : "";
 			$insertQuery .= ($this->du_note) ? ",
 							 du_note" : "";
-			$insertQuery .= ", du_status"
+			$insertQuery .= ", du_status";
 			$insertQuery .= ")";
 
 			// Insert what
@@ -260,7 +262,7 @@ class du {
 							 1" : "";
 			$insertQuery .= ($this->du_note) ? ",
 							 '" . $this->du_note . "'" : "";
-			$insertQuery .= "'" . $this->du_status . "'";
+			$insertQuery .= ",'" . $this->du_status . "'";
 			$insertQuery .= ");";
 
 			query($insertQuery, "addToDB()");
