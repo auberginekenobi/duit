@@ -8,7 +8,7 @@
  *
  * PHP v5.6
  *
- * @author    Kelli Rockwell <kellirockwell@mail.com>
+ * @author    Kelli Rockwell <kellirockwell@mail.com>, Patrick Shao <shao.pat@gmail.com>, and Owen Chapman <osc12013@pomona.edu>
  * @copyright 2017 DUiT
  * @since     File available since release 0.0.1  
  */
@@ -162,11 +162,8 @@ function getAll() {
 	       du_enforce_priority, 
 	       ( Group_concat(tag_priority SEPARATOR ', ') ) AS tag_priorities, 
 	       du_note, 
-	       ( Group_concat(tag_name SEPARATOR ', ') )     AS du_tags, 
-	       status_type, 
-	       status_time_start, 
-	       status_time_end, 
-	       score 
+           du_status,
+	       ( Group_concat(tag_name SEPARATOR ', ') )     AS du_tags
 	FROM   (SELECT d.du_id, 
 	               d.du_timestamp, 
 	               d.du_name, 
@@ -177,22 +174,17 @@ function getAll() {
 	               d.du_time_end, 
 	               d.du_priority, 
 	               d.du_enforce_priority, 
-	               d.du_note, 
+	               d.du_note,
+                   d.du_status,
 	               t.tag_id, 
 	               t.tag_name, 
 	               t.tag_priority, 
-	               t.tag_note, 
-	               u.status_type, 
-	               u.status_time_start, 
-	               u.status_time_end, 
-	               u.score 
+	               t.tag_note
 	        FROM   dus AS d 
 	               LEFT JOIN du_tag_pairs AS p 
 	                      ON d.du_id = p.du_id 
 	               LEFT JOIN tags AS t 
 	                      ON p.tag_id = t.tag_id 
-	               LEFT JOIN statuses AS u 
-	                      ON d.du_id = u.du_id) AS subq 
 	GROUP  BY du_name 
 	ORDER  BY du_id ASC";
 
@@ -218,6 +210,7 @@ function getAll() {
     						$currRow['du_enforce_priority'],
     						$currRow['tag_priorities'],
     						$currRow['du_note'],
+                            $currRow['du_status'],
     						$currRow['du_tags']);
     	// Store du in array at key that is du_id
     	$all[$du_id] = $newDu;   
@@ -330,6 +323,7 @@ function addDu($parameters, $duArray = NULL) {
 						$p['du_enforce_priority'],
 						$p['tag_priorities'],
 						$p['du_note'],
+                        $p['du_status'],
 						$p['du_tags']);
 
 	// Store du in array at key that is du_id
@@ -586,10 +580,26 @@ function preprocess($parameters) {
 	// mal-specified
 	if (!isset($p['du_note'])) {
 		$p['du_note']             = NULL;
-	} elseif (!preg_match('/[\w~!@\$%\^&\*\(\)-\+=\{\}\[]\.\?\\/,:;"\']/', $p['du_time_end'])) { // Input mal-specified
+	} elseif (!preg_match('/[\w~!@\$%\^&\*\(\)-\+=\{\}\[]\.\?\\/,:;"\']/', $p['du_note'])) { // Input mal-specified
 		$output  = date("Y-m-d H:i:s T", time());
 		$output .= " Could not add new du: 'du_note' specified in wrong format. Input was:\n";
 		$output .= "	" . var_export($parameters, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	}
+    
+    // Field 'du_status'             : OPTIONAL (string status), DEFAULT 'Open'
+	// 
+	// Set du_status to Open if it is not specified and handle case where it is
+	// mal-specified
+	if (!isset($p['du_status'])) {
+		$p['du_status']             = 'Open';
+	} elseif ($p['du_status']!='Open' && $p['du_status']!='Completed' && $p['du_status']!='Active') { // Input mal-specified
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new du: 'du_status' was an invalid status. Input was:\n";
+		$output .= "	" . var_export($parameters, true);
+        $output .= ". Input should be 'Open', 'Completed', or 'Active'";
 		// Write to log file and kill process
 		fwrite($log, $output, 2048);
 	    exit($output);
