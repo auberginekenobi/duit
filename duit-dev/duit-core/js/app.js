@@ -29,8 +29,6 @@
   });
 
 
-
-
   //add signup event
   btnSignUp.addEventListener('click', e=> {
     //Get email and pass
@@ -39,9 +37,15 @@
     const auth = firebase.auth();
     //Sign in
     const promise = auth.createUserWithEmailAndPassword(email,pass).then(function(){
-      // On account creation, adds to the real-time database the uid 
+      
+      // Generate a random string (token) to store in both the Firebase 
+      // real-time database as well as the MySQL database
+      // This string will be a concat of the uid and new string
+      var rString = firebase.auth().currentUser.uid+(Array(50+1).join((Math.random().toString(36)+'00000000000000000').slice(2, 18)).slice(0, 50));
+
       firebase.database().ref('users/' + auth.currentUser.uid).set({
-        uid: auth.currentUser.uid
+        uid: auth.currentUser.uid,
+        token: rString
       });  
     }, function (reason) {
       console.log(reason);
@@ -54,51 +58,47 @@
     firebase.auth().signOut();
   })
 
-//add a real time listener
-    firebase.auth().onAuthStateChanged(user=>{
-      if (user){
-        console.log(user);
-        btnLogout.classList.remove('hide');
-        
+  //add a real time listener
+  firebase.auth().onAuthStateChanged(user=>{
+    if (user){
+      console.log(user);
+      btnLogout.classList.remove('hide');
+      
+      validateCall(function(){console.log("yay!");});
 
-        // TODO: Associate this special token within the 
-        // MySQL database
+    } else {
+      console.log('not logged in');
+      btnLogout.classList.add('hide');
+    }
+  })
 
-        // TODO: Any time there are any changes to the MySQL
-        // database, check for token
+  // TODO: Step 3 (may be a bit excessive)
 
-        // Note: Special token can be uid, as even if an attacker
-        // knows the UID, they cannot spoof the id token that 
-        // is generated on a correct auth, which means that 
-        // as long as the function is used in a promise, 
-        // MySQL calls would only be made if the correct auth
-        // token is validated by Firebase
-
-        validateCall(function(){console.log("yay!");});
-
-      } else {
-        console.log('not logged in');
-        btnLogout.classList.add('hide');
-      }
-    })
-
+  // Three tiers of security:
+  // 1. Closure within Javascript to prevent data manipulation
+  // Problem: Firebase itself can be overwritten in the console
+  // 2. Validation with uid from Firebase to current session 
+  // Problem: As Firebase can be overwritten, if attacker has the uid
+  // of the user, it is possible to overwrite Firebase functionality
+  // such that MySQL calls could be made to view/edit the target's account
+  // 3. Validation with FirebaseDB/MySQL with token generated on account create
+  // This solves the issue where if the uid is leaked as it would require the
+  // attacker to also know the randomly generated string created on account
+  // creation. 
+  // By running this function before any MySQL code is output to the 
+  // client will ensure that the proper user can see the code.
   function validateCall(callback){
     var userId = firebase.auth().currentUser.uid;
        firebase.database().ref('/users/' + userId).once('value').then(
         function(snapshot) {
           var uid = snapshot.val().uid;
-          console.log(uid);
+          var token = snapshot.val().token;
+          console.log(token);
 
-          //if validates from server data
           if(userId === uid){
             callback();
           }
     });
   }
 
-
 }());
-
-
-//setInterval(function(){ console.log(firebase.auth().currentUser.uid);
-// }, 5000);
