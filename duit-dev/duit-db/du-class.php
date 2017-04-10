@@ -28,7 +28,7 @@ class du {
 	protected $calc_priority;       // [int]             Priority calculated for the du; see setting of $calc_priority for more detailed information
 	protected $du_note;             // [string]          The note recorded for the du
 	protected $du_tags;             // [array(string)]   Tags recorded for the du
-	protected $du_status;						// [string]					 The status of a given Du. (Open/Active/Completed)
+	protected $du_status;			// [string]					 The status of a given Du. (Open/Active/Completed)
 
 
 	/**
@@ -1045,7 +1045,15 @@ class du {
 				WHERE du_id = '" . $this->du_id . "'"; 
 
 				//TODO LOG THE CHANGES
-
+            if (query($updateQuery, "setStatus()") === TRUE) {
+                // Record successful record update
+                $output  = date("Y-m-d H:i:s T", time());
+                $output .= " Updated record for du_id ";
+                $output .= $this->du_id . " successfully: ";
+                $output .= ($oldstatus) ? "changed status from '" . $oldstatus . "' to '" . $du_status . "'.\n" :
+								    "set status to '" . $du_status . "'.\n";
+			    fwrite($log, $output, 256);
+		    }
 			return true; 
 		} else {
 			return false;
