@@ -3,55 +3,74 @@
 
   use \Firebase\JWT\JWT;
 
+ // print_r($_GET);
   $idToken = $_GET["idToken"];
+  $uid = $_GET["uid"];
 
-  echo validateToken($idToken) ? 'true' : 'false';
+  echo validateToken($idToken,$uid) ? 'true' : 'false';
 
-  function validateToken($jwt){
+  function validateToken($jwt,$uid){
 
-    //Get secrets from https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com
-    $secrets = json_decode(file_get_contents('https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com'));
 
     //initial setting for validity
     $valid = false;
 
-    //Iterate through all the secrets from google
-    foreach($secrets as $key=>$secret) {
-      try {
-      // Decodese given a specific secret
-        $token = JWT::decode($jwt,$secret,array('RS256'));
-        //print_r($token);
 
+    $jwt_array = explode(".",$jwt);
+    //print_r($jwt_array);
+    //print_r (base64_decode($jwt_array[0]));
 
-        //Payload Claims
-        $currentTime = time();
-        $correctAudience = "duit-ba651";
-        $correctIssuer = "https://securetoken.google.com/duit-ba651";
+    $jwt_headers = json_decode(base64_decode($jwt_array[0]));
+    //print_r($jwt_headers);
 
-        //Payload checks
-        $validTime = $currentTime >= $token->iat;
-        $validExp = $currentTime < $token->exp;
-        $validAud = $correctAudience == $token->aud;
-        $validIssuer = $correctIssuer == $token->iss;
-        $validSub = !empty($token->sub);
+    //Header Claims
+    $encryption = "RS256";
+    //Secrets from https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com
+    $secrets = json_decode(file_get_contents('https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com'));
 
-        // echo $validTime ? 'true' : 'false';
-        // echo "<br>" . $currentTime;
-        // echo "<br>" . $token->iat;
+    $validEncryption = $encryption == $jwt_headers->alg;
+    //echo $validEncryption;
 
-
-        //Aggregate of all payload checks
-        $valid = $validTime && $validExp && $validAud && $validIssuer && $validSub;
-
-        //echo $valid;
-
-        // in the case that the encoding is invalid, keep going
-      } catch (\Exception $e){
-        
+    $validKey = false;
+    foreach($secrets as $key=>$secret){
+      //echo $secret;
+      if ($key == $jwt_headers->kid){
+        $validKey = true;
+        $theSecret = $secret;
+        $theKey = $key;
       }
-
     }
-  //  echo $valid ? 'true' : 'false';
+
+    try {
+      // Decodes given a specific secret
+      $token = JWT::decode($jwt,$theSecret,array('RS256'));
+
+      //Payload Claims
+      $currentTime = time();
+      $correctAudience = "duit-ba651";
+      $correctIssuer = "https://securetoken.google.com/duit-ba651";
+
+      //Payload checks
+      $validTime = $currentTime >= $token->iat;
+      $validExp = $currentTime < $token->exp;
+      $validAud = $correctAudience == $token->aud;
+      $validIssuer = $correctIssuer == $token->iss;
+      $validSub = !empty($token->sub)  && $uid == $token->sub;
+
+      //Aggregate of all payload checks
+      $valid = $validKey && $validEncryption && $validTime && $validExp && $validAud && $validIssuer && $validSub;
+
+      //echo $token->sub;
+
+      //echo $valid;
+
+      // in the case that the encoding is invalid, keep going
+    } catch (\Exception $e){
+      echo "Error with decoding";
+    }
+
+    // checks if valid and also the user id of the token is the same
+    // as the one locally
     return $valid;
   }
 

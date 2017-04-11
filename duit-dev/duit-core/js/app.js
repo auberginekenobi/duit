@@ -83,15 +83,17 @@
         cache: false,
         type: "GET",
         url: "auth.php", 
-        data: "idToken="+idToken,
+        data: "idToken="+idToken+
+          "&uid="+firebase.auth().currentUser.uid,
         success: function(msg){
-        //  console.log("yay!");
           console.log(msg);
         },
         error: function(e){
           console.log(e);
         }
       });
+
+
 
      // console.log(idToken);
     }).catch(function(error) {
