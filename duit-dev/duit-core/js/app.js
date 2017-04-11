@@ -80,9 +80,11 @@
           "&uid="+firebase.auth().currentUser.uid,
         success: function(msg){
           console.log(msg);
+          // console.log("wtf");
+          $(".responseContainer").html(msg);
         },
         error: function(e){
-          console.log(e);
+          //console.log(e);
         }
       });
 

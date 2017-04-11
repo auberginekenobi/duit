@@ -14,6 +14,9 @@
 
 <h1>DUiT</h1>
 
+  <div class="responseContainer">
+  </div>
+
   <div class="container">
 
   <input id="txtEmail" type = "email" placeholder="Email">

@@ -680,27 +680,27 @@ require("du-class.php");
 
 
 
-// Main executions
-$log = openLogFile(true);
-$all = getAll();
+// // Main executions
+// $log = openLogFile(true);
+// $all = getAll();
 
-// Testing Example
+// // Testing Example
 
-displayAsTable($all);
+// displayAsTable($all);
 
-$parameters = array('du_name' => 'Take out the trash', 'du_has_date' => 1, 'du_time_start' => '2017-03-30');
-$all = addDu($parameters);
+// $parameters = array('du_name' => 'Take out the trash', 'du_has_date' => 1, 'du_time_start' => '2017-03-30');
+// $all = addDu($parameters);
 
-// $all[1]->unsetDuPriority();
-// $all[3]->unsetNote();
+// // $all[1]->unsetDuPriority();
+// // $all[3]->unsetNote();
 
-displayAsTable($all);
+// displayAsTable($all);
 
-$all = deleteDu(5);
+// $all = deleteDu(5);
 
-displayAsTable($all);
+// displayAsTable($all);
 
-// $all[1]->setDuPriority("4");
-// $all[3]->setNote("Make it extra yummy");
+// // $all[1]->setDuPriority("4");
+// // $all[3]->setNote("Make it extra yummy");
 
 ?>
