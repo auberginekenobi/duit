@@ -28,6 +28,11 @@
     promise.catch(e=>console.log(e.message));
   });
 
+  btnTest.addEventListener('click',e=>{
+    console.log("testing...");
+    validateCall2();
+  });
+
 
   //add signup event
   btnSignUp.addEventListener('click', e=> {
@@ -50,7 +55,6 @@
     }, function (reason) {
       console.log(reason);
     }); 
- 
   });
 
   //add signout
@@ -64,7 +68,7 @@
       console.log(user);
       btnLogout.classList.remove('hide');
       
-      validateCall(function(){console.log("yay!");});
+     // validateCall(function(){console.log("yay!");});
 
     } else {
       console.log('not logged in');
@@ -93,11 +97,21 @@
         function(snapshot) {
           var uid = snapshot.val().uid;
           var token = snapshot.val().token;
-          console.log(token);
+          //console.log(token);
 
           if(userId === uid){
             callback();
           }
+    });
+  }
+
+  function validateCall2(callback){
+    firebase.auth().currentUser.getToken(/* forceRefresh */ true).then(function(idToken) {
+      // Send token to your backend via HTTPS
+      // ...      
+      console.log(idToken);
+    }).catch(function(error) {
+      // Handle error
     });
   }
 
