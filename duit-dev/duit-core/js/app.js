@@ -29,7 +29,6 @@
   });
 
   btnTest.addEventListener('click',e=>{
-    // console.log("testing...");
     validateCall();
   });
 
@@ -43,15 +42,12 @@
     //Sign in
     const promise = auth.createUserWithEmailAndPassword(email,pass).then(function(){
       
-      // Generate a random string (token) to store in both the Firebase 
-      // real-time database as well as the MySQL database
-      // This string will be a concat of the uid and new string
-      var rString = firebase.auth().currentUser.uid+(Array(50+1).join((Math.random().toString(36)+'00000000000000000').slice(2, 18)).slice(0, 50));
-
+      //Stores by uid
       firebase.database().ref('users/' + auth.currentUser.uid).set({
-        uid: auth.currentUser.uid,
-        token: rString
+        uid: auth.currentUser.uid
       });  
+
+      //To do send a request to create a user in PHP
     }, function (reason) {
       console.log(reason);
     }); 
@@ -62,14 +58,11 @@
     firebase.auth().signOut();
   })
 
-  //add a real time listener
+  //add a real time listener for changes in user state
   firebase.auth().onAuthStateChanged(user=>{
     if (user){
       console.log(user);
       btnLogout.classList.remove('hide');
-      
-     // validateCall(function(){console.log("yay!");});
-
     } else {
       console.log('not logged in');
       btnLogout.classList.add('hide');

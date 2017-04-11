@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Page Title</title>
+<title>DUiT</title>
 
 <script src="https://www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
@@ -12,8 +12,7 @@
 </head>
 <body>
 
-<h1>This is a Heading</h1>
-<p>This is a paragraph.</p>
+<h1>DUiT</h1>
 
   <div class="container">
 
