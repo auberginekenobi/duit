@@ -29,8 +29,8 @@
   });
 
   btnTest.addEventListener('click',e=>{
-    console.log("testing...");
-    validateCall2();
+    // console.log("testing...");
+    validateCall();
   });
 
 
@@ -76,40 +76,24 @@
     }
   })
 
-  // TODO: Step 3 (may be a bit excessive)
-
-  // Three tiers of security:
-  // 1. Closure within Javascript to prevent data manipulation
-  // Problem: Firebase itself can be overwritten in the console
-  // 2. Validation with uid from Firebase to current session 
-  // Problem: As Firebase can be overwritten, if attacker has the uid
-  // of the user, it is possible to overwrite Firebase functionality
-  // such that MySQL calls could be made to view/edit the target's account
-  // 3. Validation with FirebaseDB/MySQL with token generated on account create
-  // This solves the issue where if the uid is leaked as it would require the
-  // attacker to also know the randomly generated string created on account
-  // creation. 
-  // By running this function before any MySQL code is output to the 
-  // client will ensure that the proper user can see the code.
   function validateCall(callback){
-    var userId = firebase.auth().currentUser.uid;
-       firebase.database().ref('/users/' + userId).once('value').then(
-        function(snapshot) {
-          var uid = snapshot.val().uid;
-          var token = snapshot.val().token;
-          //console.log(token);
-
-          if(userId === uid){
-            callback();
-          }
-    });
-  }
-
-  function validateCall2(callback){
     firebase.auth().currentUser.getToken(/* forceRefresh */ true).then(function(idToken) {
       // Send token to your backend via HTTPS
-      // ...      
-      console.log(idToken);
+      $.ajax({
+        cache: false,
+        type: "GET",
+        url: "auth.php", 
+        data: "idToken="+idToken,
+        success: function(msg){
+        //  console.log("yay!");
+          console.log(msg);
+        },
+        error: function(e){
+          console.log(e);
+        }
+      });
+
+     // console.log(idToken);
     }).catch(function(error) {
       // Handle error
     });
