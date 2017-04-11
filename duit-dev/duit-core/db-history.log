@@ -1,1 +1,65 @@
 ======================================== LOADING DB-MAPPER.PHP ========================================
+2017-04-11 21:52:33 CEST User "global" connected to database.
+2017-04-11 21:52:33 CEST Function getAll() performed query: 
+	SELECT du_id, 
+	       du_timestamp, 
+	       du_name, 
+	       du_has_date, 
+	       du_has_deadline, 
+	       du_has_duration, 
+	       du_time_start, 
+	       du_time_end, 
+	       du_priority, 
+	       du_enforce_priority, 
+	       ( Group_concat(tag_priority SEPARATOR ', ') ) AS tag_priorities, 
+	       du_note, 
+           du_status,
+	       ( Group_concat(tag_name SEPARATOR ', ') )     AS du_tags
+	FROM   (SELECT d.du_id, 
+	               d.du_timestamp, 
+	               d.du_name, 
+	               d.du_has_date, 
+	               d.du_has_deadline, 
+	               d.du_has_duration, 
+	               d.du_time_start, 
+	               d.du_time_end, 
+	               d.du_priority, 
+	               d.du_enforce_priority, 
+	               d.du_note,
+                   d.du_status,
+	               t.tag_id, 
+	               t.tag_name, 
+	               t.tag_priority, 
+	               t.tag_note
+	        FROM   dus AS d 
+	               LEFT JOIN du_tag_pairs AS p 
+	                      ON d.du_id = p.du_id 
+	               LEFT JOIN tags AS t 
+	                      ON p.tag_id = t.tag_id ) AS subq
+	GROUP  BY du_name 
+	ORDER  BY du_id ASC
+2017-04-11 21:52:34 CEST Preparing to add new du with parameters:
+	'du_name' => 'Take out the trash'
+	'du_has_date' => 1
+	'du_time_start' => '2017-03-30'
+2017-04-11 21:52:34 CEST Preprocessed du successfuly. Preprocessed parameters:
+	'du_name' => 'Take out the trash'
+	'du_has_date' => 1
+	'du_time_start' => '2017-03-30 00:00:00'
+	'du_id' => 7
+	'du_timestamp' => '2017-04-11 21:52:34'
+	'du_has_deadline' => 0
+	'du_has_duration' => 0
+	'du_time_end' => NULL
+	'du_enforce_priority' => 0
+	'du_priority' => 4
+	'tag_priorities' => NULL
+	'du_note' => NULL
+	'du_status' => 'Open'
+	'du_tags' => NULL
+2017-04-11 21:52:34 CEST Added new du to $all with du_id of '7'.
+2017-04-11 21:52:34 CEST Function addToDB() performed query: 
+			SELECT *
+			FROM   dus
+			WHERE  du_id = 7
+2017-04-11 21:52:34 CEST Could not add new du to database: item with du_id '7' already exists.

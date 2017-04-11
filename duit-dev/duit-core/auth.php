@@ -3,25 +3,23 @@
   require_once '../duit-db/db-mapper.php';
   use \Firebase\JWT\JWT;
 
-  if(!is_null($_GET)) {
+  if(!empty($_GET)) {
     $idToken = $_GET["idToken"];
     $uid = $_GET["uid"];
-   // echo "Testing";
-    echo validateToken($idToken,$uid) ? 'true' : 'false';
-   add();
+    add();
   }
 
   function add(){
-    $log = openLogFile(true);
-    $all = getAll();
-    $parameters = array('du_name' => 'Take out the trash', 'du_has_date' => 1, 'du_time_start' => '2017-03-30');
-    $all = addDu($parameters);
-    displayAsTable($all);
+    global $idToken, $uid;
+
+    if (validateToken($idToken,$uid)) {
+      $parameters = array('du_name' => 'Take out the trash', 'du_has_date' => 1, 'du_time_start' => '2017-03-30');
+      $all = addDu($parameters);
+      displayAsTable($all);
+    }
   }
 
   function validateToken($jwt,$uid){
-
-
     //initial setting for validity
     $valid = false;
 
