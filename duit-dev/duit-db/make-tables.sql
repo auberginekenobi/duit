@@ -18,7 +18,7 @@ CREATE TABLE dus
      -- Time that du was created 
      du_timestamp        TIMESTAMP NOT NULL, 
      -- Name of du, required 
-     du_name             VARCHAR(100) NOT NULL, 
+     du_name             VARCHAR(256) NOT NULL, 
      -- Du can be associated with a date, deadline, duration (start and end time), or none of the above
      du_has_date         BOOL NOT NULL DEFAULT false, 
      du_has_deadline     BOOL NOT NULL DEFAULT false, 
@@ -32,7 +32,9 @@ CREATE TABLE dus
      -- Indicate if du priority was specified 
      du_enforce_priority BOOL NOT NULL DEFAULT false, 
      -- Longer description of du, optional 
-     du_note             VARCHAR(256) 
+     du_note             VARCHAR(256),
+     -- Status of du, Open Completed or Active
+     du_status           VARCHAR(256) NOT NULL
   ); 
 
 -- Create table for tags, used to relate multiple du's to the same project, class, category, media, etc.
@@ -57,48 +59,36 @@ CREATE TABLE du_tag_pairs
      FOREIGN KEY (tag_id) REFERENCES tags(tag_id) 
   ); 
 
--- Create table for statuses, used to track states of du's
-CREATE TABLE statuses 
-  ( 
-     -- Linked identifier: du id 
-     du_id             INT UNSIGNED NOT NULL, 
-          FOREIGN KEY (du_id) REFERENCES dus(du_id), 
-     -- Status type, required 
-     status_type       ENUM('open', 'active', 'completed') NOT NULL DEFAULT 
-     'open', 
-     -- Time at which du is updated to 'active' status, optional (set automatically on status change)
-     status_time_start DATETIME, 
-     -- Time at which du is updated to 'completed' status, optional (set automatically on status change)
-     status_time_end   DATETIME, 
-     -- Score, assigned on completion to reflect if task was completed/when task was completed with respect to deadline
-     score             DECIMAL(5, 2)-- accepts values from -999.99 to 999.99 
-  ); 
-
 
 -- SAMPLE DATA
 
 INSERT INTO dus 
             (du_name, 
              du_priority, 
-             du_enforce_priority) 
+             du_enforce_priority,
+             du_status) 
 VALUES      ('Buy groceries', 
              4, 
-             true), 
+             true,
+             'Open'), 
             ('Reserve campground', 
              4, 
-             true); 
+             true,
+             'Open'); 
 
 INSERT INTO dus 
             (du_name, 
              du_has_duration, 
              du_time_start, 
              du_time_end, 
-             du_note) 
+             du_note,
+             du_status) 
 VALUES      ('Cook dinner', 
              true, 
              '2016-03-14 17:00:00', 
              '2016-03-14 18:00:00', 
-             'Make it extra yummy'); 
+             'Make it extra yummy',
+             'Active'); 
 
 INSERT INTO dus 
             (du_name, 
@@ -106,13 +96,15 @@ INSERT INTO dus
              du_time_start, 
              du_priority, 
              du_enforce_priority, 
-             du_note) 
+             du_note,
+             du_status) 
 VALUES      ('Study for test', 
              true, 
              '2016-03-15 13:00:00', 
              1, 
              true, 
-             'Tbh you\'ll probably fail tho'); 
+             'Tbh you\'ll probably fail tho',
+             'Completed'); 
 
 INSERT INTO tags 
             (tag_name) 
@@ -137,32 +129,6 @@ VALUES      (1,
              1), 
             (4, 
              2); 
-
-INSERT INTO statuses 
-            (du_id) 
-VALUES      (1), 
-            (2); 
-
-INSERT INTO statuses 
-            (du_id, 
-             status_type, 
-             status_time_start, 
-             status_time_end, 
-             score) 
-VALUES      (3, 
-             'completed', 
-             '2016-03-14 17:05:00,', 
-             '2016-03-14 17:58:00', 
-             0); 
-
-INSERT INTO statuses 
-            (du_id, 
-             status_type, 
-             status_time_start) 
-VALUES      (4, 
-             'active', 
-             '2016-03-14 21:35:00');
-
 
 -- SAMPLE SELECTS 
 
@@ -189,11 +155,8 @@ SELECT du_id,
        -- du_enforce_priority, 
        ( Group_concat(tag_priority SEPARATOR ', ') ) AS tag_priorities, 
        -- du_note, 
-       ( Group_concat(tag_name SEPARATOR ', ') )     AS du_tags, 
-       status_type -- , 
-       -- status_time_start, 
-       -- status_time_end, 
-       -- score 
+       -- du_status,
+       ( Group_concat(tag_name SEPARATOR ', ') )     AS du_tags
 FROM   (SELECT d.du_id, 
                d.du_timestamp, 
                d.du_name, 
@@ -205,21 +168,16 @@ FROM   (SELECT d.du_id,
                d.du_priority, 
                d.du_enforce_priority, 
                d.du_note, 
+               d.du_status,
                t.tag_id, 
                t.tag_name, 
                t.tag_priority, 
-               t.tag_note, 
-               u.status_type, 
-               u.status_time_start, 
-               u.status_time_end, 
-               u.score 
+               t.tag_note
         FROM   dus AS d 
                LEFT JOIN du_tag_pairs AS p 
                       ON d.du_id = p.du_id 
                LEFT JOIN tags AS t 
-                      ON p.tag_id = t.tag_id 
-               LEFT JOIN statuses AS u 
-                      ON d.du_id = u.du_id) AS subq 
+                      ON p.tag_id = t.tag_id ) AS subq
 GROUP  BY du_name 
 ORDER  BY du_id ASC 
 
