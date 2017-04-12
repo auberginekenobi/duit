@@ -25,8 +25,8 @@
  * @return [resource(file stream)] The open log file
  */
 function openLogFile($clearContents = false) {
-
-	$logPath = "C:/xampp/htdocs/duit/duit-dev/duit-db/db-history.log";
+	
+	$logPath = __DIR__ . "/db-history.log";
 
 	// Clear log file, if specified to
 	if ($clearContents) file_put_contents($logPath, "");

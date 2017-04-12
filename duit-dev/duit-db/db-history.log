@@ -1,6 +1,6 @@
 ======================================== LOADING DB-MAPPER.PHP ========================================
-2017-03-21 05:36:04 CET User "global" connected to database.
-2017-03-21 05:36:04 CET Function getAll() performed query: 
+2017-04-12 09:50:37 CEST User "global" connected to database.
+2017-04-12 09:50:37 CEST Function getAll() performed query: 
 	SELECT du_id, 
 	       du_timestamp, 
 	       du_name, 
@@ -13,11 +13,8 @@
 	       du_enforce_priority, 
 	       ( Group_concat(tag_priority SEPARATOR ', ') ) AS tag_priorities, 
 	       du_note, 
-	       ( Group_concat(tag_name SEPARATOR ', ') )     AS du_tags, 
-	       status_type, 
-	       status_time_start, 
-	       status_time_end, 
-	       score 
+           du_status,
+	       ( Group_concat(tag_name SEPARATOR ', ') )     AS du_tags
 	FROM   (SELECT d.du_id, 
 	               d.du_timestamp, 
 	               d.du_name, 
@@ -28,69 +25,16 @@
 	               d.du_time_end, 
 	               d.du_priority, 
 	               d.du_enforce_priority, 
-	               d.du_note, 
+	               d.du_note,
+                   d.du_status,
 	               t.tag_id, 
 	               t.tag_name, 
 	               t.tag_priority, 
-	               t.tag_note, 
-	               u.status_type, 
-	               u.status_time_start, 
-	               u.status_time_end, 
-	               u.score 
+	               t.tag_note
 	        FROM   dus AS d 
 	               LEFT JOIN du_tag_pairs AS p 
 	                      ON d.du_id = p.du_id 
 	               LEFT JOIN tags AS t 
-	                      ON p.tag_id = t.tag_id 
-	               LEFT JOIN statuses AS u 
-	                      ON d.du_id = u.du_id) AS subq 
+	                      ON p.tag_id = t.tag_id ) AS subq
 	GROUP  BY du_name 
 	ORDER  BY du_id ASC
-2017-03-21 05:36:04 CET Preparing to add new du with parameters:
-	'du_name' => 'Take out the trash'
-	'du_has_date' => 1
-	'du_time_start' => '2017-03-30'
-2017-03-21 05:36:04 CET Preprocessed du successfuly. Preprocessed parameters:
-	'du_name' => 'Take out the trash'
-	'du_has_date' => 1
-	'du_time_start' => '2017-03-30 00:00:00'
-	'du_id' => 5
-	'du_timestamp' => '2017-03-21 05:36:04'
-	'du_has_deadline' => 0
-	'du_has_duration' => 0
-	'du_time_end' => NULL
-	'du_enforce_priority' => 0
-	'du_priority' => 4
-	'tag_priorities' => NULL
-	'du_note' => NULL
-	'du_tags' => NULL
-2017-03-21 05:36:04 CET Added new du to $all with du_id of '5'.
-2017-03-21 05:36:04 CET Function addToDB() performed query: 
-			SELECT *
-			FROM   dus
-			WHERE  du_id = 5
-2017-03-21 05:36:04 CET Function addToDB() performed query: 
-				SELECT MAX(du_id)
-				FROM   dus
-2017-03-21 05:36:04 CET Function addToDB() performed query: 
-				ALTER TABLE dus auto_increment = 5
-2017-03-21 05:36:04 CET Function addToDB() performed query: 
-				INSERT INTO dus
-							(du_name,
-							 du_has_date,
-							 du_time_start)
-				VALUES ('Take out the trash',
-							 1,
-							 '2017-03-30 00:00:00');
-2017-03-21 05:36:04 CET Added new du to database with du_id of '5'.
-2017-03-21 05:36:04 CET Function addToDB() performed query: SELECT LAST_INSERT_ID()
-2017-03-21 05:36:04 CET Confirmed du_id in array (5) matches du_id in database (5).
-2017-03-21 05:36:04 CET Deleted du from $all with du_id of '5'.
-2017-03-21 05:36:04 CET Function deleteFromDB() performed query: 
-			SELECT *
-			FROM   dus
-			WHERE  du_id = 5
-2017-03-21 05:36:04 CET Function deleteFromDB() performed query: 
-				DELETE FROM dus
-				WHERE du_id   = '5'
-2017-03-21 05:36:04 CET Deleted du from database with du_id of '5'.
