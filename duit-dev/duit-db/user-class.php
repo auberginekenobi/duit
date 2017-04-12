@@ -174,5 +174,13 @@ class user {
         exit($output);
       }
     }
+  
+  public function getID() {
+    return $this->user_id;
+  }
+  
+  public function getUsername() {
+    return $this->user_name;
+  }
 }
 ?>
