@@ -7,6 +7,8 @@ CREATE DATABASE duit_dev;
 GRANT ALL PRIVILEGES ON duit_dev.* to 'global'@'localhost' IDENTIFIED BY 'temp' WITH GRANT OPTION;
 -- GRANT ALL PRIVILEGES ON duit.* to 'global'@'localhost' IDENTIFIED BY 'temp' WITH GRANT OPTION;
 
+ALTER DATABASE  duit_dev DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+
 
 USE duit_dev;
 
