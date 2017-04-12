@@ -1,4 +1,12 @@
-/* MAIN STYLESHEET */
+/**
+ * main.css
+ *
+ * Main style sheet for app styles
+ *
+ * @author    Kelli Rockwell <kellirockwell@mail.com>
+ * @copyright 2017 DUiT
+ * @since     File available since release 0.0.3  
+ */
 @font-face {
   font-family: 'Amsi';
   font-style: normal;

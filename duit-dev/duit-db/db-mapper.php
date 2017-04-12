@@ -26,12 +26,14 @@
  */
 function openLogFile($clearContents = false) {
 
+	$logPath = "C:/xampp/htdocs/duit/duit-dev/duit-db/db-history.log";
+
 	// Clear log file, if specified to
-	if ($clearContents) file_put_contents("db-history.log", "");
+	if ($clearContents) file_put_contents($logPath, "");
 
 	// Open log file for write only (existing data preserved, file pointer
 	// starts at end of file)
-	$log = fopen("db-history.log", "a");
+	$log = fopen($logPath, "a");
 
 	// Record note of new instance of page load
 	fwrite($log, "======================================== LOADING DB-MAPPER.PHP ========================================\n");
