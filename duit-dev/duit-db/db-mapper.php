@@ -165,6 +165,7 @@ function getAll() {
 	       ( Group_concat(tag_priority SEPARATOR ', ') ) AS tag_priorities, 
 	       du_note, 
            du_status,
+           user_id,
 	       ( Group_concat(tag_name SEPARATOR ', ') )     AS du_tags
 	FROM   (SELECT d.du_id, 
 	               d.du_timestamp, 
@@ -178,6 +179,7 @@ function getAll() {
 	               d.du_enforce_priority, 
 	               d.du_note,
                    d.du_status,
+                   d.user_id,
 	               t.tag_id, 
 	               t.tag_name, 
 	               t.tag_priority, 
@@ -213,6 +215,7 @@ function getAll() {
     						$currRow['tag_priorities'],
     						$currRow['du_note'],
                             $currRow['du_status'],
+                            $currRow['user_id'],
     						$currRow['du_tags']);
     	// Store du in array at key that is du_id
     	$all[$du_id] = $newDu;   
@@ -326,6 +329,7 @@ function addDu($parameters, $duArray = NULL) {
 						$p['tag_priorities'],
 						$p['du_note'],
                         $p['du_status'],
+                        $p['user_id'],
 						$p['du_tags']);
 
 	// Store du in array at key that is du_id
@@ -606,6 +610,10 @@ function preprocess($parameters) {
 		fwrite($log, $output, 2048);
 	    exit($output);
 	}
+    
+    // FIELD 'user_id'            : REQUIRED (int user_id)
+    // Check if provided user_id matches an extant user_id
+    // TODO: that check
 
 	// Field 'du_tags'            : OPTIONAL (array of strings)
 	// 
