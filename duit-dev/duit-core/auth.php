@@ -23,13 +23,14 @@
     }
   }
 
+  //assumes id is passed through something like a class variable
   function delete(){
 
   }
 
   function displayTable(){
     global $all;
-    
+
     displayAsTable($all);
   }
 
