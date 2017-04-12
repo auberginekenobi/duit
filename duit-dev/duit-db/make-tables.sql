@@ -10,6 +10,14 @@ GRANT ALL PRIVILEGES ON duit_dev.* to 'global'@'localhost' IDENTIFIED BY 'temp' 
 
 USE duit_dev;
 
+-- Create table for storing, associating users dus
+CREATE TABLE users
+  (
+    user_id   INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_name VARCHAR(256) UNIQUE NOT NULL
+  );
+-- TODO: link to dus.
+
 -- Create table for du's
 CREATE TABLE dus 
   ( 
@@ -34,7 +42,10 @@ CREATE TABLE dus
      -- Longer description of du, optional 
      du_note             VARCHAR(256),
      -- Status of du, Open Completed or Active
-     du_status           VARCHAR(256) NOT NULL
+     du_status           VARCHAR(256) NOT NULL,
+     -- Tied to a user ID
+     user_id             INT UNSIGNED NOT NULL,
+     FOREIGN KEY (user_id) REFERENCES users(user_id)
   ); 
 
 -- Create table for tags, used to relate multiple du's to the same project, class, category, media, etc.
@@ -47,7 +58,10 @@ CREATE TABLE tags
      -- Priority will take a value between 1 and 4 where 1 is most critical, optional (defaults to 4 if unspecified)
      tag_priority INT NOT NULL DEFAULT 4, 
      -- Longer description of tag, optional 
-     tag_note     VARCHAR(256) 
+     tag_note     VARCHAR(256),
+     -- Tied to a user ID
+     user_id      INT UNSIGNED NOT NULL,
+     FOREIGN KEY (user_id) REFERENCES users(user_id)
   );
 
 -- Create table for cataloguing which tags are associated with which du's where each line represents one such correspondance
@@ -62,19 +76,27 @@ CREATE TABLE du_tag_pairs
 
 -- SAMPLE DATA
 
+INSERT INTO users
+             (user_name)
+VALUES       ('Spongebob'),
+             ('Patrick');
+
 INSERT INTO dus 
             (du_name, 
              du_priority, 
              du_enforce_priority,
-             du_status) 
+             du_status,
+             user_id) 
 VALUES      ('Buy groceries', 
              4, 
              true,
-             'Open'), 
+             'Open',
+             1), 
             ('Reserve campground', 
              4, 
              true,
-             'Open'); 
+             'Open',
+             1); 
 
 INSERT INTO dus 
             (du_name, 
@@ -82,13 +104,15 @@ INSERT INTO dus
              du_time_start, 
              du_time_end, 
              du_note,
-             du_status) 
+             du_status,
+             user_id) 
 VALUES      ('Cook dinner', 
              true, 
              '2016-03-14 17:00:00', 
              '2016-03-14 18:00:00', 
              'Make it extra yummy',
-             'Active'); 
+             'Active',
+             1); 
 
 INSERT INTO dus 
             (du_name, 
@@ -97,26 +121,33 @@ INSERT INTO dus
              du_priority, 
              du_enforce_priority, 
              du_note,
-             du_status) 
+             du_status,
+             user_id) 
 VALUES      ('Study for test', 
              true, 
              '2016-03-15 13:00:00', 
              1, 
              true, 
              'Tbh you\'ll probably fail tho',
-             'Completed'); 
+             'Completed',
+             2); 
 
 INSERT INTO tags 
-            (tag_name) 
-VALUES      ('food'); 
+            (tag_name,
+            user_id) 
+VALUES      ('food',
+            1); 
 
 INSERT INTO tags 
             (tag_name, 
-             tag_priority) 
+             tag_priority,
+            user_id) 
 VALUES      ('spanish', 
-             3), 
+             3,
+             2), 
             ('errands', 
-             3); 
+             3,
+             1); 
 
 INSERT INTO du_tag_pairs 
             (du_id, 
@@ -141,6 +172,11 @@ SELECT 'TABLE OF TAGS' AS '';
 
 SELECT * 
 FROM   tags; 
+
+SELECT 'TABLE OF USERS' AS '';
+
+SELECT *
+FROM users;
 
 SELECT 'CONSOLIDATED AGGREGATE VIEW OF DU\'S' AS ''; 
 SELECT du_id, 
