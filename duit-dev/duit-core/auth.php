@@ -7,16 +7,31 @@
     $idToken = $_GET["idToken"];
     $uid = $_GET["uid"];
     add();
+    displayTable();
   }
 
   function add(){
-    global $idToken, $uid;
+    global $idToken, $uid, $all;
 
     if (validateToken($idToken,$uid)) {
-      $parameters = array('du_name' => 'Take out the trash', 'du_has_date' => 1, 'du_time_start' => '2017-03-30');
+      $parameters = array('du_name' => 'Take out the trash'+rand(), 'du_has_date' => 1, 'du_time_start' => '2017-03-30');
       $all = addDu($parameters);
-      displayAsTable($all);
+     // displayAsTable($all);
+     // $all = deleteDu(5);
+      $result = array('message' => "success","added" => $parameters);
+      echo json_encode($result);
     }
+  }
+
+  //assumes id is passed through something like a class variable
+  function delete(){
+
+  }
+
+  function displayTable(){
+    global $all;
+
+    displayAsTable($all);
   }
 
   function validateToken($jwt,$uid){
@@ -62,7 +77,8 @@
 
       // in the case that the encoding is invalid, keep going
     } catch (\Exception $e){
-      echo "Error with decoding";
+      $result = array('message' => "error with decoding");
+      echo json_encode($result);
     }
 
     // checks if valid and also the user id of the token is the same
