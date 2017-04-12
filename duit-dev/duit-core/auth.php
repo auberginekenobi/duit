@@ -23,13 +23,8 @@
     //initial setting for validity
     $valid = false;
 
-
     $jwt_array = explode(".",$jwt);
-    //print_r($jwt_array);
-    //print_r (base64_decode($jwt_array[0]));
-
     $jwt_headers = json_decode(base64_decode($jwt_array[0]));
-    //print_r($jwt_headers);
 
     //Header Claims
     $encryption = "RS256";
@@ -37,15 +32,12 @@
     $secrets = json_decode(file_get_contents('https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com'));
 
     $validEncryption = $encryption == $jwt_headers->alg;
-    //echo $validEncryption;
 
     $validKey = false;
     foreach($secrets as $key=>$secret){
-      //echo $secret;
       if ($key == $jwt_headers->kid){
         $validKey = true;
         $theSecret = $secret;
-        $theKey = $key;
       }
     }
 
@@ -59,7 +51,7 @@
       $correctIssuer = "https://securetoken.google.com/duit-ba651";
 
       //Payload checks
-      $validTime = $currentTime >= $token->iat;
+      $validTime = $currentTime >= $token->iat-60; //include 1 minute leeway
       $validExp = $currentTime < $token->exp;
       $validAud = $correctAudience == $token->aud;
       $validIssuer = $correctIssuer == $token->iss;
@@ -67,10 +59,6 @@
 
       //Aggregate of all payload checks
       $valid = $validKey && $validEncryption && $validTime && $validExp && $validAud && $validIssuer && $validSub;
-
-      //echo $token->sub;
-
-      //echo $valid;
 
       // in the case that the encoding is invalid, keep going
     } catch (\Exception $e){
