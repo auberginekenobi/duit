@@ -29,6 +29,7 @@ class du {
 	protected $du_note;             // [string]          The note recorded for the du
 	protected $du_tags;             // [array(string)]   Tags recorded for the du
 	protected $du_status;			// [string]					 The status of a given Du. (Open/Active/Completed)
+    protected $user_id;             // [int]            User associated with the du
 
 
 	/**
@@ -57,6 +58,7 @@ class du {
 	 * @param [string] $tag_priorities        Priority specifications for each tag recorded for the du as a string, entries separated by ", ""
 	 * @param [string] $du_note               The note recorded for the du
      * @param [string] $du_status			  The status of a given Du. (Open/Active/Completed)
+     * @param [int] $user_id                  User associated with du
 	 * @param [string] $du_tags               Tags recorded for the du as a string, entries separated by ", "
 
 	 */
@@ -73,6 +75,7 @@ class du {
 								$tag_priorities,
 								$du_note,
                                 $du_status,
+                                $user_id,
 								$du_tags
 								) {
 
@@ -95,7 +98,8 @@ class du {
 			$this->tag_priorities      = ($tag_priorities)             ? array_map('intval', explode(", ", $tag_priorities)) : 
 															             NULL; // Explode and convert to ints, if tag priorities exist
 			$this->du_note             = $du_note;
-            $this->du_status 		   = $du_status;			                                                          
+            $this->du_status 		   = $du_status;
+            $this->user_id             = $user_id;
 			$this->du_tags             = ($du_tags)                    ? explode(", ", $du_tags) :
 			                                                             NULL; // Explode, if tags exist
 
@@ -144,6 +148,7 @@ class du {
 		$addHeaders .= "<th>calc_priority</th>";
 		$addHeaders .= "<th>du_note</th>";
         $addHeaders .= "<th>du_status</th>";
+        $addHeaders .= "<th>user_id</th>";
 		$addHeaders .= "<th>du_tags</th>";
 		$addHeaders .= "</tr>";
 
@@ -170,6 +175,7 @@ class du {
 		$output .= "<td>" . $this->calc_priority . "</td>";
 		$output .= "<td>" . $this->du_note . "</td>";
         $output .= "<td>" . $this->du_status . "</td>";
+        $output .= "<td>" . $this->user_id . "</td";
 		$output .= "<td>" . (($this->du_tags)        ? implode(", ", $this->du_tags) :
 			                                           "") . "</td>";
 		$output .= "</tr>";
@@ -242,6 +248,7 @@ class du {
 			$insertQuery .= ($this->du_note) ? ",
 							 du_note" : "";
 			$insertQuery .= ", du_status";
+            $insertQuery .= ", user_id";
 			$insertQuery .= ")";
 
 			// Insert what
@@ -263,6 +270,7 @@ class du {
 			$insertQuery .= ($this->du_note) ? ",
 							 '" . $this->du_note . "'" : "";
 			$insertQuery .= ",'" . $this->du_status . "'";
+            $insertQuery .= ",'" . $this->user_id . "'";
 			$insertQuery .= ");";
 
 			query($insertQuery, "addToDB()");
@@ -1046,7 +1054,6 @@ class du {
 				SET du_status = '" . $du_status . "'
 				WHERE du_id = '" . $this->du_id . "'"; 
 
-				//TODO LOG THE CHANGES
             if (query($updateQuery, "setStatus()") === TRUE) {
                 // Record successful record update
                 $output  = date("Y-m-d H:i:s T", time());
@@ -1061,6 +1068,10 @@ class du {
 			return false;
 		}
 	}
+    
+    public function getUserID() {
+        return $this->user_id;
+    }
 
 }
 

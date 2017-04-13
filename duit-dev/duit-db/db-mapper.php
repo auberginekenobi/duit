@@ -165,6 +165,7 @@ function getAll() {
 	       ( Group_concat(tag_priority SEPARATOR ', ') ) AS tag_priorities, 
 	       du_note, 
            du_status,
+           user_id,
 	       ( Group_concat(tag_name SEPARATOR ', ') )     AS du_tags
 	FROM   (SELECT d.du_id, 
 	               d.du_timestamp, 
@@ -178,6 +179,7 @@ function getAll() {
 	               d.du_enforce_priority, 
 	               d.du_note,
                    d.du_status,
+                   d.user_id,
 	               t.tag_id, 
 	               t.tag_name, 
 	               t.tag_priority, 
@@ -213,6 +215,7 @@ function getAll() {
     						$currRow['tag_priorities'],
     						$currRow['du_note'],
                             $currRow['du_status'],
+                            $currRow['user_id'],
     						$currRow['du_tags']);
     	// Store du in array at key that is du_id
     	$all[$du_id] = $newDu;   
@@ -326,6 +329,7 @@ function addDu($parameters, $duArray = NULL) {
 						$p['tag_priorities'],
 						$p['du_note'],
                         $p['du_status'],
+                        $p['user_id'],
 						$p['du_tags']);
 
 	// Store du in array at key that is du_id
@@ -606,6 +610,33 @@ function preprocess($parameters) {
 		fwrite($log, $output, 2048);
 	    exit($output);
 	}
+    
+    // FIELD 'user_id'            : REQUIRED (int user_id)
+    // Check if provided user_id matches an extant user_id
+	// Handle case where user_id is not specified
+	if (!isset($p['user_id'])) {
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new du: no user id found specified in input. Input was:\n";
+		$output .= "	" . var_export($parameters, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	} else {
+        $queryStatement = "
+        SELECT user_id
+        FROM users
+        WHERE user_id = " . $p['user_id'];
+        $result = query($queryStatement, "preprocess()");
+        $currRow = $result->fetch_assoc();
+        if ($currRow == NULL){
+            $output  = date("Y-m-d H:i:s T", time());
+            $output .= " Could not add new du: input user id does not correspond to an extant user. Input was:\n";
+            $output .= "	" . var_export($parameters, true);
+            // Write to log file and kill process
+            fwrite($log, $output, 2048);
+            exit($output);
+        }
+    }
 
 	// Field 'du_tags'            : OPTIONAL (array of strings)
 	// 
@@ -688,15 +719,15 @@ $all = getAll();
 
 // Testing Example
 
-// displayAsTable($all);
+ displayAsTable($all);
 
-// $parameters = array('du_name' => 'Take out the trash', 'du_has_date' => 1, 'du_time_start' => '2017-03-30');
-// $all = addDu($parameters);
+$parameters = array('du_name' => 'Take out the trash'.rand(), 'du_has_date' => 1, 'du_time_start' => '2017-03-30', 'user_id' => 1);
+$all = addDu($parameters);
 
 // $all[1]->unsetDuPriority();
 // $all[3]->unsetNote();
 
-// displayAsTable($all);
+displayAsTable($all);
 
 // $all = deleteDu(5);
 
