@@ -29,7 +29,7 @@
   });
 
   btnTest.addEventListener('click',e=>{
-    validateCall();
+    callServer("displayAsTable");
   });
 
 
@@ -69,15 +69,17 @@
     }
   })
 
-  function validateCall(callback){
+  function callServer(fName,callback){
     firebase.auth().currentUser.getToken(/* forceRefresh */ true).then(function(idToken) {
       // Send token to your backend via HTTPS
+      console.log("test");
+      console.log(fName);
       $.ajax({
         cache: false,
         type: "GET",
         url: "auth.php", 
         data: "idToken="+idToken+
-          "&uid="+firebase.auth().currentUser.uid,
+          "&uid="+firebase.auth().currentUser.uid+"&fName="+fName,
         success: function(msg){
           console.log(msg);
           // console.log("wtf");

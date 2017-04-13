@@ -5,18 +5,28 @@
 
   JWT::$leeway = 60;
 
+
   if(!empty($_GET)) {
+
+    //Todo: Add checks on validated call
     $idToken = $_GET["idToken"];
     $uid = $_GET["uid"];
-    add();
-    displayTable();
+    $fName = $_GET["fName"];
+    // $fName = $_GET["zName"];
+
+    
+    if ($fName=="displayAsTable"){
+      displayAsTable($all); //Note is possible to call $fName(all) 
+    } elseif ($fName=="add") {
+      add();
+    }
   }
 
   function add(){
     global $idToken, $uid, $all;
 
     if (validateToken($idToken,$uid)) {
-      $parameters = array('du_name' => 'Take out the trash'+rand(), 'du_has_date' => 1, 'du_time_start' => '2017-03-30');
+      $parameters = array('du_name' => 'Take out the trash'+rand(), 'du_has_date' => 1, 'du_time_start' => '2017-03-30', 'user_id' => $uid);
       $all = addDu($parameters);
      // displayAsTable($all);
      // $all = deleteDu(5);
