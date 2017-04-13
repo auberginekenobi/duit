@@ -18,7 +18,6 @@ CREATE TABLE users
     user_id   VARCHAR(256) NOT NULL PRIMARY KEY,
     user_name VARCHAR(256) NOT NULL -- DO NOT EXCEED 255 IN LENGTH WHEN UNIQUE
   );
--- TODO: link to dus.
 
 -- Create table for du's
 CREATE TABLE dus 

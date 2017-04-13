@@ -613,7 +613,6 @@ function preprocess($parameters) {
     
     // FIELD 'user_id'            : REQUIRED (int user_id)
     // Check if provided user_id matches an extant user_id
-    // TODO: that check
 	// Handle case where user_id is not specified
 	if (!isset($p['user_id'])) {
 		$output  = date("Y-m-d H:i:s T", time());
