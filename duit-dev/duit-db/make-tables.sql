@@ -7,6 +7,8 @@ CREATE DATABASE duit_dev;
 GRANT ALL PRIVILEGES ON duit_dev.* to 'global'@'localhost' IDENTIFIED BY 'temp' WITH GRANT OPTION;
 -- GRANT ALL PRIVILEGES ON duit.* to 'global'@'localhost' IDENTIFIED BY 'temp' WITH GRANT OPTION;
 
+ALTER DATABASE  duit_dev DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+
 
 USE duit_dev;
 
@@ -14,7 +16,7 @@ USE duit_dev;
 CREATE TABLE users
   (
     user_id   INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_name VARCHAR(256) UNIQUE NOT NULL
+    user_name VARCHAR(255) UNIQUE NOT NULL -- DO NOT EXCEED 255 IN LENGTH WHEN UNIQUE
   );
 -- TODO: link to dus.
 
@@ -79,7 +81,8 @@ CREATE TABLE du_tag_pairs
 INSERT INTO users
              (user_name)
 VALUES       ('Spongebob'),
-             ('Patrick');
+             ('Patrick'),
+             ('7KlhTHGlsjQhXbvJDiW8toS0gtG3');
 
 INSERT INTO dus 
             (du_name, 

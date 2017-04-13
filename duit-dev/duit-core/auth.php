@@ -3,6 +3,8 @@
   require_once '../duit-db/db-mapper.php';
   use \Firebase\JWT\JWT;
 
+  JWT::$leeway = 60;
+
   if(!empty($_GET)) {
     $idToken = $_GET["idToken"];
     $uid = $_GET["uid"];
@@ -74,7 +76,7 @@
 
       //Aggregate of all payload checks
       $valid = $validKey && $validEncryption && $validTime && $validExp && $validAud && $validIssuer && $validSub;
-
+      
       // in the case that the encoding is invalid, keep going
     } catch (\Exception $e){
       $result = array('message' => "error with decoding");
