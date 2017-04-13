@@ -15,8 +15,8 @@ USE duit_dev;
 -- Create table for storing, associating users dus
 CREATE TABLE users
   (
-    user_id   INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_name VARCHAR(255) UNIQUE NOT NULL -- DO NOT EXCEED 255 IN LENGTH WHEN UNIQUE
+    user_id   VARCHAR(256) NOT NULL PRIMARY KEY,
+    user_name VARCHAR(256) NOT NULL -- DO NOT EXCEED 255 IN LENGTH WHEN UNIQUE
   );
 -- TODO: link to dus.
 
@@ -46,7 +46,7 @@ CREATE TABLE dus
      -- Status of du, Open Completed or Active
      du_status           VARCHAR(256) NOT NULL,
      -- Tied to a user ID
-     user_id             INT UNSIGNED NOT NULL,
+     user_id             VARCHAR(256) NOT NULL,
      FOREIGN KEY (user_id) REFERENCES users(user_id)
   ); 
 
@@ -62,7 +62,7 @@ CREATE TABLE tags
      -- Longer description of tag, optional 
      tag_note     VARCHAR(256),
      -- Tied to a user ID
-     user_id      INT UNSIGNED NOT NULL,
+     user_id      VARCHAR(256) NOT NULL,
      FOREIGN KEY (user_id) REFERENCES users(user_id)
   );
 
@@ -79,10 +79,14 @@ CREATE TABLE du_tag_pairs
 -- SAMPLE DATA
 
 INSERT INTO users
-             (user_name)
-VALUES       ('Spongebob'),
-             ('Patrick'),
-             ('7KlhTHGlsjQhXbvJDiW8toS0gtG3');
+             (user_id,
+              user_name)
+VALUES       ('1',
+              'Spongebob'),
+             ('2',
+              'Patrick'),
+             ('7KlhTHGlsjQhXbvJDiW8toS0gtG3',
+              'Owen');
 
 INSERT INTO dus 
             (du_name, 
@@ -94,12 +98,12 @@ VALUES      ('Buy groceries',
              4, 
              true,
              'Open',
-             1), 
+             '1'), 
             ('Reserve campground', 
              4, 
              true,
              'Open',
-             1); 
+             '1'); 
 
 INSERT INTO dus 
             (du_name, 
@@ -115,7 +119,7 @@ VALUES      ('Cook dinner',
              '2016-03-14 18:00:00', 
              'Make it extra yummy',
              'Active',
-             1); 
+             '1'); 
 
 INSERT INTO dus 
             (du_name, 
