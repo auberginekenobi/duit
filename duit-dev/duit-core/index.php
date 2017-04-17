@@ -9,13 +9,19 @@
 <script src="https://www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 
+<style>
+table, th, td{
+  border: 1px solid black;
+}
+</style>
+
+
 </head>
 <body>
 
+
 <h1>DUiT</h1>
 
-  <div class="responseContainer">
-  </div>
 
   <div class="container">
 
@@ -32,6 +38,10 @@
   <button id="btnDisplay" class = "btn btn-action">Display</button>
 
   <button id="btnAdd" class = "btn btn-action">Add</button>
+
+
+  <div class="responseContainer">
+  </div>
 
 
   </div>

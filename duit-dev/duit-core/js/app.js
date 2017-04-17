@@ -73,32 +73,26 @@
     }
   })
 
-  function callServer(fName,callback){
+  function callServer(function_name,callback){
     firebase.auth().currentUser.getToken(/* forceRefresh */ true).then(function(idToken) {
       // Send token to your backend via HTTPS
-    //  console.log("test");
-      console.log(fName);
+      console.log(function_name);
       $.ajax({
         cache: false,
         type: "GET",
         url: "auth.php", 
         data: "idToken="+idToken+
-          "&uid="+firebase.auth().currentUser.uid+"&fName="+fName,
+          "&uid="+firebase.auth().currentUser.uid+"&function_name="+function_name,
         success: function(msg){
-       //   console.log(msg);
-          // console.log("wtf");
           $(".responseContainer").html(msg);
         },
         error: function(e){
-          //console.log(e);
+          console.log(e);
         }
       });
-
-
-
-     // console.log(idToken);
     }).catch(function(error) {
       // Handle error
+      console.log(error);
     });
   }
 
