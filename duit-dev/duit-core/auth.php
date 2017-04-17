@@ -14,7 +14,7 @@
 
 
     //All properties of a du
-    $du_id = (isset($_GET["du_id"])) ? $_GET["du_id"] : "";
+    // $du_id = (isset($_GET["du_id"])) ? $_GET["du_id"] : "";
 
     //$du_timestamp = (isset($_GET["du_timestamp"])) ? $_GET["du_timestamp"] : "";
     $du_name = (isset($_GET["du_name"])) ? $_GET["du_name"] : "";
@@ -40,6 +40,8 @@
     $du_name = " " . rand();
     $user_id = $_GET["uid"];
     $du_note = "Make it extra yummy";
+    $du_has_deadline = 1;
+    $du_time_start = date("Y-m-d");
 
 
     // $dName = "du_name";
@@ -99,6 +101,8 @@
       isset($du_name) ? $parameters["du_name"] = $du_name : "";
       isset($user_id) ? $parameters["user_id"] = $user_id : "";
       $du_note != "" ? $parameters["du_note"] = $du_note : "";
+      $du_has_deadline != "" ? $parameters["du_has_deadline"] = $du_has_deadline : "";
+      $du_time_start != "" ? $parameters["du_time_start"] = $du_time_start : "";
 
       // $parameters = array('du_name' => 'Take out the trash' . rand(), 'du_has_date' => 1, 'du_time_start' => '2017-03-30', 'user_id' => $uid);
 

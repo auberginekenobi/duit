@@ -410,6 +410,10 @@ function preprocess($parameters) {
 	    exit($output);
 	}
 
+
+// MAY WANT TO CHECK THAT THE DEADLINE IS IN THE FUTURE, UNLESS
+	// WE WANT TO SUPPORT DEADLINES IN THE PAST
+
 	// Pair check                  : du_has_date => du_time_start
 	if ($p['du_has_date']) {
 		if (!isset($p['du_time_start'])) { // if has_date but no date set
