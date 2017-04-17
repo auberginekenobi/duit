@@ -611,7 +611,7 @@ function preprocess($parameters) {
 	    exit($output);
 	}
     
-  // FIELD 'user_id'            : REQUIRED (int user_id)
+  // FIELD 'user_id'            : REQUIRED (varchar user_id)
   // Check if provided user_id matches an extant user_id
 
 	// Handle case where user_id is not specified
@@ -626,7 +626,7 @@ function preprocess($parameters) {
         $queryStatement = "
         SELECT user_id
         FROM users
-        WHERE user_id = " . $p['user_id'];
+        WHERE user_id = '" . $p['user_id'] . "'";
         $result = query($queryStatement, "preprocess()");
         $currRow = $result->fetch_assoc();
         if ($currRow == NULL){
@@ -712,6 +712,8 @@ function deleteDu($id, $duArray = NULL) {
 // Get du class object definitions
 require("du-class.php");
 
+//Get user class object definitions
+//require("user-class.php");
 
 
 // Main executions
@@ -720,15 +722,15 @@ $all = getAll();
 
 // Testing Example
 
- displayAsTable($all);
+// displayAsTable($all);
 
-$parameters = array('du_name' => 'Take out the trash'.rand(), 'du_has_date' => 1, 'du_time_start' => '2017-03-30', 'user_id' => 1);
-$all = addDu($parameters);
+//$parameters = array('du_name' => 'Take out the trash'.rand(), 'du_has_date' => 1, 'du_time_start' => '2017-03-30', 'user_id' => 1);
+//$all = addDu($parameters);
 
 // $all[1]->unsetDuPriority();
 // $all[3]->unsetNote();
 
-displayAsTable($all);
+//displayAsTable($all);
 
 // $all = deleteDu(5);
 
