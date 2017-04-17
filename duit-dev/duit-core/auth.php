@@ -8,6 +8,9 @@
   if(!empty($_GET)) {
 
 
+    date_default_timezone_set("America/Los_Angeles");
+
+
     $idToken = (isset($_GET["idToken"])) ? $_GET["idToken"] : "";
     $uid = (isset($_GET["uid"])) ? $_GET["uid"] : "";
     $function_name = (isset($_GET["function_name"])) ? $_GET["function_name"] : "";
@@ -36,25 +39,22 @@
     $user_id = $uid;
 
 
-    //test case
+    //test case 1
+    // $du_name = " " . rand();
+    // $user_id = $_GET["uid"];
+    // $du_note = "Make it extra yummy";
+    // $du_has_deadline = 1;
+    // $du_time_start = date("Y-m-d");
+
+    // test case 2
     $du_name = " " . rand();
     $user_id = $_GET["uid"];
-    $du_note = "Make it extra yummy";
-    $du_has_deadline = 1;
-    $du_time_start = date("Y-m-d");
+    $du_note = "Make it extra yummerz";
+    $du_has_duration = 1;
+    $du_time_start = date("Y-m-d T");   
+    $du_time_end = "2018-03-14 18:00:00";
 
 
-    // $dName = "du_name";
-    // $dDate = "du_has_date";
-    // $dDeadline = "du_has_deadline";
-    // $duid = "user_id";
-
-
-    // $du_params = array("$du_name","$du_has_date","$du_has_deadline","$user_id");
-
-    // $du_params = array("$du_name","$user_id");
-
-    // $du_params = array($dName,$duid);
 
     
     if ($function_name=="displayAsTable"){
@@ -98,11 +98,13 @@
       //   }
       // }
 
-      isset($du_name) ? $parameters["du_name"] = $du_name : "";
-      isset($user_id) ? $parameters["user_id"] = $user_id : "";
+      $du_name != "" ? $parameters["du_name"] = $du_name : "";
+      $user_id != "" ? $parameters["user_id"] = $user_id : "";
       $du_note != "" ? $parameters["du_note"] = $du_note : "";
       $du_has_deadline != "" ? $parameters["du_has_deadline"] = $du_has_deadline : "";
+      $du_has_duration != "" ? $parameters["du_has_duration"] = $du_has_duration : "";
       $du_time_start != "" ? $parameters["du_time_start"] = $du_time_start : "";
+      $du_time_end != "" ? $parameters["du_time_end"] = $du_time_end : "";
 
       // $parameters = array('du_name' => 'Take out the trash' . rand(), 'du_has_date' => 1, 'du_time_start' => '2017-03-30', 'user_id' => $uid);
 

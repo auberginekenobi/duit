@@ -470,7 +470,7 @@ function preprocess($parameters) {
 
 	// Pair check                  : du_has_duration => du_time_start && du_time_end
 	if ($p['du_has_duration']) {
-		if (!isset($p['du_time_start']) || !isset($p['du_time_endt'])) { // if has_duration but no start/end time set
+		if (!isset($p['du_time_start']) || !isset($p['du_time_end'])) { // if has_duration but no start/end time set
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " Could not add new du: 'du_has_duration' set to true but no start and/or end time specified. Input was:\n";
 			$output .= "	" . var_export($parameters, true);
