@@ -25,12 +25,19 @@
   function add(){
     global $idToken, $uid, $all;
 
+    //temporary uid override
+//    $uid = "7KlhTHGlsjQhXbvJDiW8toS0gtG3";
+    // echo $uid;
+
     if (validateToken($idToken,$uid)) {
-      $parameters = array('du_name' => 'Take out the trash'+rand(), 'du_has_date' => 1, 'du_time_start' => '2017-03-30', 'user_id' => $uid);
+      $parameters = array('du_name' => 'Take out the trash' . rand(), 'du_has_date' => 1, 'du_time_start' => '2017-03-30', 'user_id' => $uid);
       $all = addDu($parameters);
      // displayAsTable($all);
      // $all = deleteDu(5);
       $result = array('message' => "success","added" => $parameters);
+      echo json_encode($result);
+    } else {
+      $result = array('message' => "uid or token not validated");
       echo json_encode($result);
     }
   }

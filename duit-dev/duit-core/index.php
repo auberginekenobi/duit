@@ -29,7 +29,10 @@
 
   <button id="btnLogout" class="btn btn-action hide">Log out</button>
 
-  <button id="btnTest" class = "btn btn-action">Test</button>
+  <button id="btnDisplay" class = "btn btn-action">Display</button>
+
+  <button id="btnAdd" class = "btn btn-action">Add</button>
+
 
   </div>
 
