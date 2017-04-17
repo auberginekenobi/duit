@@ -611,8 +611,9 @@ function preprocess($parameters) {
 	    exit($output);
 	}
     
-    // FIELD 'user_id'            : REQUIRED (int user_id)
-    // Check if provided user_id matches an extant user_id
+  // FIELD 'user_id'            : REQUIRED (int user_id)
+  // Check if provided user_id matches an extant user_id
+
 	// Handle case where user_id is not specified
 	if (!isset($p['user_id'])) {
 		$output  = date("Y-m-d H:i:s T", time());
@@ -637,7 +638,7 @@ function preprocess($parameters) {
             exit($output);
         }
     }
-
+  
 	// Field 'du_tags'            : OPTIONAL (array of strings)
 	// 
 	// @todo integrate with tag class
