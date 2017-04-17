@@ -586,16 +586,19 @@ function preprocess($parameters) {
 	// mal-specified
 	if (!isset($p['du_note'])) {
 		$p['du_note']             = NULL;
-	} elseif (!preg_match('/[\w~!@\$%\^&\*\(\)-\+=\{\}\[]\.\?\\/,:;"\']/', $p['du_note'])) { // Input mal-specified
-		$output  = date("Y-m-d H:i:s T", time());
-		$output .= " Could not add new du: 'du_note' specified in wrong format. Input was:\n";
-		$output .= "	" . var_export($parameters, true);
-		// Write to log file and kill process
-		fwrite($log, $output, 2048);
-	    exit($output);
-	}
+	} 
+	// TO REVIEW: Appears to have issues involving the Regular Expression rejecting
+	// everything
+	// elseif (!preg_match('/[\w~!@\$%\^&\*\(\)-\+=\{\}\[]\.\?\\/,:;"\']/', $p['du_note'])) { // Input mal-specified
+	// 	$output  = date("Y-m-d H:i:s T", time());
+	// 	$output .= " Could not add new du: 'du_note' specified in wrong format. Input was:\n";
+	// 	$output .= "	" . var_export($parameters, true);
+	// 	// Write to log file and kill process
+	// 	fwrite($log, $output, 2048);
+	//     exit($output);
+	// }
     
-    // Field 'du_status'             : OPTIONAL (string status), DEFAULT 'Open'
+  // Field 'du_status'             : OPTIONAL (string status), DEFAULT 'Open'
 	// 
 	// Set du_status to Open if it is not specified and handle case where it is
 	// mal-specified

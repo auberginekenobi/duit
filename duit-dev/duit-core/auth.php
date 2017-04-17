@@ -14,17 +14,12 @@
 
 
     //All properties of a du
-    //$du_id = (isset($_GET["du_id"])) ? $_GET["du_id"] : "";
+    $du_id = (isset($_GET["du_id"])) ? $_GET["du_id"] : "";
 
     //$du_timestamp = (isset($_GET["du_timestamp"])) ? $_GET["du_timestamp"] : "";
-    // $du_name = (isset($_GET["du_name"])) ? "$_GET["du_name"]" : ""; //may have to set into null in order for intended behavior to occur
+    $du_name = (isset($_GET["du_name"])) ? $_GET["du_name"] : "";
+     //may have to set into null in order for intended behavior to occur
     // echo(isset($du_name));
-
-    //test 
-    $du_name = " " . rand();
-    $user_id = $_GET["uid"];
-
-
 
     $du_has_date = (isset($_GET["du_has_date"])) ? $_GET["du_has_date"] : "";
     $du_has_deadline = (isset($_GET["du_has_deadline"])) ? $_GET["du_has_deadline"] : "";
@@ -40,6 +35,13 @@
     $du_status = (isset($_GET["du_status"])) ? $_GET["du_status"] : "";
     $user_id = $uid;
 
+
+    //test case
+    $du_name = " " . rand();
+    $user_id = $_GET["uid"];
+    $du_note = "Make it extra yummy";
+
+
     // $dName = "du_name";
     // $dDate = "du_has_date";
     // $dDeadline = "du_has_deadline";
@@ -48,7 +50,7 @@
 
     // $du_params = array("$du_name","$du_has_date","$du_has_deadline","$user_id");
 
-    $du_params = array("$du_name","$user_id");
+    // $du_params = array("$du_name","$user_id");
 
     // $du_params = array($dName,$duid);
 
@@ -96,7 +98,7 @@
 
       isset($du_name) ? $parameters["du_name"] = $du_name : "";
       isset($user_id) ? $parameters["user_id"] = $user_id : "";
-
+      $du_note != "" ? $parameters["du_note"] = $du_note : "";
 
       // $parameters = array('du_name' => 'Take out the trash' . rand(), 'du_has_date' => 1, 'du_time_start' => '2017-03-30', 'user_id' => $uid);
 
