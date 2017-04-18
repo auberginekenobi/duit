@@ -16,7 +16,7 @@
     $function_name = (isset($_GET["function_name"])) ? $_GET["function_name"] : "";
 
 
-    //All properties of a du
+    //All properties of a du, may need to include check for undefined as well
     $du_name = (isset($_GET["du_name"])) ? $_GET["du_name"] : "";
     $du_has_date = (isset($_GET["du_has_date"])) ? $_GET["du_has_date"] : "";
     $du_has_deadline = (isset($_GET["du_has_deadline"])) ? $_GET["du_has_deadline"] : "";
@@ -35,6 +35,13 @@
     //id used for deletion
     $du_id = (isset($_GET["du_id"])) ? $_GET["du_id"] : "";
 
+    $testVar = (isset($_GET["du_id"])) ? "set" : "unset";
+    echo $testVar;
+
+    echo $du_id;
+    echo "";
+    echo "test";
+
 
     //testcase - add
     $du_name = " " . rand();
@@ -44,6 +51,7 @@
     $du_note = "pew pew pew!";
     $du_has_deadline = 1;
     $du_time_start = "2016-03-15 13:00:00";
+    $du_tags = "food"; // currently doesnt work
 
 
     //test case 2 - add
@@ -62,7 +70,7 @@
     // $du_time_end = "2018-03-14 18:00:00";
 
     //test case 4 - delete last element
-    $du_id = end($all)->getId();
+    //$du_id = end($all)->getId();
 
 
     
@@ -116,7 +124,7 @@
       $result = array('message' => "success","added" => $parameters);
       echo json_encode($result);
     } else {
-      $result = array('message' => "uid or token not validated");
+      $result = array('message' => "fail: uid or token not validated");
       echo json_encode($result);
     }
   }
@@ -125,7 +133,8 @@
 
   }
 
-  //assumes id is passed through something like a class variable
+  //deleteDu does not work in cases where there are tags due to foreign key 
+  //constraints
   function deleteDu_wrap(){
     global $idToken, $uid, $all;
     global $du_id;
@@ -135,7 +144,7 @@
       $result = array('message' => "success","deleted" => $du_id);
       echo json_encode($result);
     } else {
-      $result = array('message' => "uid or token not validated");
+      $result = array('message' => "fail: uid or token not validated");
       echo json_encode($result);
     }
   }

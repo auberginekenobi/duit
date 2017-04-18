@@ -30,8 +30,17 @@
 
   btnDisplay.addEventListener('click',e=>{
     callServer("displayAsTable");
+
+
+
   });
 
+
+  $(document).on('click','.deleteDu',function(e){
+    let du_id = $(e.currentTarget).attr('class').slice(12,1000);
+    console.log(du_id);
+    callServer("deleteDu",du_id);
+  });
 
   btnAdd.addEventListener('click',e=>{
     callServer("add");
@@ -39,6 +48,7 @@
 
   btnDelete.addEventListener('click',e=>{
     callServer("delete");
+   // callServer("")
   });
 
   //add signup event
@@ -77,7 +87,7 @@
     }
   })
 
-  function callServer(function_name,params,callback){
+  function callServer(function_name,du_id,callback){
     firebase.auth().currentUser.getToken(/* forceRefresh */ true).then(function(idToken) {
       // Send token to your backend via HTTPS
       console.log(function_name);
@@ -87,8 +97,8 @@
         url: "auth.php", 
         data: "idToken="+idToken+
           "&uid="+firebase.auth().currentUser.uid+
-          "&function_name="+function_name,//+
-        //  "&du_id"+params, //temp, testing parsing for delete
+          "&function_name="+function_name+
+          "&du_id="+du_id, 
         success: function(msg){
           $(".responseContainer").html(msg);
         },
