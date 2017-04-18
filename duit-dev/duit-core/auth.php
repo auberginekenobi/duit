@@ -39,6 +39,14 @@
     $user_id = $uid;
 
 
+
+    //testcase
+    // $du_name = " " . rand();
+    // $du_priority = 4;
+    // $du_enforce_priority = 1;
+    // $du_status = 'Open';
+
+
     //test case 1
     // $du_name = " " . rand();
     // $user_id = $_GET["uid"];
@@ -47,12 +55,12 @@
     // $du_time_start = date("Y-m-d");
 
     // test case 2
-    $du_name = " " . rand();
-    $user_id = $_GET["uid"];
-    $du_note = "Make it extra yummerz";
-    $du_has_duration = 1;
-    $du_time_start = date("Y-m-d T");   
-    $du_time_end = "2018-03-14 18:00:00";
+    // $du_name = " " . rand();
+    // $user_id = $_GET["uid"];
+    // $du_note = "Make it extra yummerz!!";
+    // $du_has_duration = 1;
+    // $du_time_start = date("Y-m-d T");   
+    // $du_time_end = "2018-03-14 18:00:00";
 
 
 
@@ -81,37 +89,24 @@
            $calc_priority, $du_note, $du_tags, $du_status, $user_id;
 
     if (validateToken($idToken,$uid)) {
-      // $parameters = array('du_name' => 'Take out the trash' . rand(), 'du_has_date' => 1, 'du_time_start' => '2017-03-30', 'user_id' => $uid);
-
-      //$parameters = array('du_name' => $du_name . rand(), 'user_id' => $uid);
-
       $parameters = array();
 
-      // Mostly legacy code, attempt at dynamic generation that 
-      // did not work
-      // for($i = 0; $i < count($du_params); $i++){
-        
-      //   if ($$du_params[$i] != "") {
-      //     $parameters[$du_params[$i]] = $$du_params[$i];
-      //     echo "<b>".$du_params[$i]. "</b> <br>";
-      //     echo "<b>".$$du_params[$i]. "</b> <br>";
-      //   }
-      // }
-
       $du_name != "" ? $parameters["du_name"] = $du_name : "";
-      $user_id != "" ? $parameters["user_id"] = $user_id : "";
-      $du_note != "" ? $parameters["du_note"] = $du_note : "";
+      $du_has_date != "" ? $parameters["du_has_date"] = $du_has_date : "";
       $du_has_deadline != "" ? $parameters["du_has_deadline"] = $du_has_deadline : "";
       $du_has_duration != "" ? $parameters["du_has_duration"] = $du_has_duration : "";
       $du_time_start != "" ? $parameters["du_time_start"] = $du_time_start : "";
       $du_time_end != "" ? $parameters["du_time_end"] = $du_time_end : "";
-
-      // $parameters = array('du_name' => 'Take out the trash' . rand(), 'du_has_date' => 1, 'du_time_start' => '2017-03-30', 'user_id' => $uid);
-
+      $du_priority != "" ? $parameters["du_priority"] = $du_priority : "";
+      $du_enforce_priority != "" ? $parameters["du_enforce_priority"] = $du_enforce_priority : "";
+      $tag_priorities != "" ? $parameters["tag_priorities"] = $tag_priorities : "";
+      $calc_priority != "" ? $parameters["calc_priority"] = $calc_priority : "";
+      $du_note != "" ? $parameters["du_note"] = $du_note : "";
+      $du_tags != "" ? $parameters["du_tags"] = $du_tags : "";
+      $du_status != "" ? $parameters["du_status"] = $du_status : "";
+      $user_id != "" ? $parameters["user_id"] = $user_id : "";
 
       $all = addDu($parameters);
-     // displayAsTable($all);
-     // $all = deleteDu(5);
       $result = array('message' => "success","added" => $parameters);
       echo json_encode($result);
     } else {
@@ -127,6 +122,7 @@
   //assumes id is passed through something like a class variable
   function deleteDu_wrap(){
 
+     // $all = deleteDu(5);
   }
 
   function displayTable_wrap(){
