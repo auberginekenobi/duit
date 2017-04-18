@@ -160,7 +160,7 @@ class du {
 		$duration = ($this->du_has_duration)     ? "TRUE" : "FALSE";
 		$priority = ($this->du_enforce_priority) ? "TRUE" : "FALSE";
 		// Add each cell
-		$output .= "<tr><td>" . $this->du_id . "</td>";
+		$output .= "<tr class=" . 'du-' . $this->du_id . "><td>" . $this->du_id . "</td>";
 		$output .= "<td>" . $this->du_timestamp . "</td>";
 		$output .= "<td>" . $this->du_name . "</td>";
 		$output .= "<td>" . $date . "</td>";

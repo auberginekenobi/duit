@@ -7,23 +7,17 @@
 
   if(!empty($_GET)) {
 
-
+    //Set timezone for data storage
     date_default_timezone_set("America/Los_Angeles");
 
-
+    //Initial data needed for verification of user
     $idToken = (isset($_GET["idToken"])) ? $_GET["idToken"] : "";
     $uid = (isset($_GET["uid"])) ? $_GET["uid"] : "";
     $function_name = (isset($_GET["function_name"])) ? $_GET["function_name"] : "";
 
 
     //All properties of a du
-    // $du_id = (isset($_GET["du_id"])) ? $_GET["du_id"] : "";
-
-    //$du_timestamp = (isset($_GET["du_timestamp"])) ? $_GET["du_timestamp"] : "";
     $du_name = (isset($_GET["du_name"])) ? $_GET["du_name"] : "";
-     //may have to set into null in order for intended behavior to occur
-    // echo(isset($du_name));
-
     $du_has_date = (isset($_GET["du_has_date"])) ? $_GET["du_has_date"] : "";
     $du_has_deadline = (isset($_GET["du_has_deadline"])) ? $_GET["du_has_deadline"] : "";
     $du_has_duration = (isset($_GET["du_has_duration"])) ? $_GET["du_has_duration"] : "";
@@ -38,23 +32,28 @@
     $du_status = (isset($_GET["du_status"])) ? $_GET["du_status"] : "";
     $user_id = $uid;
 
+    //id used for deletion
+    $du_id = (isset($_GET["du_id"])) ? $_GET["du_id"] : "";
 
 
-    //testcase
-    // $du_name = " " . rand();
-    // $du_priority = 4;
-    // $du_enforce_priority = 1;
-    // $du_status = 'Open';
+    //testcase - add
+    $du_name = " " . rand();
+    $du_priority = 4;
+    $du_enforce_priority = 1;
+    $du_status = 'Open';
+    $du_note = "pew pew pew!";
+    $du_has_deadline = 1;
+    $du_time_start = "2016-03-15 13:00:00";
 
 
-    //test case 1
+    //test case 2 - add
     // $du_name = " " . rand();
     // $user_id = $_GET["uid"];
     // $du_note = "Make it extra yummy";
     // $du_has_deadline = 1;
     // $du_time_start = date("Y-m-d");
 
-    // test case 2
+    // test case 3 - add
     // $du_name = " " . rand();
     // $user_id = $_GET["uid"];
     // $du_note = "Make it extra yummerz!!";
@@ -62,6 +61,8 @@
     // $du_time_start = date("Y-m-d T");   
     // $du_time_end = "2018-03-14 18:00:00";
 
+    //test case 4 - delete last element
+    $du_id = end($all)->getId();
 
 
     
@@ -69,6 +70,8 @@
       displayTable_wrap($all); //Note is possible to call $function_name(all) 
     } elseif ($function_name=="add") {
       addDu_wrap();
+    } elseif ($function_name="delete"){
+      deleteDu_wrap();
     }
   }
 
@@ -80,10 +83,10 @@
 
   }
 
+
+  //TODO: Include Tag support
   function addDu_wrap(){
-    // global $du_params;
     global $idToken, $uid, $all;
-    //$du_id, $du_timestamp, 
     global $du_name, $du_has_date, $du_has_deadline, $du_has_duration,
            $du_time_start, $du_time_end, $du_priority, $du_enforce_priority, $tag_priorities,
            $calc_priority, $du_note, $du_tags, $du_status, $user_id;
@@ -106,6 +109,9 @@
       $du_status != "" ? $parameters["du_status"] = $du_status : "";
       $user_id != "" ? $parameters["user_id"] = $user_id : "";
 
+      //testing regex
+      // echo (!preg_match('/[a-zA-Z]+/', "test"));
+
       $all = addDu($parameters);
       $result = array('message' => "success","added" => $parameters);
       echo json_encode($result);
@@ -121,8 +127,17 @@
 
   //assumes id is passed through something like a class variable
   function deleteDu_wrap(){
+    global $idToken, $uid, $all;
+    global $du_id;
 
-     // $all = deleteDu(5);
+    if (validateToken($idToken,$uid)) {
+      $all = deleteDu($du_id);
+      $result = array('message' => "success","deleted" => $du_id);
+      echo json_encode($result);
+    } else {
+      $result = array('message' => "uid or token not validated");
+      echo json_encode($result);
+    }
   }
 
   function displayTable_wrap(){

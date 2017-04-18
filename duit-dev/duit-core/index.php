@@ -39,6 +39,8 @@ table, th, td{
 
   <button id="btnAdd" class = "btn btn-action">Add</button>
 
+  <button id="btnDelete" class = "btn btn-action">Delete</button>
+
 
   <div class="responseContainer">
   </div>

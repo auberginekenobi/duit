@@ -37,6 +37,10 @@
     callServer("add");
   });
 
+  btnDelete.addEventListener('click',e=>{
+    callServer("delete");
+  });
+
   //add signup event
   btnSignUp.addEventListener('click', e=> {
     //Get email and pass
@@ -73,7 +77,7 @@
     }
   })
 
-  function callServer(function_name,callback){
+  function callServer(function_name,params,callback){
     firebase.auth().currentUser.getToken(/* forceRefresh */ true).then(function(idToken) {
       // Send token to your backend via HTTPS
       console.log(function_name);
@@ -82,7 +86,9 @@
         type: "GET",
         url: "auth.php", 
         data: "idToken="+idToken+
-          "&uid="+firebase.auth().currentUser.uid+"&function_name="+function_name,
+          "&uid="+firebase.auth().currentUser.uid+
+          "&function_name="+function_name,//+
+        //  "&du_id"+params, //temp, testing parsing for delete
         success: function(msg){
           $(".responseContainer").html(msg);
         },
