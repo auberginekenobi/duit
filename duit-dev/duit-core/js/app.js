@@ -37,7 +37,7 @@
 
 
   $(document).on('click','.deleteDu',function(e){
-    let du_id = $(e.currentTarget).attr('class').slice(12,1000);
+    let du_id = $(e.currentTarget).attr('class').slice(12);
     console.log(du_id);
     callServer("deleteDu",du_id);
   });
@@ -91,14 +91,19 @@
     firebase.auth().currentUser.getToken(/* forceRefresh */ true).then(function(idToken) {
       // Send token to your backend via HTTPS
       console.log(function_name);
+      let payload = "idToken="+idToken+
+          "&uid="+firebase.auth().currentUser.uid+
+          "&function_name="+function_name;
+      if (du_id != null){
+        console.log("add id");
+        payload += "&du_id="+du_id;
+      }
+
       $.ajax({
         cache: false,
         type: "GET",
         url: "auth.php", 
-        data: "idToken="+idToken+
-          "&uid="+firebase.auth().currentUser.uid+
-          "&function_name="+function_name+
-          "&du_id="+du_id, 
+        data: payload, 
         success: function(msg){
           $(".responseContainer").html(msg);
         },

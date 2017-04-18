@@ -35,12 +35,12 @@
     //id used for deletion
     $du_id = (isset($_GET["du_id"])) ? $_GET["du_id"] : "";
 
-    $testVar = (isset($_GET["du_id"])) ? "set" : "unset";
-    echo $testVar;
+    // $testVar = (isset($_GET["du_id"])) ? "set" : "unset";
+    // echo $testVar;
 
-    echo $du_id;
-    echo "";
-    echo "test";
+    // echo $du_id;
+    // echo "";
+    // echo "test";
 
 
     //testcase - add
