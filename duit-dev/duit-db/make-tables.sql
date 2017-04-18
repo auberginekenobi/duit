@@ -85,7 +85,9 @@ VALUES       ('1',
              ('2',
               'Patrick'),
              ('7KlhTHGlsjQhXbvJDiW8toS0gtG3',
-              'Owen');
+              'Owen'),
+             ('aMl3IxVzqQbZ2tcTiBsbC8A0ZfX2',
+              'Catty.pins');
 
 INSERT INTO dus 
             (du_name, 

@@ -29,7 +29,7 @@ class du {
 	protected $du_note;             // [string]          The note recorded for the du
 	protected $du_tags;             // [array(string)]   Tags recorded for the du
 	protected $du_status;			// [string]					 The status of a given Du. (Open/Active/Completed)
-    protected $user_id;             // [int]            User associated with the du
+  protected $user_id;             // [string]            User associated with the du
 
 
 	/**
@@ -160,7 +160,7 @@ class du {
 		$duration = ($this->du_has_duration)     ? "TRUE" : "FALSE";
 		$priority = ($this->du_enforce_priority) ? "TRUE" : "FALSE";
 		// Add each cell
-		$output .= "<tr><td>" . $this->du_id . "</td>";
+		$output .= "<tr class=" . 'du-' . $this->du_id . "><td>" . $this->du_id . "</td>";
 		$output .= "<td>" . $this->du_timestamp . "</td>";
 		$output .= "<td>" . $this->du_name . "</td>";
 		$output .= "<td>" . $date . "</td>";
@@ -174,8 +174,8 @@ class du {
 			                                           "" ) . "</td>";
 		$output .= "<td>" . $this->calc_priority . "</td>";
 		$output .= "<td>" . $this->du_note . "</td>";
-        $output .= "<td>" . $this->du_status . "</td>";
-        $output .= "<td>" . $this->user_id . "</td";
+    $output .= "<td>" . $this->du_status . "</td>";
+    $output .= "<td>" . $this->user_id . "</td>";
 		$output .= "<td>" . (($this->du_tags)        ? implode(", ", $this->du_tags) :
 			                                           "") . "</td>";
 		$output .= "</tr>";
