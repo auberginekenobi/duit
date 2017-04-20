@@ -38,18 +38,27 @@
 
   $(document).on('click','.deleteDu',function(e){
     let du_id = $(e.currentTarget).attr('class').slice(12);
-    console.log(du_id);
-    callServer("deleteDu",du_id);
+    var params = {
+      "du_id": du_id
+    };
+    callServer("deleteDu",params);
   });
 
   btnAdd.addEventListener('click',e=>{
+    let du_name = $("#txtName").val();
+    console.log(du_name);
+
+    var params = {
+      "du_name" : du_name
+    };
+
     callServer("add");
   });
 
-  btnDelete.addEventListener('click',e=>{
-    callServer("delete");
-   // callServer("")
-  });
+  // btnDelete.addEventListener('click',e=>{
+  //   callServer("delete");
+  //  // callServer("")
+  // });
 
   //add signup event
   btnSignUp.addEventListener('click', e=> {
@@ -87,17 +96,22 @@
     }
   })
 
-  function callServer(function_name,du_id,callback){
+  function callServer(function_name,params = {},callback){
     firebase.auth().currentUser.getToken(/* forceRefresh */ true).then(function(idToken) {
       // Send token to your backend via HTTPS
       console.log(function_name);
+
       let payload = "idToken="+idToken+
-          "&uid="+firebase.auth().currentUser.uid+
-          "&function_name="+function_name;
-      if (du_id != null){
-        console.log("add id");
+        "&uid="+firebase.auth().currentUser.uid+
+        "&function_name="+function_name;
+
+
+      if ("du_id" in params) {
+        let du_id = params["du_id"];
         payload += "&du_id="+du_id;
       }
+
+
 
       $.ajax({
         cache: false,

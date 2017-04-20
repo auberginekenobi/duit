@@ -39,8 +39,8 @@ table, th, td{
 
   <button id="btnAdd" class = "btn btn-action">Add</button>
 
-  <button id="btnDelete" class = "btn btn-action">Delete</button>
-
+<!--   <button id="btnDelete" class = "btn btn-action">Delete</button>
+ -->
   <div>
     Name:<input id="txtName" type="text" placeholder="Du Name">
     Note:<input id="txtNote" type="text" placeholder="Note">
