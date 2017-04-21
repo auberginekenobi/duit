@@ -25,8 +25,6 @@
     $du_time_end = (isset($_GET["du_time_end"])) ? $_GET["du_time_end"] : "";
     $du_priority = (isset($_GET["du_priority"])) ? $_GET["du_priority"] : "";
     $du_enforce_priority = (isset($_GET["du_enforce_priority"])) ? $_GET["du_enforce_priority"] : "";
-    $tag_priorities = (isset($_GET["tag_priorities"])) ? $_GET["tag_priorities"] : "";
-    $calc_priority = (isset($_GET["calc_priority"])) ? $_GET["calc_priority"] : "";
     $du_note = (isset($_GET["du_note"])) ? $_GET["du_note"] : "";
     $du_tags = (isset($_GET["du_tags"])) ? $_GET["du_tags"] : "";
     $du_status = (isset($_GET["du_status"])) ? $_GET["du_status"] : "";
@@ -45,15 +43,16 @@
 
     //testcase - add
     $du_name = " " . rand();
-    $du_priority = 4;
-    $du_enforce_priority = 1;
-    $du_status = 'Open';
-    $du_note = "pew pew pew!";
-    $du_has_deadline = 1;
-    $du_time_start = "2016-03-15 13:00:00";
-    $du_tags = "food"; // currently doesnt work
+    // $du_priority = 4;
+    // $du_enforce_priority = 1;
+    // $du_status = 'Open';
+    // $du_note = "pew pew pew!";
+    // $du_has_deadline = 1;
+    // $du_time_start = "2016-03-15 13:00:00";
+    // $du_tags = "food"; // currently doesnt work
 
-
+    print_r($_GET);
+    
     //test case 2 - add
     // $du_name = " " . rand();
     // $user_id = $_GET["uid"];

@@ -42,12 +42,12 @@ table, th, td{
 <!--   <button id="btnDelete" class = "btn btn-action">Delete</button>
  -->
   <div>
-    Name:<input id="txtName" type="text" placeholder="Du Name">
-    Note:<input id="txtNote" type="text" placeholder="Note">
-    Time Start:<input id="dateTimeStart" type="date" placeholder="Date">
+    Name:<input id="du_name" type="text" placeholder="Du Name">
+    Note:<input id="du_note" type="text" placeholder="Note">
+    Time Start:<input id="du_time_start" type="datetime-local" placeholder="Date">
 
-    Time End:<input id="dateTimeEnd" type="date" placeholder="Date">
-    Deadline Date:<input id="dateDeadline" type="date" placeholder="Date">
+    Time End:<input id="du_time_end" type="datetime-local" placeholder="Date">
+    Deadline Date:<input id="du_time_deadline" type="datetime-local" placeholder="Date">
 
     Status:
     <select id="du_status">
@@ -56,7 +56,8 @@ table, th, td{
       <option value="Completed">Completed</option>
     </select>
     Priority:
-    <select id="priority">
+    <select id="du_priority">
+      <option value="none"> </option>
       <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
