@@ -309,6 +309,8 @@ function displayAsTable($duArray) {
 
 }
 
+// TODO: addTag, preprocessTag, deleteTag
+
 
 /**
  * Function addDu
