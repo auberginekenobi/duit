@@ -4,3 +4,4 @@ prepros-6.config
 duit-dev/duit-core/.sass-cache/*
 .csscomb.json
 duit-dev/duit-db/db-history.log
+*.log

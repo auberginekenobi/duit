@@ -28,10 +28,18 @@
     promise.catch(e=>console.log(e.message));
   });
 
-  btnTest.addEventListener('click',e=>{
-    validateCall();
+  btnDisplay.addEventListener('click',e=>{
+    callServer("displayAsTable");
   });
 
+
+  btnAdd.addEventListener('click',e=>{
+    callServer("add");
+  });
+
+  btnDelete.addEventListener('click',e=>{
+    callServer("delete");
+  });
 
   //add signup event
   btnSignUp.addEventListener('click', e=> {
@@ -69,30 +77,28 @@
     }
   })
 
-  function validateCall(callback){
+  function callServer(function_name,params,callback){
     firebase.auth().currentUser.getToken(/* forceRefresh */ true).then(function(idToken) {
       // Send token to your backend via HTTPS
+      console.log(function_name);
       $.ajax({
         cache: false,
         type: "GET",
         url: "auth.php", 
         data: "idToken="+idToken+
-          "&uid="+firebase.auth().currentUser.uid,
+          "&uid="+firebase.auth().currentUser.uid+
+          "&function_name="+function_name,//+
+        //  "&du_id"+params, //temp, testing parsing for delete
         success: function(msg){
-          console.log(msg);
-          // console.log("wtf");
           $(".responseContainer").html(msg);
         },
         error: function(e){
-          //console.log(e);
+          console.log(e);
         }
       });
-
-
-
-     // console.log(idToken);
     }).catch(function(error) {
       // Handle error
+      console.log(error);
     });
   }
 

@@ -9,13 +9,19 @@
 <script src="https://www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 
+<style>
+table, th, td{
+  border: 1px solid black;
+}
+</style>
+
+
 </head>
 <body>
 
+
 <h1>DUiT</h1>
 
-  <div class="responseContainer">
-  </div>
 
   <div class="container">
 
@@ -29,7 +35,16 @@
 
   <button id="btnLogout" class="btn btn-action hide">Log out</button>
 
-  <button id="btnTest" class = "btn btn-action">Test</button>
+  <button id="btnDisplay" class = "btn btn-action">Display</button>
+
+  <button id="btnAdd" class = "btn btn-action">Add</button>
+
+  <button id="btnDelete" class = "btn btn-action">Delete</button>
+
+
+  <div class="responseContainer">
+  </div>
+
 
   </div>
 
