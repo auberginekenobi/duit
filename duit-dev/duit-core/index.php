@@ -50,7 +50,7 @@ table, th, td{
     Deadline Date:<input id="dateDeadline" type="date" placeholder="Date">
 
     Status:
-    <select id="status">
+    <select id="du_status">
       <option value="Open">Open</option>
       <option value="Active">Active</option>
       <option value="Completed">Completed</option>

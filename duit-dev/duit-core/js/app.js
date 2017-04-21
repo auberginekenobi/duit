@@ -46,6 +46,20 @@
 
   btnAdd.addEventListener('click',e=>{
     let du_name = $("#txtName").val();
+    // du_start_date
+    let du_start_date = $('#dateTimeStart').val();
+    let du_end_date = $('#dateTimeEnd').val();
+    let du_note = $('#txtNote').val();
+    let du_status = $('#du_status').val();
+
+    // du_end_date
+    // du_deadline
+    // du_priority
+    // du_note
+    // du_status
+    // du_tag
+    // 
+
     console.log(du_name);
 
     var params = {
