@@ -36,9 +36,9 @@ require_once('../duit-db/db-mapper.php');
 <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' type='text/css'>
 
 <!-- JS -->
+<script src="https://www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-<script src='js/app.js'></script>
-<script src='js/main.js'></script>
+<script src='js/main-dist.js'></script>
 
 <header>
 	<div class='col one'>
