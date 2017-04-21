@@ -13,11 +13,11 @@
  */
 class tag {
     // protected tag properties
-    protected tag_id;           // int
-    protected tag_name;         // string
-    protected tag_priority;     // int, default 4
-    protected tag_note;         // string, optional
-    protected user_id;          // string
+    protected $tag_id;           // int
+    protected $tag_name;         // string
+    protected $tag_priority;     // int, default 4
+    protected $tag_note;         // string, optional
+    protected $user_id;          // string
     
     /**
      * Main constructor
@@ -28,7 +28,7 @@ class tag {
     /**
      * Constructor with all the fields
      */
-    public function setTagFields(tag_id, tag_name, tag_priority, tag_note, user_id){
+    public function setTagFields($tag_id, $tag_name, $tag_priority, $tag_note, $user_id){
         try {
             $this->tag_id       = $tag_id;
             $this->tag_name     = $tag_name;

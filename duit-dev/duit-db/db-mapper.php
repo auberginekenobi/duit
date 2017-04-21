@@ -229,13 +229,63 @@ function getAll() {
 
 }
 
+/**
+ * Function getAllTags
+ *
+ * Fetches all tags from the database and stores them as tag objects in the
+ * returned array
+ * 
+ * @return [array] The array holding all of the tag objects, each of whose keys
+ * corresponds to the tag's tag_id
+ */
+function getAllTags() {
+
+	// Create new array to hold the du's
+	$all = array();
+
+	// Query statement for large, formatted table
+	$queryStatement = "
+	SELECT tag_id,
+	       tag_name, 
+	       tag_priority, 
+	       tag_note, 
+           user_id
+	FROM   tags
+	GROUP  BY tag_name 
+	ORDER  BY tag_id ASC";
+    
+    // Query the database for all du's
+	$result = query($queryStatement, "getAllTags()");
+    
+    // While there is another non-null row of the query result
+    while ($currRow = $result->fetch_assoc()) {
+    	// Create a new du
+    	$newTag = new tag();
+    	// Remember the current du's du_id
+    	$tag_id = $currRow['tag_id'];
+    	// Fill fields of du to match values fetched from the database
+    	$newTag->setTagFields($tag_id,
+    						$currRow['tag_name'],
+    						$currRow['tag_priority'],
+    						$currRow['tag_note'],
+                            $currRow['user_id']);
+    	// Store du in array at key that is du_id
+    	$all[$tag_id] = $newTag;   
+	}
+    
+    // Close result
+	$result->close();
+
+	// Done
+	return $all;
+}
 
 /**
  * Function displayAsTable
  *
- * Echoes a simple html table of the inputted du's; primarily used for debugging
+ * Echoes a simple html table of the inputted database items; primarily used for debugging
  * 
- * @param [array(du)] $duArray Array of du objects slated to display in table
+ * @param [array] $duArray Array of object wrappers for database entries slated to display in table. Must implement the function displayAsTableRow($headers);
  * @return void
  */
 function displayAsTable($duArray) {
@@ -718,6 +768,7 @@ function deleteDu($id, $duArray = NULL) {
 
 // Get du class object definitions
 require("du-class.php");
+require("tag-class.php");
 
 //Get user class object definitions
 //require("user-class.php");
@@ -726,10 +777,18 @@ require("du-class.php");
 // Main executions
 $log = openLogFile(true);
 $all = getAll();
+$alltags = getAllTags();
 
 // Testing Example
 
-// displayAsTable($all);
+ displayAsTable($all);
+ displayAsTable($alltags);
+
+//$testertag = new tag();
+//var_dump($testertag);
+//$testertag->setTagFields(1,"asf",4," a anote",1);
+//var_dump($testertag);
+
 
 //$parameters = array('du_name' => 'Take out the trash'.rand(), 'du_has_date' => 1, 'du_time_start' => '2017-03-30', 'user_id' => 1);
 //$all = addDu($parameters);
