@@ -29,24 +29,26 @@ require_once('../duit-db/db-mapper.php');
 
 // Testing Example
 
+// echo '<pre>';
+// var_dump($all);
+// echo '</pre>';
+
 displayAsTable($all);
 
-// $parameters = array('du_name' => 'Take out the trash', 'du_has_date' => 1, 'du_time_start' => '2017-03-30');
+$parameters = array('du_name' => 'pet cattypin\'s "head" if he wants it', 'du_note' => 'this is a tes\'t', 'user_id' => 'aMl3IxVzqQbZ2tcTiBsbC8A0ZfX2');
+$all = addDu($parameters);
+
+displayAsTable($all);
+
+$all = deleteDu(5);
+
+displayAsTable($all);
+
+// $all = addDu($parameters);
+// $all = addDu($parameters);
 // $all = addDu($parameters);
 
-// test
-
-// // $all[1]->unsetDuPriority();
-// // $all[3]->unsetNote();
-
 // displayAsTable($all);
-
-// // $all = deleteDu(5);
-
-// displayAsTable($all);
-
-// $all[1]->setDuPriority("4");
-// $all[3]->setNote("Make it extra yummy");
 
 ?>
 	
