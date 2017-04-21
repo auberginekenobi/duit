@@ -134,7 +134,9 @@ class du {
 	 */
 	public function displayAsTableRow($headers) {
 		// Set up headers
-		$addHeaders  = "<tr><th>du_id</th>";
+		$addHeaders = "<tr>";
+		$addHeaders .= "<th>Delete</th>";
+		$addHeaders .= "<th>du_id</th>";
 		$addHeaders .= "<th>du_timestamp</th>";
 		$addHeaders .= "<th>du_name</th>";
 		$addHeaders .= "<th>du_has_date</th>";
@@ -160,7 +162,9 @@ class du {
 		$duration = ($this->du_has_duration)     ? "TRUE" : "FALSE";
 		$priority = ($this->du_enforce_priority) ? "TRUE" : "FALSE";
 		// Add each cell
-		$output .= "<tr class=" . 'du-' . $this->du_id . "><td>" . $this->du_id . "</td>";
+		$output .= "<tr>";
+		$output .= "<td><button class='deleteDu du-" . $this->du_id . "'> x </button></td>";
+		$output .= "<td>" . $this->du_id . "</td>";
 		$output .= "<td>" . $this->du_timestamp . "</td>";
 		$output .= "<td>" . $this->du_name . "</td>";
 		$output .= "<td>" . $date . "</td>";

@@ -30,16 +30,49 @@
 
   btnDisplay.addEventListener('click',e=>{
     callServer("displayAsTable");
+
+
+
   });
 
 
+  $(document).on('click','.deleteDu',function(e){
+    let du_id = $(e.currentTarget).attr('class').slice(12);
+    var params = {
+      "du_id": du_id
+    };
+    callServer("deleteDu",params);
+  });
+
   btnAdd.addEventListener('click',e=>{
+    let du_name = $("#txtName").val();
+    // du_start_date
+    let du_start_date = $('#dateTimeStart').val();
+    let du_end_date = $('#dateTimeEnd').val();
+    let du_note = $('#txtNote').val();
+    let du_status = $('#du_status').val();
+
+    // du_end_date
+    // du_deadline
+    // du_priority
+    // du_note
+    // du_status
+    // du_tag
+    // 
+
+    console.log(du_name);
+
+    var params = {
+      "du_name" : du_name
+    };
+
     callServer("add");
   });
 
-  btnDelete.addEventListener('click',e=>{
-    callServer("delete");
-  });
+  // btnDelete.addEventListener('click',e=>{
+  //   callServer("delete");
+  //  // callServer("")
+  // });
 
   //add signup event
   btnSignUp.addEventListener('click', e=> {
@@ -77,18 +110,28 @@
     }
   })
 
-  function callServer(function_name,params,callback){
+  function callServer(function_name,params = {},callback){
     firebase.auth().currentUser.getToken(/* forceRefresh */ true).then(function(idToken) {
       // Send token to your backend via HTTPS
       console.log(function_name);
+
+      let payload = "idToken="+idToken+
+        "&uid="+firebase.auth().currentUser.uid+
+        "&function_name="+function_name;
+
+
+      if ("du_id" in params) {
+        let du_id = params["du_id"];
+        payload += "&du_id="+du_id;
+      }
+
+
+
       $.ajax({
         cache: false,
         type: "GET",
         url: "auth.php", 
-        data: "idToken="+idToken+
-          "&uid="+firebase.auth().currentUser.uid+
-          "&function_name="+function_name,//+
-        //  "&du_id"+params, //temp, testing parsing for delete
+        data: payload, 
         success: function(msg){
           $(".responseContainer").html(msg);
         },
