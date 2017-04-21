@@ -312,7 +312,67 @@ function displayAsTable($duArray) {
 // TODO: addTag, preprocessTag, deleteTag
 
 function preprocessTag($parameters) {
-    return $parameters;
+    global $log;
+    
+    $p = $parameters;
+    
+    // Field 'tag_name'             : REQUIRED (string name)
+	// Handle case where tag_name is not specified
+	if (!isset($p['tag_name'])) {
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new tag: no name found specified in input. Input was:\n";
+		$output .= "	" . var_export($parameters, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	}
+    
+    // Field 'tag_priority'     OPTIONAL int
+    // if not set, default 4
+    if (!isset($p['tag_priority'])) {
+        $p['tag_priority'] = 4;
+    } elseif ($p['tag_priority']!=1 && $p['tag_priority']!=2 &&
+              $p['tag_priority']!=3){
+        $p['tag_priority']=4;
+    }
+    
+    // Field 'du_note'             : OPTIONAL (string note)
+	// 
+	// Set du_note to NULL if it is not specified and handle case where it is
+	// mal-specified
+	if (!isset($p['tag_note'])) {
+		$p['tag_note']             = NULL;
+	} 
+    //TODO: regex
+    
+    // FIELD 'user_id'            : REQUIRED (varchar user_id)
+  // Check if provided user_id matches an extant user_id
+	// Handle case where user_id is not specified
+	if (!isset($p['user_id'])) {
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new tag: no user id found specified in input. Input was:\n";
+		$output .= "	" . var_export($parameters, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	} else {
+        $queryStatement = "
+        SELECT user_id
+        FROM users
+        WHERE user_id = '" . $p['user_id'] . "'";
+        $result = query($queryStatement, "preprocess()");
+        $currRow = $result->fetch_assoc();
+        if ($currRow == NULL){
+            $output  = date("Y-m-d H:i:s T", time());
+            $output .= " Could not add new tag: input user id does not correspond to an extant user. Input was:\n";
+            $output .= "	" . var_export($parameters, true);
+            // Write to log file and kill process
+            fwrite($log, $output, 2048);
+            exit($output);
+        }
+    }
+    
+    return $p;
 }
 
 /** Function addTag
