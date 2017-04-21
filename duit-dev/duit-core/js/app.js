@@ -5,9 +5,9 @@
  * with the server
  *
  * Notice: this file utilizes conventions from ES6 (ES2015).
- * jQuery 3.2.1
+ * jQuery 3.2.0+
  *
- * TODO: Move DOM listeners to main.js
+ * TODO: Move DOM listeners to interact.js
  *
  * @author    Patrick Shao <shao.pat@gmail.com>
  * @copyright 2017 DUiT
