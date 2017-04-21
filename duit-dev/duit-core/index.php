@@ -39,8 +39,33 @@ table, th, td{
 
   <button id="btnAdd" class = "btn btn-action">Add</button>
 
-  <button id="btnDelete" class = "btn btn-action">Delete</button>
+<!--   <button id="btnDelete" class = "btn btn-action">Delete</button>
+ -->
+  <div>
+    Name:<input id="txtName" type="text" placeholder="Du Name">
+    Note:<input id="txtNote" type="text" placeholder="Note">
+    Time Start:<input id="dateTimeStart" type="date" placeholder="Date">
 
+    Time End:<input id="dateTimeEnd" type="date" placeholder="Date">
+    Deadline Date:<input id="dateDeadline" type="date" placeholder="Date">
+
+    Status:
+    <select id="du_status">
+      <option value="Open">Open</option>
+      <option value="Active">Active</option>
+      <option value="Completed">Completed</option>
+    </select>
+    Priority:
+    <select id="priority">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+    </select>
+    Tags:
+    <input id="txtTags" type="text" placeholder="Tags">
+
+  </div>
 
   <div class="responseContainer">
   </div>
