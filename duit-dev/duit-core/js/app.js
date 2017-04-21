@@ -45,28 +45,42 @@
   });
 
   btnAdd.addEventListener('click',e=>{
-    let du_name = $("#txtName").val();
-    // du_start_date
-    let du_start_date = $('#dateTimeStart').val();
-    let du_end_date = $('#dateTimeEnd').val();
-    let du_note = $('#txtNote').val();
+    let du_name = $("#du_name").val();
+    let du_time_start = $('#du_time_start').val();
+    let du_time_end = $('#du_time_end').val();
+    let du_time_deadline = $('#du_time_deadline').val();
+    let du_note = $('#du_note').val();
     let du_status = $('#du_status').val();
+    let du_priority = $('#du_priority').val();
 
-    // du_end_date
-    // du_deadline
-    // du_priority
-    // du_note
-    // du_status
-    // du_tag
-    // 
-
-    console.log(du_name);
 
     var params = {
-      "du_name" : du_name
+      "du_name" : du_name,
+      "du_time_start" : du_time_start,
+      "du_time_end" : du_time_end,
+      "du_note" : du_note,
+      "du_status" : du_status
     };
 
-    callServer("add");
+    if (du_time_deadline != "") {
+      params["du_has_duration"] = 1;
+    }
+
+    if (du_priority != "none"){
+      params["du_enforce_priority"] = 1;
+      params["du_priority"] = du_priority;          
+    }
+
+    if (du_time_deadline != ""){
+      params["du_has_deadline"] = 1;
+      params["du_time_start"] = du_time_deadline;
+    }
+
+    //add du has date
+
+    console.log(params);
+
+    callServer("add",params);
   });
 
   // btnDelete.addEventListener('click',e=>{
@@ -110,21 +124,33 @@
     }
   })
 
+
+  function updatePayload(input,payload,params) {
+    if(input in params && params[input] != ""){
+      payload += "&"+input+"="+params[input];
+    }
+    return payload;
+  }
+
   function callServer(function_name,params = {},callback){
     firebase.auth().currentUser.getToken(/* forceRefresh */ true).then(function(idToken) {
       // Send token to your backend via HTTPS
       console.log(function_name);
+      console.log(params);
+
+      let paramKeys = ["du_id","du_name","du_has_date","du_has_deadline","du_has_duration","du_time_start",
+        "du_time_end","du_priority","du_enforce_priority","du_note","du_status"];
 
       let payload = "idToken="+idToken+
         "&uid="+firebase.auth().currentUser.uid+
         "&function_name="+function_name;
 
-
-      if ("du_id" in params) {
-        let du_id = params["du_id"];
-        payload += "&du_id="+du_id;
+      for (let i = 0; i < paramKeys.length; i++) {
+        let paramKey = paramKeys[i];
+        payload = updatePayload(paramKey,payload,params);
       }
 
+      console.log(payload);
 
 
       $.ajax({
