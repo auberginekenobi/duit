@@ -1,17 +1,14 @@
 /**
- * db-mapper.php
+ * main.js
  *
- * Performs central interactions with the database as well as maintains PHP
- * objects/arrays for data and means of accessing them.
+ * Concatenates all compiled js files together
  *
- * Notice: this file utilizes conventions from ES6 (ES2015).
- * jQuery 3.2.1
+ * jQuery 3.2.0+
  *
  * @author    Kelli Rockwell <kellirockwell@mail.com>
  * @copyright 2017 DUiT
  * @since     File available since release 0.0.4  
  */
 
-$(document).ready(function() {
-
-});
+// @prepros-append app-dist.js
+// @prepros-append interact-dist.js
