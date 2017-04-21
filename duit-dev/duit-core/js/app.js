@@ -1,3 +1,19 @@
+/**
+ * app.js
+ *
+ * Contains Firebase initialization calls and AJAX functions for interacting
+ * with the server
+ *
+ * Notice: this file utilizes conventions from ES6 (ES2015).
+ * jQuery 3.2.1
+ *
+ * TODO: Move DOM listeners to main.js
+ *
+ * @author    Patrick Shao <shao.pat@gmail.com>
+ * @copyright 2017 DUiT
+ * @since     File available since release 0.0.3  
+ */
+
 (function(){
   // Initialize Firebase
   var config = {
@@ -17,13 +33,13 @@
   const btnSignUp = document.getElementById('btnSignUp');
   const btnLogout = document.getElementById('btnLogout');
 
-  //Add login event
+  // Add login event
   btnLogin.addEventListener('click', e=>{
-    //Get email and pass
+    // Get email and pass
     const email = txtEmail.value;
     const pass = txtPassword.value;
     const auth = firebase.auth();
-    //Sign in
+    // Sign in
     const promise = auth.signInWithEmailAndPassword(email,pass);
     promise.catch(e=>console.log(e.message));
   });
@@ -88,32 +104,32 @@
   //  // callServer("")
   // });
 
-  //add signup event
+  // Add signup event
   btnSignUp.addEventListener('click', e=> {
-    //Get email and pass
+    // Get email and pass
     const email = txtEmail.value;
     const pass = txtPassword.value;
     const auth = firebase.auth();
-    //Sign in
+    // Sign in
     const promise = auth.createUserWithEmailAndPassword(email,pass).then(function(){
       
-      //Stores by uid
+      // Stores by uid
       firebase.database().ref('users/' + auth.currentUser.uid).set({
         uid: auth.currentUser.uid
       });  
 
-      //To do send a request to create a user in PHP
+      // TODO: send a request to create a user in PHP
     }, function (reason) {
       console.log(reason);
     }); 
   });
 
-  //add signout
+  // Add signout
   btnLogout.addEventListener('click', e=>{
     firebase.auth().signOut();
-  })
+  });
 
-  //add a real time listener for changes in user state
+  // Add a real time listener for changes in user state
   firebase.auth().onAuthStateChanged(user=>{
     if (user){
       console.log(user);
@@ -122,11 +138,11 @@
       console.log('not logged in');
       btnLogout.classList.add('hide');
     }
-  })
+  });
 
 
   function updatePayload(input,payload,params) {
-    if(input in params && params[input] != ""){
+    if(input in params && params[input] !== ""){
       payload += "&"+input+"="+params[input];
     }
     return payload;
