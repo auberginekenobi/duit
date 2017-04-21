@@ -256,8 +256,9 @@ class du {
 			$insertQuery .= ")";
 
 			// Insert what
+			// Name accepts single and double quotes; make sure to escape them
 			$insertQuery .= "
-				VALUES ('" . $this->du_name . "'";
+				VALUES ('" . $this->escapeQuotes($this->du_name) . "'";
 			$insertQuery .= ($this->du_has_date) ? ",
 							 1" : "";
 			$insertQuery .= ($this->du_has_deadline) ? ",
@@ -271,8 +272,9 @@ class du {
 			$insertQuery .= ($this->du_enforce_priority) ? ",
 							 " . $this->du_priority . ",
 							 1" : "";
+			// Note accepts single and double quotes; make sure to escape them
 			$insertQuery .= ($this->du_note) ? ",
-							 '" . $this->du_note . "'" : "";
+							 '" . $this->escapeQuotes($this->du_note) . "'" : "";
 			$insertQuery .= ",'" . $this->du_status . "'";
             $insertQuery .= ",'" . $this->user_id . "'";
 			$insertQuery .= ");";
@@ -309,13 +311,67 @@ class du {
 		
 	}
 
+	/**
+	 * Function escapeQuotes
+	 *
+	 * Looks at a string and inserts an escape character (a single "\") before
+	 * any single or double quote found so that it may be properly inserted
+	 * into the DB without issue; currently only performed on name and note
+	 *
+	 * @param [string] $s The string to be escaped, typically $this->du_note or $this->du_name
+	 * @global [$log | The open log file]
+	 * @return [string] $s plus escape characters around single and double quotes
+	 */
+	public function escapeQuotes($s) {
+
+		global $log;
+
+		$escaped = "";
+		$sq = $dq = FALSE;
+
+		// For each character of the string
+		for ($i = 0; $i < strlen($s); $i++) {
+			if ($s[$i] == "'") { // If it is a single quote
+				$escaped .= "\'";
+				// Remember something has been escaped, for logging
+				$sq = TRUE;
+			} elseif ($s[$i] == '"') { // If it is a double quote
+				$escaped .= "\"";
+				// Remember something has been escaped, for logging
+				$dq = TRUE;
+			} else { // Otherwise just copy the character verbatim
+				$escaped .= $s[$i];
+			}
+		}
+
+		// Log if any escaping has taken place.
+		if ($sq or $dq) {
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " Notice: One or more instances of ";
+			if ($sq and !$dq) { // Just single quotes
+				$output .= "single quote(s) ";
+			} elseif ($dq and !$sq) { // Just double quotes
+				$output .= "double quote(s) ";
+			} else { // Both
+				$output .= "both single and double quote(s) ";
+			}
+			$output .= "were found in ";
+			// Currently only checks if input was name or note
+			$output .= ($this->du_name == $s) ? "du_name" : "du_note";
+			$output .= ". Characters were escaped before adding to the database. View data for du_id '" . $this->du_id . "' to verify fields were interpreted correctly. \n" ;
+			fwrite($log, $output, 2048);
+		}
+
+		// Done
+		return $escaped;
+	}
+
 
 	/**
 	 * Function deleteFromDB
 	 *
 	 * Removes du from the database if it finds one at its du_id.
 	 *
-	 * @todo finish conditions
 	 * @global [$log | The open log file]
 	 * @return void
 	 */

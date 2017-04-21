@@ -189,7 +189,7 @@ function getAll() {
 	                      ON d.du_id = p.du_id 
 	               LEFT JOIN tags AS t 
 	                      ON p.tag_id = t.tag_id ) AS subq
-	GROUP  BY du_name 
+	GROUP  BY du_id 
 	ORDER  BY du_id ASC";
 
 	// Query the database for all du's
@@ -367,9 +367,9 @@ function addDu($parameters, $duArray = NULL) {
  * how they are preprocessed.
  *
  * @param [array(string => various)] $parameters Array of parameters specifying
- * the properties to be used on the new du. Parameter 'du_name' => 'name' is the
- * only mandatory property. All parameters should be specified in the array as
- * 'field_name' => field_value.
+ * the properties to be used on the new du. Parameters 'du_name' => 'name' and
+ * 'user_name' => 'user' are the only mandatory property. All parameters should
+ * be specified in the array as 'field_name' => field_value.
  * @global [$log | The open log file]
  * @return [array(string => various)] Preprocessed array of parameters
  */
@@ -389,6 +389,13 @@ function preprocess($parameters) {
 	if (!isset($p['du_name'])) {
 		$output  = date("Y-m-d H:i:s T", time());
 		$output .= " Could not add new du: no name found specified in input. Input was:\n";
+		$output .= "	" . var_export($parameters, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	} elseif (!preg_match('/^[\w,:&\-\'\(\)\+\" ]+$/' , $p['du_name'])) { // Input mal-specified
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new du: 'du_name' specified in wrong format. Input was:\n";
 		$output .= "	" . var_export($parameters, true);
 		// Write to log file and kill process
 		fwrite($log, $output, 2048);
@@ -591,9 +598,9 @@ function preprocess($parameters) {
 	if (!isset($p['du_note'])) {
 		$p['du_note']             = NULL;
 	} 
-	// Apparenlty PHP needs FOUR BACKSLASHES to accept a single literal backslash 
+	// Apparently PHP needs FOUR BACKSLASHES to accept a single literal backslash 
 	// in the case that there is another escape character after it, 3 otherwise...?!?
-	elseif (!preg_match('/^[\w,:;~!@%&-=\'\$\^\*\(\)\+\[\]\{\}\.\?\\\\\/\" ]+$/' , $p['du_note'])) { // Input mal-specified
+	elseif (!preg_match('/^[\w,:;~!@%&=\-\'\$\^\*\(\)\+\[\]\{\}\.\?\\\\\/\" ]+$/' , $p['du_note'])) { // Input mal-specified
 		$output  = date("Y-m-d H:i:s T", time());
 		$output .= " Could not add new du: 'du_note' specified in wrong format. Input was:\n";
 		$output .= "	" . var_export($parameters, true);
@@ -602,7 +609,7 @@ function preprocess($parameters) {
 	    exit($output);
 	}
     
-  // Field 'du_status'             : OPTIONAL (string status), DEFAULT 'Open'
+  	// Field 'du_status'           : OPTIONAL (string status), DEFAULT 'Open'
 	// 
 	// Set du_status to Open if it is not specified and handle case where it is
 	// mal-specified
@@ -618,8 +625,8 @@ function preprocess($parameters) {
 	    exit($output);
 	}
     
-  // FIELD 'user_id'            : REQUIRED (varchar user_id)
-  // Check if provided user_id matches an extant user_id
+	// FIELD 'user_id'             : REQUIRED (varchar user_id)
+    // Check if provided user_id matches an extant user_id
 
 	// Handle case where user_id is not specified
 	if (!isset($p['user_id'])) {
