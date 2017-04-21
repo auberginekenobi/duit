@@ -189,7 +189,7 @@ function getAll() {
 	                      ON d.du_id = p.du_id 
 	               LEFT JOIN tags AS t 
 	                      ON p.tag_id = t.tag_id ) AS subq
-	GROUP  BY du_name 
+	GROUP  BY du_id 
 	ORDER  BY du_id ASC";
 
 	// Query the database for all du's
