@@ -311,6 +311,88 @@ function displayAsTable($duArray) {
 
 // TODO: addTag, preprocessTag, deleteTag
 
+function preprocessTag($parameters) {
+    return $parameters;
+}
+
+/** Function addTag
+ *
+ * Adds a new tag with the specified set of properties at both object and db levels.
+ *
+ * Example call:
+ * $all = addDu(array(
+ * 					'tag_name' => 'Job hunt',
+ * 					'tag_note' => 'WHYYYYYYYYYYYYY',
+ * 				), $allTags);
+ *
+ * @param [array(tag)]                $tagArray Array of tag objects to take new tag
+ * @global [$log | The open log file]
+ * @return [array] $tagArray with the new du element added
+ */
+function addTag($parameters, $tagArray = NULL) {
+    
+    global $log;
+    
+    // If tagArray is not specified, add it to all tags
+    $isAll = ($tagArray) ? false : true;
+    $tagArray = ($tagArray) ?: $GLOBALS['allTags'];
+    
+    // Record add call
+    $addAlert      = date("Y-m-d H:i:s T", time()) . " ";
+	$addAlert     .= "Preparing to add new tag with parameters:\n";
+
+	// Unpack parameter array passed
+	foreach ($parameters as $p => $v) {
+		$addAlert .= "	";
+		$addAlert .= var_export($p, true) . " => ";
+		$addAlert .= var_export($v, true) . "\n";
+	}
+	fwrite($log, $addAlert, 4096);
+    
+    // Create a new tag
+    $newTag = new tag();
+    
+    // Get new ID for the du by adding 1 to the last ID used in the array
+	end($tagArray);
+	$tag_id = key($tagArray) + 1;
+	$parameters['tag_id'] = $tag_id;
+
+    // Preprocess params
+    $p = preprocessTag($parameters);
+    
+    // Fill fields of du to match parameter inputs
+	$newTag->setTagFields($p['tag_id'],
+						$p['tag_name'],
+						$p['tag_priority'],
+						$p['tag_note'],
+                        $p['user_id']);
+    
+    // Store du in array at key that is tag_id
+	$tagArray[$tag_id] = $newTag;
+    
+    if ($tagArray[$tag_id] === false) {
+	    // Handle error
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new tag to tagArray. Current state of $newTag is\n";
+		$output .= "	" . var_export($newTag, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	} else {
+		// Record success
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Added new tag to " . (($isAll) ? "\$allTags" : "tagArray");
+		$output .= " with tag_id of '" . $tag_id . "'.\n";
+		fwrite($log, $output, 2048);
+	}
+    
+    // Push the new du and its properties to the database
+	$tagArray[$tag_id]->addToDB();
+
+	// Done
+	return $tagArray;
+
+}
 
 /**
  * Function addDu
