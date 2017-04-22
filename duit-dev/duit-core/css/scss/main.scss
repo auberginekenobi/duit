@@ -11,6 +11,11 @@
 @import 'breakpoints';
 @import 'variables';
 
+body {
+	padding: 0;
+	margin: 0;
+}
+
 a,
 a:link,
 a:active,
@@ -24,44 +29,78 @@ a:visited {
 	display: none;
 }
 
+.centering-container {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+}
+
 header {
 	align-items: center;
 	border: 2px solid gray;
 	display: flex;
-	height: 6vh;
-	justify-content: space-between;
+	height: 9vh;
+	justify-content: space-between;	
+	padding-bottom: 1vh;
 	.col {
 		&.one,
 		&.three {
-			width: 10%;
 			max-width: 100px;
 			min-width: 50px;
-			text-align: center;
-		}
-		&.one {
-			border: 2px solid green;
+			width: 6%;
 		}
 		&.two {
-			width: 80%;
-			border: 2px solid cyan;
+			align-self: flex-end;
+			width: 88%;
 			time {
 				display: block;
+				font-family: $main-stack;
+				&#time {
+					color: $b-green;
+					font-size: 3em;
+					font-weight: 300;
+				}
+				&#date {
+					color: $gray40;
+					padding-left: 1px;
+				}
 			}
 		}
 		&.three {
 			border: 2px solid orange;
 		}
 	}
+	#settings-btn {
+		@include respond-to('tiny') {
+			font-size: 1.3em;
+		}
+		@include respond-to('medium') {
+			font-size: 1.7em;
+		}
+
+		background-color: $l-purple;
+		border-radius: 100%;
+		box-sizing: border-box;
+		color: $gray10;
+		display: table-cell;
+		height: 1.7em;
+		line-height: 1.7em;
+		text-align: center;
+		transition: all 0.2s linear;
+		vertical-align: middle;
+		width: 1.7em;
+		&:hover {
+			background-color: $purple;
+			cursor: pointer;
+		}
+	}
 }
 
 section#center {
-	align-items: stretch;
-	display: flex;
-	flex-wrap: wrap;
-	height: 90vh;
-	justify-content: space-between;
 	@include respond-to('tiny') {
-		aside, main {
+		aside,
+		main {
 			flex: 1 100%;
 		}
 	}
@@ -94,7 +133,12 @@ section#center {
 			}
 		}
 	}
-	
+
+	align-items: stretch;
+	display: flex;
+	flex-wrap: wrap;
+	height: 85vh;
+	justify-content: space-between;
 	aside {
 		border: 2px solid red;
 	}
@@ -108,7 +152,7 @@ footer {
 	display: table-cell;
 	font-family: $main-stack;
 	font-size: 0.7em;
-	height: 4vh;
+	height: 5vh;
 	text-align: center;
 	vertical-align: middle;
 	width: 100vw;

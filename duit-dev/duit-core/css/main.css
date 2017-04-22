@@ -329,6 +329,11 @@
   src: url("../../fonts/AmsiProCond-UltraItalic.ttf");
 }
 
+body {
+  padding: 0;
+  margin: 0;
+}
+
 a,
 a:link,
 a:active,
@@ -343,6 +348,22 @@ a:visited {
   display: none;
 }
 
+.centering-container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
 header {
   -webkit-box-align: center;
   -webkit-align-items: center;
@@ -353,35 +374,77 @@ header {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  height: 6vh;
+  height: 9vh;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
+  padding-bottom: 1vh;
 }
 
 header .col.one, header .col.three {
-  width: 10%;
   max-width: 100px;
   min-width: 50px;
-  text-align: center;
-}
-
-header .col.one {
-  border: 2px solid green;
+  width: 6%;
 }
 
 header .col.two {
-  width: 80%;
-  border: 2px solid cyan;
+  -webkit-align-self: flex-end;
+  -ms-flex-item-align: end;
+  align-self: flex-end;
+  width: 88%;
 }
 
 header .col.two time {
   display: block;
+  font-family: "Open Sans", sans-serif;
+}
+
+header .col.two time#time {
+  color: #468f77;
+  font-size: 3em;
+  font-weight: 300;
+}
+
+header .col.two time#date {
+  color: #939e9a;
+  padding-left: 1px;
 }
 
 header .col.three {
   border: 2px solid orange;
+}
+
+header #settings-btn {
+  background-color: #3b394d;
+  border-radius: 100%;
+  box-sizing: border-box;
+  color: #dce5e2;
+  display: table-cell;
+  height: 1.7em;
+  line-height: 1.7em;
+  text-align: center;
+  -webkit-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+  vertical-align: middle;
+  width: 1.7em;
+}
+
+@media (min-width: 0px) {
+  header #settings-btn {
+    font-size: 1.3em;
+  }
+}
+
+@media (min-width: 1024px) {
+  header #settings-btn {
+    font-size: 1.7em;
+  }
+}
+
+header #settings-btn:hover {
+  background-color: #23222b;
+  cursor: pointer;
 }
 
 section#center {
@@ -396,7 +459,7 @@ section#center {
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  height: 90vh;
+  height: 85vh;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
@@ -404,7 +467,8 @@ section#center {
 }
 
 @media (min-width: 0px) {
-  section#center aside, section#center main {
+  section#center aside,
+  section#center main {
     -webkit-box-flex: 1;
     -webkit-flex: 1 100%;
     -ms-flex: 1 100%;
@@ -483,7 +547,7 @@ footer {
   display: table-cell;
   font-family: "Open Sans", sans-serif;
   font-size: 0.7em;
-  height: 4vh;
+  height: 5vh;
   text-align: center;
   vertical-align: middle;
   width: 100vw;

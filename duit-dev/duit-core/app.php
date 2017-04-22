@@ -42,11 +42,15 @@ require_once('../duit-db/db-mapper.php');
 
 <header>
 	<div class='col one'>
-		<i class='fa fa-cog' id='settings-btn' aria-hidden='true'></i>
+		<div class='centering-container'>
+			<div id='settings-btn'>
+				<i class='fa fa-cog' aria-hidden='true'></i>
+			</div>
+		</div>
 	</div>
 	<div class='col two'>
 		<time id='time'>4:35 PM</time>
-		<time id='date'>Friday, April 21</time>
+		<time id='date'>Friday, April 21, 2017</time>
 	</div>
 	<div class='col three'>
 		<i class='fa fa-plus' id='quick-add-btn' aria-hidden='true'></i>
