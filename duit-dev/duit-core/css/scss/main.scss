@@ -1,275 +1,289 @@
 /**
- * main.css
- *
- * Main style sheet for app styles
- *
- * @author    Kelli Rockwell <kellirockwell@mail.com>
- * @copyright 2017 DUiT
- * @since     File available since release 0.0.3  
- */
+* main.css
+*
+* Main style sheet for app styles
+*
+* @author    Kelli Rockwell <kellirockwell@mail.com>
+* @copyright 2017 DUiT
+* @since     File available since release 0.0.3  
+*/
 
- @import 'breakpoints';
- @import 'variables';
+@import 'breakpoints';
+@import 'variables';
 
- body {
- 	margin: 0;
- 	padding: 0;
- }
+body {
+	margin: 0;
+	padding: 0;
+}
 
- a,
- a:link,
- a:active,
- a:hover,
- a:visited {
- 	text-decoration: none;
- 	transition: all 0.2s linear;
- }
+a,
+a:link,
+a:active,
+a:hover,
+a:visited {
+	text-decoration: none;
+	transition: all 0.2s linear;
+}
 
- .hidden {
- 	display: none !important;
- }
+.hidden {
+	display: none !important;
+}
 
- .centering-container {
- 	align-items: center;
- 	display: flex;
- 	justify-content: center;
- 	width: 100%;
- }
+.centering-container {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
 
- #fade-overlay {
- 	background-color: rgba($gray40, 0.4);
- 	height: 100vh;
- 	left: 0;
- 	position: absolute;
- 	top: 0;
- 	width: 100vw;
- 	opacity: 0;
- 	z-index: -10;
- }
+#fade-overlay {
+	background-color: rgba($gray40, 0.4);
+	height: 100vh;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100vw;
+	opacity: 0;
+	z-index: -10;
+}
 
- header {
- 	align-items: center;
- 	background-color: white;
- 	border: 2px solid gray;
- 	display: flex;
- 	height: 9vh;
- 	justify-content: space-between;	
- 	padding-bottom: 1vh;
- 	.col {
- 		&.one,
- 		&.three {
- 			max-width: 100px;
- 			min-width: 50px;
- 			width: 6%;
- 		}
- 		&.two {
- 			align-self: flex-end;
- 			width: 88%;
- 			time {
- 				display: block;
- 				font-family: $main-stack;
- 				&#time {
- 					color: $b-green;
- 					font-size: 3em;
- 					font-weight: 300;
- 				}
- 				&#date {
- 					color: $gray40;
- 					padding-left: 1px;
- 				}
- 			}
- 		}
- 		&.three {
- 			border: 2px solid orange;
- 		}
- 	}
- 	#settings-btn {
- 		@include respond-to('tiny') {
- 			font-size: 1.3em;
- 		}
- 		@include respond-to('medium') {
- 			font-size: 1.7em;
- 		}
+header {
+	align-items: center;
+	background-color: white;
+	border: 2px solid gray;
+	display: flex;
+	height: 9vh;
+	justify-content: space-between;	
+	padding-bottom: 1vh;
+	.col {
+		&.one,
+		&.three {
+			align-self: center;
+			max-width: 100px;
+			min-width: 50px;
+			width: 6%;
+		}
+		&.two {
+			align-self: flex-end;
+			width: 88%;
+			time {
+				display: block;
+				font-family: $main-stack;
+				&#time {
+					color: $b-green;
+					font-size: 3em;
+				}
+				&#date {
+					color: $gray40;
+					padding-left: 1px;
+				}
+			}
+		}
+	}
+	#settings-btn {
+		@include respond-to('tiny') {
+			font-size: 1.3em;
+		}
+		@include respond-to('medium') {
+			font-size: 1.7em;
+		}
 
- 		background-color: $l-purple;
- 		border-radius: 100%;
- 		box-sizing: border-box;
- 		color: $gray10;
- 		display: table-cell;
- 		height: 1.7em;
- 		line-height: 1.7em;
- 		text-align: center;
- 		transition: all 0.2s linear;
- 		vertical-align: middle;
- 		width: 1.7em;
- 		z-index: windowLevel;
- 		&:hover {
- 			background-color: $purple;
- 			cursor: pointer;
- 		}
- 	}
- }
+		background-color: $l-purple;
+		border-radius: 100%;
+		box-sizing: border-box;
+		color: $gray10;
+		display: table-cell;
+		height: 1.7em;
+		line-height: 1.7em;
+		text-align: center;
+		transition: all 0.2s linear;
+		vertical-align: middle;
+		width: 1.7em;
+		&:hover {
+			background-color: $purple;
+			cursor: pointer;
+		}
+	}
+	#quick-add-btn {
+		border-radius: 100%;
+		box-sizing: border-box;
+		color: $gray80;
+		display: table-cell;
+		font-size: 1.5em;
+		height: 1.5em;
+		line-height: 1.5em;
+		text-align: center;
+		transition: all 0.2s linear;
+		vertical-align: middle;
+		width: 1.5em;
+		&:hover {
+			background-color: $gray5;
+			color: $b-green;
+			cursor: pointer;
+		}
+	}
+}
 
- aside#settings {
- 	@include respond-to('tiny') {
- 		width: 80%;
- 	}
- 	@include respond-to('small') {
- 		max-width: 350px;
- 		width: 50%;
- 	}
- 	@include respond-to('medium') {
- 		max-width: 400px;
- 		padding-top: 80px;
- 		width: 30%;
- 	}
- 	@include respond-to('tiny') {
- 		padding: 30px 15px;
- 	}
- 	@include respond-to('small') {
- 		padding: 30px;
- 	}
+aside#settings {
+	@include respond-to('tiny') {
+		width: 80%;
+	}
+	@include respond-to('small') {
+		max-width: 350px;
+		width: 50%;
+	}
+	@include respond-to('medium') {
+		max-width: 400px;
+		padding-top: 80px;
+		width: 30%;
+	}
+	@include respond-to('tiny') {
+		padding: 30px 15px;
+	}
+	@include respond-to('small') {
+		padding: 30px;
+	}
 
- 	background-color: white;
- 	border-right: 12px solid $y-green;
- 	box-shadow: 4px 0 20px rgba($gray80, 0.3);
- 	box-sizing: border-box;
- 	display: inline-block;
- 	float: left;
- 	height: 95vh;
- 	left: 0;
- 	position: absolute;
- 	text-align: center;
- 	top: 0;
- 	transition: width 0.2s linear;
- 	z-index: $windowlevel;
- 	img {
- 		max-width: 50px;
- 		min-width: 30px;
- 		width: 20%;
- 	}
- 	ul {
- 		list-style: none;
- 		margin-top: 30px;
- 		padding: 0;
- 		text-align: left;
- 		transition: all 0.2s linear;
- 		li {
- 			box-sizing: border-box;
- 			padding: 1px;
- 			width: 100%;
- 			a,
- 			a:link,
- 			a:active {
- 				@include respond-to('tiny') {
- 					font-size: 1em;
- 				}
- 				@include respond-to('small') {
- 					font-size: 1.2em;
- 				}
+	background-color: white;
+	border-right: 12px solid $y-green;
+	box-shadow: 4px 0 20px rgba($gray80, 0.3);
+	box-sizing: border-box;
+	display: inline-block;
+	float: left;
+	height: 95vh;
+	left: 0;
+	position: absolute;
+	text-align: center;
+	top: 0;
+	transition: width 0.2s linear;
+	z-index: $windowlevel;
+	img {
+		max-width: 50px;
+		min-width: 30px;
+		width: 20%;
+	}
+	ul {
+		list-style: none;
+		margin-top: 30px;
+		padding: 0;
+		text-align: left;
+		transition: all 0.2s linear;
+		li {
+			box-sizing: border-box;
+			padding: 1px;
+			width: 100%;
+			a,
+			a:link,
+			a:active {
+				@include respond-to('tiny') {
+					font-size: 1em;
+				}
+				@include respond-to('small') {
+					font-size: 1.2em;
+				}
 
- 				box-sizing: border-box;
- 				color: $gray80;
- 				display: block;
- 				font-family: $main-stack;
- 				line-height: 1em;
- 				padding: 12px;
- 				width: 100%;
- 			}
- 			a:hover {
- 				background-color: rgba($gray10, 0.5);
- 				i {
- 					color: $b-green;
- 				}
- 			}
- 			i {
- 				color: $gray20;
- 				margin-right: 10px;
- 				text-align: center;
- 				transition: all 0.2s linear;
- 				width: 25px;
- 			}
- 		}
- 		hr {
- 			border: 0.5px solid rgba($gray40, 0.3);
- 		}
- 	}
- }
+				box-sizing: border-box;
+				color: $gray80;
+				display: block;
+				font-family: $main-stack;
+				line-height: 1em;
+				padding: 12px;
+				width: 100%;
+			}
+			a:hover {
+				background-color: $gray5;
+				i {
+					color: $b-green;
+				}
+			}
+			i {
+				color: $gray20;
+				margin-right: 10px;
+				text-align: center;
+				transition: all 0.2s linear;
+				width: 25px;
+			}
+		}
+		hr {
+			border: 0.5px solid rgba($gray40, 0.3);
+		}
+	}
+}
 
- section#center {
- 	@include respond-to('tiny') {
- 		aside,
- 		main {
- 			flex: 1 100%;
- 		}
- 	}
- 	@include respond-to('small') {
- 		main {
- 			order: 1;
- 		}
- 		aside {
- 			flex: 1 calc(25% - #{$gutter});
- 			&#change-view {
- 				order: 2;
- 			}
- 			&#detail-view {
- 				order: 3;
- 			}
- 		}
- 	}
- 	@include respond-to('medium') {
- 		main {
- 			flex: 2;
- 			order: 2;
- 		}
- 		aside {
- 			flex: 1;
- 			&#change-view {
- 				order: 1;
- 			}
- 			&#detail-view {
- 				order: 3;
- 			}
- 		}
- 	}
+section#center {
+	@include respond-to('tiny') {
+		aside,
+		main {
+			flex: 1 100%;
+		}
+	}
+	@include respond-to('small') {
+		main {
+			order: 1;
+		}
+		aside {
+			flex: 1 calc(25% - #{$gutter});
+			&#change-view {
+				order: 2;
+			}
+			&#detail-view {
+				order: 3;
+			}
+		}
+	}
+	@include respond-to('medium') {
+		main {
+			flex: 2;
+			order: 2;
+		}
+		aside {
+			flex: 1;
+			&#change-view {
+				order: 1;
+			}
+			&#detail-view {
+				order: 3;
+			}
+		}
+	}
 
- 	align-items: stretch;
- 	background-color: white;
- 	display: flex;
- 	flex-wrap: wrap;
- 	height: 85vh;
- 	justify-content: space-between;
- 	aside {
- 		border: 2px solid red;
- 	}
- 	main {
- 		border: 2px solid blue;
- 		overflow: auto;
- 	}
- }
+	align-items: stretch;
+	background-color: white;
+	display: flex;
+	flex-wrap: wrap;
+	height: 85vh;
+	justify-content: space-between;
+	aside {
+		border: 2px solid red;
+	}
+	main {
+		border: 2px solid blue;
+		overflow: auto;
+	}
+}
 
- footer {
- 	background-color: $purple;
- 	display: table-cell;
- 	font-family: $main-stack;
- 	font-size: 0.7em;
- 	height: 5vh;
- 	text-align: center;
- 	vertical-align: middle;
- 	width: 100vw;
- 	span {
- 		color: $gray60;
- 		i {
- 			color: $pink;
- 		}
- 		a,
- 		a:link,
- 		a:active,
- 		a:visited {
- 			color: $gray40;
- 		}
- 		a:hover {
- 			color: $gray10;
- 		}
- 	}
- }
+footer {
+	background-color: $purple;
+	display: table-cell;
+	font-family: $main-stack;
+	font-size: 0.7em;
+	height: 5vh;
+	text-align: center;
+	vertical-align: middle;
+	width: 100vw;
+	span {
+		color: $gray60;
+		i {
+			color: $pink;
+		}
+		a,
+		a:link,
+		a:active,
+		a:visited {
+			color: $gray40;
+		}
+		a:hover {
+			color: $gray10;
+		}
+	}
+}

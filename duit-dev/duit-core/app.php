@@ -56,7 +56,9 @@ require_once('../duit-db/db-mapper.php');
 		<time id='date'>Friday, April 21, 2017</time>
 	</div>
 	<div class='col three'>
-		<i class='fa fa-plus' id='quick-add-btn' aria-hidden='true'></i>
+		<div class='centering-container'>
+			<i class='fa fa-plus' id='quick-add-btn' aria-hidden='true'></i>
+		</div>
 	</div>
 </header>
 

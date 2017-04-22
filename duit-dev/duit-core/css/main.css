@@ -1,12 +1,12 @@
 /**
- * main.css
- *
- * Main style sheet for app styles
- *
- * @author    Kelli Rockwell <kellirockwell@mail.com>
- * @copyright 2017 DUiT
- * @since     File available since release 0.0.3  
- */
+* main.css
+*
+* Main style sheet for app styles
+*
+* @author    Kelli Rockwell <kellirockwell@mail.com>
+* @copyright 2017 DUiT
+* @since     File available since release 0.0.3  
+*/
 @font-face {
   font-family: 'Amsi';
   font-style: normal;
@@ -395,6 +395,10 @@ header {
 }
 
 header .col.one, header .col.three {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  -ms-grid-row-align: center;
+  align-self: center;
   max-width: 100px;
   min-width: 50px;
   width: 6%;
@@ -415,16 +419,11 @@ header .col.two time {
 header .col.two time#time {
   color: #468f77;
   font-size: 3em;
-  font-weight: 300;
 }
 
 header .col.two time#date {
   color: #939e9a;
   padding-left: 1px;
-}
-
-header .col.three {
-  border: 2px solid orange;
 }
 
 header #settings-btn {
@@ -440,7 +439,6 @@ header #settings-btn {
   transition: all 0.2s linear;
   vertical-align: middle;
   width: 1.7em;
-  z-index: windowLevel;
 }
 
 @media (min-width: 0px) {
@@ -457,6 +455,27 @@ header #settings-btn {
 
 header #settings-btn:hover {
   background-color: #23222b;
+  cursor: pointer;
+}
+
+header #quick-add-btn {
+  border-radius: 100%;
+  box-sizing: border-box;
+  color: #323836;
+  display: table-cell;
+  font-size: 1.5em;
+  height: 1.5em;
+  line-height: 1.5em;
+  text-align: center;
+  -webkit-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+  vertical-align: middle;
+  width: 1.5em;
+}
+
+header #quick-add-btn:hover {
+  background-color: #edf2f0;
+  color: #468f77;
   cursor: pointer;
 }
 
@@ -560,7 +579,7 @@ aside#settings ul li a:active {
 }
 
 aside#settings ul li a:hover {
-  background-color: rgba(220, 229, 226, 0.5);
+  background-color: #edf2f0;
 }
 
 aside#settings ul li a:hover i {
