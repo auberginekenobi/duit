@@ -388,7 +388,7 @@ a:visited {
 }
 
 .overlay.darken {
-  background-color: rgba(147, 158, 154, 0.5);
+  background-color: rgba(97, 108, 104, 0.3);
   height: 100vh;
   width: 100vw;
 }
@@ -415,6 +415,7 @@ a:visited {
 @media (min-width: 0px) {
   .module-window {
     width: 80%;
+    padding: 15px;
   }
 }
 
@@ -428,6 +429,7 @@ a:visited {
   .module-window {
     max-width: 800px;
     min-width: 600px;
+    padding: 30px;
     width: 50%;
   }
 }
@@ -547,6 +549,7 @@ aside#settings {
 
 @media (min-width: 0px) {
   aside#settings {
+    padding: 30px 15px;
     width: 80%;
   }
 }
@@ -554,6 +557,7 @@ aside#settings {
 @media (min-width: 600px) {
   aside#settings {
     max-width: 350px;
+    padding: 30px;
     width: 50%;
   }
 }
@@ -563,18 +567,6 @@ aside#settings {
     max-width: 400px;
     padding-top: 80px;
     width: 30%;
-  }
-}
-
-@media (min-width: 0px) {
-  aside#settings {
-    padding: 30px 15px;
-  }
-}
-
-@media (min-width: 600px) {
-  aside#settings {
-    padding: 30px;
   }
 }
 
@@ -629,6 +621,7 @@ aside#settings ul li a:active {
 
 aside#settings ul li a:hover {
   background-color: #edf2f0;
+  cursor: pointer;
 }
 
 aside#settings ul li a:hover i {

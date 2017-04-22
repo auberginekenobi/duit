@@ -67,7 +67,7 @@ require_once('../duit-db/db-mapper.php');
 		</div>
 		<div class='col three'>
 			<div class='centering-container'>
-				<i class='fa fa-plus' id='quick-add-btn' aria-hidden='true'></i>
+				<i class='fa fa-plus module-btn' id='quick-add-btn' aria-hidden='true'></i>
 			</div>
 		</div>
 	</header>
@@ -79,12 +79,12 @@ require_once('../duit-db/db-mapper.php');
 	<img src='../../img/duit-check-50.png' id='logo'>
 	<ul>
 		<li>
-			<a href='' target='_blank'>
+			<a class='module-btn' id='manage-tags-btn'>
 				<i class="fa fa-tag" aria-hidden="true"></i> Manage Tags
 			</a>
 		</li>
 		<li>
-			<a href='' target='_blank'>
+			<a class='module-btn' id='manage-views-btn'>
 				<i class="fa fa-list-alt" aria-hidden="true"></i> Manage Views
 			</a>
 		</li>
@@ -96,7 +96,7 @@ require_once('../duit-db/db-mapper.php');
 		</li>
 		<hr />
 		<li>
-			<a href='' target='_blank'>
+			<a class='module-btn' id='account-options-btn'>
 				<i class='fa fa-cog' aria-hidden='true'></i> Account Options
 			</a>
 		</li>

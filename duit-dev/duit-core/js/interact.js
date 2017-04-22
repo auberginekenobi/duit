@@ -12,7 +12,7 @@
  * @since     File available since release 0.0.4  
  */
 
- $(document).ready(function() {
+ $(document).ready( () => {
 
  	// Remember if settings menu is off screen/where off screen is
  	var $settingsIsOpen = false;
@@ -32,8 +32,8 @@
  	$(window).bind('resize', e => {
  		// If settings menu is not open
  		if (!$settingsIsOpen) {
-	 		// Wait long enough for settings menu to resize (0.2s)
-	 		setTimeout(function() {
+	 		// Wait long enough for settings menu to resize (css transition 0.2s)
+	 		setTimeout( () => {
 	 			// Move it off screen
 	 			moveSettingsOffscreen();
 	 		}, 200);
@@ -50,78 +50,103 @@
  	function toggleOverlay(tog, obj) {
  		let $z = tog ? $windowLevel-1 : -$windowLevel;
  		let $o = tog ? 1 : 0;
+ 		let $anTime = 600;
  		// Animate opacity change
- 		$(obj).animate({opacity: $o}, 600);
+ 		$(obj).animate({opacity: $o}, $anTime);
  		if (tog) {
  			// If turning overlay on, immediately bring it to front first
  			$(obj).css('z-index', $z);
  		} else {
  			// If turning overlay off, only push it to back after opacity change
- 			setTimeout(function() {
+ 			setTimeout( () => {
  				$(obj).css('z-index', $z);
- 			}, 600);
+ 			}, $anTime);
  		} 		
   	}
 
  	// Handle showing/hiding sliding settings menu
  	$(document).on('click', 'body', e => {
  		// Delay to ensure $settingsIsOpen changes before if checks
- 		setTimeout(function() {
+ 		setTimeout( () => {
  			if ($settingsIsOpen && (!$(e.target).is('#settings, #settings *'))) {
  				// If settings menu is open and user does not click within the
- 				// settings menu area, close settings menu (slide it back to off
- 				// screen position)
- 				$settingsIsOpen = false;
- 				$('#settings').animate({left: $offScreen}, 700);
+ 				// settings menu area, close settings menu
+ 				closeSettings();
+ 				// Hide darkened overlay
  				toggleOverlay(0, '.overlay.darken');
  			} else if (!$settingsIsOpen && $(e.target).is('#settings-btn, #settings-btn *')) {
  				// If settings menu is not open and user clicks on the settings
- 				// button, open settings menu (slide it onto screen from left)
- 				$settingsIsOpen = true;
- 				$('#settings').animate({left: 0}, 700);
+ 				// button, open settings menu
+ 				openSettings();
+ 				// Show darkened overlay
  				toggleOverlay(1, '.overlay.darken');
  			}
  		}, 10);		
  	});
 
+ 	// Close settings menu
+ 	function closeSettings() {
+ 		$settingsIsOpen = false;
+ 		// Slide settings back to off screen position
+ 		$('#settings').animate({left: $offScreen}, 700);
+ 	}
+
+ 	// Open settings menu
+ 	function openSettings() {
+ 		$settingsIsOpen = true;
+ 		// Slide settings onto screen from left
+ 		$('#settings').animate({left: 0}, 700);
+ 	}
+
+ 	// Handle showing/hiding 
+ 	$(document).on('click', 'body', e => {
+ 		// Delay to ensure $moduleIsOpen changes before if checks
+ 		setTimeout( () => {
+ 			if ($moduleIsOpen && (!$(e.target).is('.module-window, .module-window *'))) {
+ 				// If current module is open and user does not click within the
+ 				// module window area, close module window
+ 				closeModule();
+ 			} else if (!$moduleIsOpen && $(e.target).is('.module-btn, .module-btn *')) {
+ 				// If current module is not open and user clicks on the module's
+ 				// button, open that module
+ 				let $moduleName = $(e.target).closest('.module-btn').attr('id');			
+ 				openModule($moduleName);
+ 			}
+ 		}, 10);		
+ 	});
+
+ 	// Close module window
  	function closeModule() {
  		let $form = $('.module-window form');
  		$moduleIsOpen = false;
+ 		// Hide darkened overlay and window
  		toggleOverlay(0, '.overlay.darken');
  		toggleOverlay(0, '.overlay.module');
- 		$form.animate({opacity: 0}, 700);
- 		setTimeout( () => {
+ 		// Turn window content down to full transparency
+ 		$form.animate({opacity: 0}, 700, () => {
+ 			// After opacity change animation is complete, remove window content
  			$form.html('closed');
- 		}, 700);
+ 		});
  	}
 
+ 	// Open module window of specified type
  	function openModule(module) {
  		let $form = $('.module-window form');
  		$moduleIsOpen = true;
+ 		// Make sure settings is closed
+ 		closeSettings();
+ 		// Show darkened overlay and window
  		toggleOverlay(1, '.overlay.darken');
  		toggleOverlay(1, '.overlay.module');
+ 		// Change content of window to reflect type
  		$form.html(module);
+ 		// Bring window content up to full opacity
  		$form.animate({opacity: 1}, 700);
  	}
 
-	$(document).on('click', 'body', e => {
-		// Delay to ensure $moduleIsOpen changes before if checks
-		setTimeout(function() {
-			if ($moduleIsOpen && (!$(e.target).is('.module-window, .module-window *'))) {
-				// If current module is open and user does not click within the
-				// module window area, close module window
-				closeModule();
-			} else if (!$moduleIsOpen && $(e.target).is('#quick-add-btn, #quick-add-btn *')) {
-				// If current module is not open and user clicks on the module's
-				// button, open that module
-				openModule('test');
-			}
-		}, 10);		
-	});
-
  	// Button for hiding du table display generated by AJAX
  	if ($('#btnHideDisplay')) {
- 		$(document).on('click','#btnHideDisplay',function(e){
+ 		$(document).on('click','#btnHideDisplay', (e) => {
  			$('.responseContainer').html('');
  		});
  	}
