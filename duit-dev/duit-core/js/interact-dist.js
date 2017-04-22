@@ -20,6 +20,9 @@ $(document).ready(function () {
   var $settingsIsOpen = false;
   var $offScreen = 0;
 
+  // Remember if module window is open
+  var $moduleIsOpen = false;
+
   // Window level (z-index)
   var $windowLevel = 5;
 
@@ -45,19 +48,19 @@ $(document).ready(function () {
     $('#settings').css('left', $offScreen);
   }
 
-  // Move #fade-overlay to foreground, behind window level
-  function toggleFadeOverlay(tog) {
+  // Move .overlay.darken to foreground, behind window level
+  function toggleOverlay(tog, obj) {
     var $z = tog ? $windowLevel - 1 : -$windowLevel;
     var $o = tog ? 1 : 0;
     // Animate opacity change
-    $('#fade-overlay').animate({ opacity: $o }, 600);
+    $(obj).animate({ opacity: $o }, 600);
     if (tog) {
       // If turning overlay on, immediately bring it to front first
-      $('#fade-overlay').css('z-index', $z);
+      $(obj).css('z-index', $z);
     } else {
       // If turning overlay off, only push it to back after opacity change
       setTimeout(function () {
-        $('#fade-overlay').css('z-index', $z);
+        $(obj).css('z-index', $z);
       }, 600);
     }
   }
@@ -72,13 +75,48 @@ $(document).ready(function () {
         // screen position)
         $settingsIsOpen = false;
         $('#settings').animate({ left: $offScreen }, 700);
-        toggleFadeOverlay(0);
+        toggleOverlay(0, '.overlay.darken');
       } else if (!$settingsIsOpen && $(e.target).is('#settings-btn, #settings-btn *')) {
         // If settings menu is not open and user clicks on the settings
         // button, open settings menu (slide it onto screen from left)
         $settingsIsOpen = true;
         $('#settings').animate({ left: 0 }, 700);
-        toggleFadeOverlay(1);
+        toggleOverlay(1, '.overlay.darken');
+      }
+    }, 10);
+  });
+
+  function closeModule() {
+    var $form = $('.module-window form');
+    $moduleIsOpen = false;
+    toggleOverlay(0, '.overlay.darken');
+    toggleOverlay(0, '.overlay.module');
+    $form.animate({ opacity: 0 }, 700);
+    setTimeout(function () {
+      $form.html('closed');
+    }, 700);
+  }
+
+  function openModule(module) {
+    var $form = $('.module-window form');
+    $moduleIsOpen = true;
+    toggleOverlay(1, '.overlay.darken');
+    toggleOverlay(1, '.overlay.module');
+    $form.html(module);
+    $form.animate({ opacity: 1 }, 700);
+  }
+
+  $(document).on('click', 'body', function (e) {
+    // Delay to ensure $moduleIsOpen changes before if checks
+    setTimeout(function () {
+      if ($moduleIsOpen && !$(e.target).is('.module-window, .module-window *')) {
+        // If current module is open and user does not click within the
+        // module window area, close module window
+        closeModule();
+      } else if (!$moduleIsOpen && $(e.target).is('#quick-add-btn, #quick-add-btn *')) {
+        // If current module is not open and user clicks on the module's
+        // button, open that module
+        openModule('test');
       }
     }, 10);
   });
