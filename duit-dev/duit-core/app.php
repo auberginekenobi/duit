@@ -43,24 +43,26 @@ require_once('../duit-db/db-mapper.php');
 	<!-- Overlay that triggers on 'pop up windows' to obscure things behind it -->
 </div>
 
-<header>
-	<div class='col one'>
-		<div class='centering-container'>
-			<div id='settings-btn'>
-				<i class='fa fa-bars' aria-hidden='true'></i>
+<div id='header-container'>
+	<header>
+		<div class='col one'>
+			<div class='centering-container'>
+				<div id='settings-btn'>
+					<i class='fa fa-bars' aria-hidden='true'></i>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class='col two'>
-		<time id='time'>4:35 PM</time>
-		<time id='date'>Friday, April 21, 2017</time>
-	</div>
-	<div class='col three'>
-		<div class='centering-container'>
-			<i class='fa fa-plus' id='quick-add-btn' aria-hidden='true'></i>
+		<div class='col two'>
+			<time id='time'>4:35 PM</time>
+			<time id='date'>Friday, April 21, 2017</time>
 		</div>
-	</div>
-</header>
+		<div class='col three'>
+			<div class='centering-container'>
+				<i class='fa fa-plus' id='quick-add-btn' aria-hidden='true'></i>
+			</div>
+		</div>
+	</header>
+</div>
 
 <!-- Settings menu, hidden off screen by default -->
 <aside id='settings' style='left: -400px;'>
@@ -97,26 +99,28 @@ require_once('../duit-db/db-mapper.php');
 </aside>
 <!-- End settings menu -->
 
-<section id='center'>
+<div id='main-container'>
+	<section id='center'>
 
-	<aside id='change-view'>
-		Side menu
-	</aside>
-		
-	<main>
-		Main box
-		<button id="btnDisplay">Display</button>
-		<button id="btnHideDisplay">Hide Display</button>
-		<div class="responseContainer">
-			<!-- space where AJAX call will display result -->
-		</div>
-	</main>
+		<aside id='change-view'>
+			Side menu
+		</aside>
+			
+		<main>
+			Main box
+			<button id="btnDisplay">Display</button>
+			<button id="btnHideDisplay">Hide Display</button>
+			<div class="responseContainer">
+				<!-- space where AJAX call will display result -->
+			</div>
+		</main>
 
-	<aside id='detail-view'>
-		Detail view
-	</aside>
+		<aside id='detail-view'>
+			Detail view
+		</aside>
 
-</section>
+	</section>
+</div>
 
 <footer>
 	<span>Designed and developed with <i class='fa fa-heart' aria-hidden='true'></i> by Kelli Rockwell (<a target='_blank' href='https://github.com/courier-new'>@courier-new</a>), Owen Chapman (<a target='_blank' href='https://github.com/auberginekenobi'>@auberginekenobi</a>), and Patrick Shao (<a target='_blank' href='https://github.com/patrickshao'>@patrickshao</a>). View the project on <a target='_blank' href='https://github.com/auberginekenobi/duit'>GitHub</a>.</span>

@@ -47,10 +47,20 @@ a:visited {
 	z-index: -10;
 }
 
+#header-container {
+	position: relative;
+	z-index: $foreground + 1; 
+}
+
+#main-container {
+	position: relative;
+	z-index: $foreground; 
+}
+
 header {
 	align-items: center;
 	background-color: white;
-	border: 2px solid gray;
+	box-shadow: 0 2px 6px rgba($gray80, 0.3);
 	display: flex;
 	height: 9vh;
 	justify-content: space-between;	
@@ -58,20 +68,19 @@ header {
 	.col {
 		&.one,
 		&.three {
-			align-self: center;
 			max-width: 100px;
-			min-width: 50px;
+			min-width: 70px;
 			width: 6%;
 		}
 		&.two {
-			align-self: flex-end;
 			width: 88%;
 			time {
 				display: block;
 				font-family: $main-stack;
 				&#time {
 					color: $b-green;
-					font-size: 3em;
+					font-size: 2.4em;
+					padding-bottom: 5px;
 				}
 				&#date {
 					color: $gray40;
@@ -146,7 +155,7 @@ aside#settings {
 
 	background-color: white;
 	border-right: 12px solid $y-green;
-	box-shadow: 4px 0 20px rgba($gray80, 0.3);
+	box-shadow: 2px 0 6px rgba($gray80, 0.3);
 	box-sizing: border-box;
 	display: inline-block;
 	float: left;
@@ -205,7 +214,7 @@ aside#settings {
 			}
 		}
 		hr {
-			border: 0.5px solid rgba($gray40, 0.3);
+			border: 1px solid rgba($gray40, 0.3);
 		}
 	}
 }
@@ -215,6 +224,7 @@ section#center {
 		aside,
 		main {
 			flex: 1 100%;
+			padding: 15px;
 		}
 	}
 	@include respond-to('small') {
@@ -235,9 +245,11 @@ section#center {
 		main {
 			flex: 2;
 			order: 2;
+			padding: 30px;
 		}
 		aside {
 			flex: 1;
+			padding: 30px;
 			&#change-view {
 				order: 1;
 			}
@@ -248,16 +260,20 @@ section#center {
 	}
 
 	align-items: stretch;
-	background-color: white;
+	background-color: $gray5;
 	display: flex;
 	flex-wrap: wrap;
 	height: 85vh;
 	justify-content: space-between;
-	aside {
-		border: 2px solid red;
+	aside:first-child {
+		border-right: 1px solid white;
+	}
+	aside:last-child {
+		border-left: 1px solid rgba($gray40, 0.3);
 	}
 	main {
-		border: 2px solid blue;
+		border-left: 1px solid rgba($gray40, 0.3);
+		border-right: 1px solid white;
 		overflow: auto;
 	}
 }

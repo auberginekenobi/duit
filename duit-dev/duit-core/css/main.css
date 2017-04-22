@@ -375,13 +375,23 @@ a:visited {
   z-index: -10;
 }
 
+#header-container {
+  position: relative;
+  z-index: 2;
+}
+
+#main-container {
+  position: relative;
+  z-index: 1;
+}
+
 header {
   -webkit-box-align: center;
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
   background-color: white;
-  border: 2px solid gray;
+  box-shadow: 0 2px 6px rgba(50, 56, 54, 0.3);
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -395,19 +405,12 @@ header {
 }
 
 header .col.one, header .col.three {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  -ms-grid-row-align: center;
-  align-self: center;
   max-width: 100px;
-  min-width: 50px;
+  min-width: 70px;
   width: 6%;
 }
 
 header .col.two {
-  -webkit-align-self: flex-end;
-  -ms-flex-item-align: end;
-  align-self: flex-end;
   width: 88%;
 }
 
@@ -418,7 +421,8 @@ header .col.two time {
 
 header .col.two time#time {
   color: #468f77;
-  font-size: 3em;
+  font-size: 2.4em;
+  padding-bottom: 5px;
 }
 
 header .col.two time#date {
@@ -482,7 +486,7 @@ header #quick-add-btn:hover {
 aside#settings {
   background-color: white;
   border-right: 12px solid #b4c66e;
-  box-shadow: 4px 0 20px rgba(50, 56, 54, 0.3);
+  box-shadow: 2px 0 6px rgba(50, 56, 54, 0.3);
   box-sizing: border-box;
   display: inline-block;
   float: left;
@@ -596,7 +600,7 @@ aside#settings ul li i {
 }
 
 aside#settings ul hr {
-  border: 0.5px solid rgba(147, 158, 154, 0.3);
+  border: 1px solid rgba(147, 158, 154, 0.3);
 }
 
 section#center {
@@ -604,7 +608,7 @@ section#center {
   -webkit-align-items: stretch;
   -ms-flex-align: stretch;
   align-items: stretch;
-  background-color: white;
+  background-color: #edf2f0;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -626,6 +630,7 @@ section#center {
     -webkit-flex: 1 100%;
     -ms-flex: 1 100%;
     flex: 1 100%;
+    padding: 15px;
   }
 }
 
@@ -666,12 +671,14 @@ section#center {
     -webkit-order: 2;
     -ms-flex-order: 2;
     order: 2;
+    padding: 30px;
   }
   section#center aside {
     -webkit-box-flex: 1;
     -webkit-flex: 1;
     -ms-flex: 1;
     flex: 1;
+    padding: 30px;
   }
   section#center aside#change-view {
     -webkit-box-ordinal-group: 2;
@@ -687,12 +694,17 @@ section#center {
   }
 }
 
-section#center aside {
-  border: 2px solid red;
+section#center aside:first-child {
+  border-right: 1px solid white;
+}
+
+section#center aside:last-child {
+  border-left: 1px solid rgba(147, 158, 154, 0.3);
 }
 
 section#center main {
-  border: 2px solid blue;
+  border-left: 1px solid rgba(147, 158, 154, 0.3);
+  border-right: 1px solid white;
   overflow: auto;
 }
 
