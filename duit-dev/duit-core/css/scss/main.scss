@@ -29,22 +29,38 @@ a:visited {
 	display: none !important;
 }
 
+.show-borders {
+	z-index: $windowLevel;
+	border: 2px solid red;
+}
+
 .centering-container {
 	align-items: center;
 	display: flex;
+	height: 100%;
 	justify-content: center;
 	width: 100%;
+	&.absolute {
+		box-sizing: border-box;
+		height: 100vh;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 100vw;
+	}
 }
 
-#fade-overlay {
-	background-color: rgba($gray40, 0.4);
-	height: 100vh;
+.overlay {
 	left: 0;
 	position: absolute;
 	top: 0;
-	width: 100vw;
+	z-index: 2*$background;
 	opacity: 0;
-	z-index: -10;
+	&.darken {
+		background-color: rgba($gray40, 0.5);
+		height: 100vh;
+		width: 100vw;
+	}
 }
 
 #header-container {
@@ -55,6 +71,26 @@ a:visited {
 #main-container {
 	position: relative;
 	z-index: $foreground; 
+}
+
+.module-window {
+	@include respond-to('tiny') {
+		width: 80%;
+	}
+	@include respond-to('small') {
+		width: 60%;
+	}
+	@include respond-to('medium') {
+		max-width: 800px;
+		min-width: 600px;
+		width: 50%;
+	}
+
+	box-sizing: border-box;
+	min-height: 20%;
+	transition: all 0.2s linear; 
+	background-color: white;
+	box-shadow: 0 0 10px rgba($gray80, 0.3);
 }
 
 header {
@@ -157,15 +193,13 @@ aside#settings {
 	border-right: 12px solid $y-green;
 	box-shadow: 2px 0 6px rgba($gray80, 0.3);
 	box-sizing: border-box;
-	display: inline-block;
-	float: left;
 	height: 95vh;
 	left: 0;
 	position: absolute;
 	text-align: center;
 	top: 0;
 	transition: width 0.2s linear;
-	z-index: $windowlevel;
+	z-index: $windowLevel;
 	img {
 		max-width: 50px;
 		min-width: 30px;

@@ -39,10 +39,19 @@ require_once('../duit-db/db-mapper.php');
 <script src="https://www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 
-<div id='fade-overlay'>
+<div class='overlay darken'>
 	<!-- Overlay that triggers on 'pop up windows' to obscure things behind it -->
 </div>
 
+<div class='overlay module centering-container'>
+	<main class='module-window'>
+		<form>
+			<!-- Space where window module content will be placed -->
+		</form>
+	</main>
+</div>
+
+<!-- Header row -->
 <div id='header-container'>
 	<header>
 		<div class='col one'>
@@ -63,6 +72,7 @@ require_once('../duit-db/db-mapper.php');
 		</div>
 	</header>
 </div>
+<!-- End header row -->
 
 <!-- Settings menu, hidden off screen by default -->
 <aside id='settings' style='left: -400px;'>
@@ -99,6 +109,7 @@ require_once('../duit-db/db-mapper.php');
 </aside>
 <!-- End settings menu -->
 
+<!-- Main block of page -->
 <div id='main-container'>
 	<section id='center'>
 
@@ -111,7 +122,7 @@ require_once('../duit-db/db-mapper.php');
 			<button id="btnDisplay">Display</button>
 			<button id="btnHideDisplay">Hide Display</button>
 			<div class="responseContainer">
-				<!-- space where AJAX call will display result -->
+				<!-- Space where AJAX call will display result -->
 			</div>
 		</main>
 
@@ -121,10 +132,13 @@ require_once('../duit-db/db-mapper.php');
 
 	</section>
 </div>
+<!-- End main block -->
 
+<!-- Footer row -->
 <footer>
 	<span>Designed and developed with <i class='fa fa-heart' aria-hidden='true'></i> by Kelli Rockwell (<a target='_blank' href='https://github.com/courier-new'>@courier-new</a>), Owen Chapman (<a target='_blank' href='https://github.com/auberginekenobi'>@auberginekenobi</a>), and Patrick Shao (<a target='_blank' href='https://github.com/patrickshao'>@patrickshao</a>). View the project on <a target='_blank' href='https://github.com/auberginekenobi/duit'>GitHub</a>.</span>
 </footer>
+<!-- End footer row -->
 
 
 
