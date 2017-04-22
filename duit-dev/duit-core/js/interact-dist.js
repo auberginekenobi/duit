@@ -47,7 +47,7 @@ $(document).ready(function () {
 
   // Move #fade-overlay to foreground, behind window level
   function toggleFadeOverlay(tog) {
-    var $z = tog ? 0 : -$windowLevel;
+    var $z = tog ? $windowLevel - 1 : -$windowLevel;
     var $o = tog ? 1 : 0;
     // Animate opacity change
     $('#fade-overlay').animate({ opacity: $o }, 600);
