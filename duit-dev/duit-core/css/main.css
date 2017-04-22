@@ -563,7 +563,7 @@ aside#settings ul li i {
 }
 
 aside#settings ul hr {
-  border: 1px solid rgba(147, 158, 154, 0.3);
+  border: 0.5px solid rgba(147, 158, 154, 0.3);
 }
 
 section#center {
@@ -658,6 +658,7 @@ section#center aside {
 }
 
 section#center main {
+  overflow: auto;
   border: 2px solid blue;
 }
 

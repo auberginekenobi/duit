@@ -59,4 +59,10 @@
  		}, 10);		
  	});
 
+ 	if ($('#btnHideDisplay')) {
+ 		$(document).on('click','#btnHideDisplay',function(e){
+ 			$('.responseContainer').html('');
+ 		});
+ 	}
+
  });

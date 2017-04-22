@@ -56,6 +56,7 @@ require_once('../duit-db/db-mapper.php');
 	</div>
 </header>
 
+<!-- Settings menu, hidden off screen by default -->
 <aside id='settings' style='left: -400px;'>
 	<img src='../../img/duit-check-50.png' id='logo'>
 	<ul>
@@ -88,6 +89,7 @@ require_once('../duit-db/db-mapper.php');
 		</li>
 	</ul>
 </aside>
+<!-- End settings menu -->
 
 <section id='center'>
 
@@ -97,6 +99,11 @@ require_once('../duit-db/db-mapper.php');
 		
 	<main>
 		Main box
+		<button id="btnDisplay">Display</button>
+		<button id="btnHideDisplay">Hide Display</button>
+		<div class="responseContainer">
+			<!-- space where AJAX call will display result -->
+		</div>
 	</main>
 
 	<aside id='detail-view'>

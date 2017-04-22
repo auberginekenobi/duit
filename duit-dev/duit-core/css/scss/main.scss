@@ -176,7 +176,7 @@ aside#settings {
 			}
 		}
 		hr {
-			border: 1px solid rgba($gray40, 0.3);
+			border: 0.5px solid rgba($gray40, 0.3);
 		}
 	}
 }
@@ -227,6 +227,7 @@ section#center {
 		border: 2px solid red;
 	}
 	main {
+		overflow: auto;
 		border: 2px solid blue;
 	}
 }
