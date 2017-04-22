@@ -103,27 +103,81 @@ aside#settings {
 	}
 	@include respond-to('small') {
 		width: 50%;
+		max-width: 350px;
 	}
 	@include respond-to('medium') {
-		width: 30%;
 		max-width: 400px;
+		padding-top: 80px;
+		width: 30%;
 	}
 
-	background-color: $gray10;
+	background-color: white;
+	border-right: 12px solid $y-green;
 	box-shadow: 4px 0 20px rgba($gray80, 0.3);
 	box-sizing: border-box;
 	display: inline-block;
 	float: left;
 	height: 95vh;
 	left: 0;
-	padding: 30px;
+	@include respond-to('tiny') {
+		padding: 30px 15px;
+	}
+	@include respond-to('small') {
+		padding: 30px;
+	}
 	position: absolute;
+	text-align: center;
 	top: 0;
 	transition: width 0.2s linear;
 	img {
+		max-width: 50px;
 		min-width: 30px;
 		width: 20%;
-		max-width: 50px;
+	}
+	ul {
+		list-style: none;
+		margin-top: 30px;
+		padding: 0;
+		text-align: left;
+		transition: all 0.2s linear;
+		li {
+			box-sizing: border-box;
+			padding: 1px;
+			width: 100%;
+			a,
+			a:link,
+			a:active {
+				@include respond-to('tiny') {
+					font-size: 1em;
+				}
+				@include respond-to('small') {
+					font-size: 1.2em;
+				}
+				box-sizing: border-box;
+				color: $gray80;
+				display: block;
+				font-family: $main-stack;
+				line-height: 1em;
+				padding: 12px;
+				width: 100%;
+			}
+			a:hover {
+				background-color: rgba($gray10, 0.5);
+				i {
+					color: $b-green;
+				}
+			}
+			i {
+				color: $gray20;
+				margin-right: 10px;
+				text-align: center;
+				transition: all 0.2s linear;
+				width: 25px;
+			}
+		}
+		hr {
+			border: 1px solid rgba($gray40, 0.3);
+		}
 	}
 }
 

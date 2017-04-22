@@ -38,7 +38,6 @@ require_once('../duit-db/db-mapper.php');
 <!-- JS -->
 <script src="https://www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-<script src='js/main-dist.js'></script>
 
 <header>
 	<div class='col one'>
@@ -59,6 +58,35 @@ require_once('../duit-db/db-mapper.php');
 
 <aside id='settings' style='left: -400px;'>
 	<img src='../../img/duit-check-50.png' id='logo'>
+	<ul>
+		<li>
+			<a href='' target='_blank'>
+				<i class="fa fa-tag" aria-hidden="true"></i> Manage Tags
+			</a>
+		</li>
+		<li>
+			<a href='' target='_blank'>
+				<i class="fa fa-list-alt" aria-hidden="true"></i> Manage Views
+			</a>
+		</li>
+		<hr />
+		<li>
+			<a href='' target='_blank'>
+				<i class="fa fa-bar-chart" aria-hidden="true"></i> Activity Statistics
+			</a>
+		</li>
+		<hr />
+		<li>
+			<a href='' target='_blank'>
+				<i class='fa fa-cog' aria-hidden='true'></i> Account Options
+			</a>
+		</li>
+		<li>
+			<a href='index.php' id='btnLogout'>
+				<i class="fa fa-sign-out" aria-hidden="true"></i> Logout
+			</a>
+		</li>
+	</ul>
 </aside>
 
 <section id='center'>
@@ -113,7 +141,9 @@ require_once('../duit-db/db-mapper.php');
 // displayAsTable($all);
 
 ?>
-	
+
+<!-- MAIN JS SCRIPT -->
+<script src='js/main-dist.js'></script>	
 	
 </body>
 </html>
