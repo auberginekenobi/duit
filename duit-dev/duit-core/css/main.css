@@ -330,8 +330,8 @@
 }
 
 body {
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
 a,
@@ -349,19 +349,30 @@ a:visited {
 }
 
 .centering-container {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
   -webkit-box-align: center;
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 100%;
+}
+
+#fade-overlay {
+  background-color: rgba(147, 158, 154, 0.4);
+  height: 100vh;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  opacity: 0;
+  z-index: -10;
 }
 
 header {
@@ -369,6 +380,7 @@ header {
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
+  background-color: white;
   border: 2px solid gray;
   display: -webkit-box;
   display: -webkit-flex;
@@ -428,6 +440,7 @@ header #settings-btn {
   transition: all 0.2s linear;
   vertical-align: middle;
   width: 1.7em;
+  z-index: windowLevel;
 }
 
 @media (min-width: 0px) {
@@ -461,6 +474,7 @@ aside#settings {
   top: 0;
   -webkit-transition: width 0.2s linear;
   transition: width 0.2s linear;
+  z-index: 5;
 }
 
 @media (min-width: 0px) {
@@ -471,8 +485,8 @@ aside#settings {
 
 @media (min-width: 600px) {
   aside#settings {
-    width: 50%;
     max-width: 350px;
+    width: 50%;
   }
 }
 
@@ -571,6 +585,7 @@ section#center {
   -webkit-align-items: stretch;
   -ms-flex-align: stretch;
   align-items: stretch;
+  background-color: white;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -658,8 +673,8 @@ section#center aside {
 }
 
 section#center main {
-  overflow: auto;
   border: 2px solid blue;
+  overflow: auto;
 }
 
 footer {

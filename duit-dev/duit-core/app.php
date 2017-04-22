@@ -39,6 +39,10 @@ require_once('../duit-db/db-mapper.php');
 <script src="https://www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 
+<div id='fade-overlay'>
+	<!-- Overlay that triggers on 'pop up windows' to obscure things behind it -->
+</div>
+
 <header>
 	<div class='col one'>
 		<div class='centering-container'>
