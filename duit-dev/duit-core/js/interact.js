@@ -14,32 +14,49 @@
 
  $(document).ready(function() {
 
+ 	// Remember if settings menu is off screen/where off screen is
+ 	var $settingsIsOpen = false;
+ 	var $offScreen = 0;
+
+ 	// Initial calls on page load
+ 	// Move settings menu out of sight off screen
  	moveSettingsOffscreen();
 
- 	var $settingsIsOpen = false;
- 	var $settingsOrigPos = $('#settings').position().left;
+ 	// On window resize
+ 	$(window).bind('resize', e=> {
+ 		// If settings menu is not open
+ 		if (!$settingsIsOpen) {
+	 		// Wait long enough for settings menu to resize (0.2s)
+	 		setTimeout(function() {
+	 			// Move it off screen
+	 			moveSettingsOffscreen();
+	 		}, 200);
+	 	} 		
+ 	});
 
+ 	// Simple function to move settings menu off left side of screen + 150px 
  	function moveSettingsOffscreen() {
- 		let $offScreen = -($('#settings').outerWidth()) - 100;
+ 		$offScreen = -($('#settings').outerWidth()) - 150;
  		$('#settings').css('left', $offScreen);
  	}
 
+ 	// Handle showing/hiding sliding settings menu
  	$(document).on('click', 'body', e=> {
+ 		// Delay to ensure $settingsIsOpen changes before if checks
  		setTimeout(function() {
  			if ($settingsIsOpen && (!$(e.target).is('#settings, #settings *'))) {
+ 				// If settings menu is open and user does not click within the
+ 				// settings menu area, close settings menu (slide it back to off
+ 				// screen position)
  				$settingsIsOpen = false;
- 				$('#settings').animate({left: $settingsOrigPos}, '1s');
- 				//$('#settings').toggle('linear');
- 			}
- 			if ($(e.target).is('#settings-btn, #settings-btn *')) {
+ 				$('#settings').animate({left: $offScreen}, '1s');
+ 			} else if (!$settingsIsOpen && $(e.target).is('#settings-btn, #settings-btn *')) {
+ 				// If settings menu is not open and user clicks on the settings
+ 				// button, open settings menu (slide it onto screen from left)
  				$settingsIsOpen = true;
  				$('#settings').animate({left: 0}, '1s');
  			}
  		}, 10);		
  	});
-
- 	// $(document).on('click', '#settings-btn', e=> {
- 	// 	$('#settings').toggle('linear').toggleClass('hidden');
- 	// });
 
  });
