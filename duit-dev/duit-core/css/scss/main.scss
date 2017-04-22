@@ -26,7 +26,7 @@ a:visited {
 }
 
 .hidden {
-	display: none;
+	display: none !important;
 }
 
 .centering-container {
@@ -94,6 +94,36 @@ header {
 			background-color: $purple;
 			cursor: pointer;
 		}
+	}
+}
+
+aside#settings {
+	@include respond-to('tiny') {
+		width: 80%;
+	}
+	@include respond-to('small') {
+		width: 50%;
+	}
+	@include respond-to('medium') {
+		width: 30%;
+		max-width: 400px;
+	}
+
+	background-color: $gray10;
+	box-shadow: 4px 0 20px rgba($gray80, 0.3);
+	box-sizing: border-box;
+	display: inline-block;
+	float: left;
+	height: 95vh;
+	left: 0;
+	padding: 30px;
+	position: absolute;
+	top: 0;
+	transition: width 0.2s linear;
+	img {
+		min-width: 30px;
+		width: 20%;
+		max-width: 50px;
 	}
 }
 

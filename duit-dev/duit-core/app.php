@@ -57,7 +57,7 @@ require_once('../duit-db/db-mapper.php');
 	</div>
 </header>
 
-<aside id='settings' class='hidden'>
+<aside id='settings' style='left: -400px;'>
 	<img src='../../img/duit-check-50.png' id='logo'>
 </aside>
 

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * interact.js
@@ -14,4 +14,33 @@
  * @since     File available since release 0.0.4  
  */
 
-$(document).ready(function () {});
+$(document).ready(function () {
+
+  moveSettingsOffscreen();
+
+  var $settingsIsOpen = false;
+  var $settingsOrigPos = $('#settings').position().left;
+
+  function moveSettingsOffscreen() {
+    var $offScreen = -$('#settings').outerWidth() - 100;
+    $('#settings').css('left', $offScreen);
+  }
+
+  $(document).on('click', 'body', function (e) {
+    setTimeout(function () {
+      if ($settingsIsOpen && !$(e.target).is('#settings, #settings *')) {
+        $settingsIsOpen = false;
+        $('#settings').animate({ left: $settingsOrigPos }, '1s');
+        //$('#settings').toggle('linear');
+      }
+      if ($(e.target).is('#settings-btn, #settings-btn *')) {
+        $settingsIsOpen = true;
+        $('#settings').animate({ left: 0 }, '1s');
+      }
+    }, 10);
+  });
+
+  // $(document).on('click', '#settings-btn', e=> {
+  // 	$('#settings').toggle('linear').toggleClass('hidden');
+  // });
+});
