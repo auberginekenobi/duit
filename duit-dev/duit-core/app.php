@@ -43,7 +43,7 @@ require_once('../duit-db/db-mapper.php');
 	<div class='col one'>
 		<div class='centering-container'>
 			<div id='settings-btn'>
-				<i class='fa fa-cog' aria-hidden='true'></i>
+				<i class='fa fa-bars' aria-hidden='true'></i>
 			</div>
 		</div>
 	</div>
