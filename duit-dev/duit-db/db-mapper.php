@@ -345,7 +345,7 @@ function preprocessTag($parameters) {
 	} 
     //TODO: regex
     
-    // FIELD 'user_id'            : REQUIRED (varchar user_id)
+    // Field 'user_id'            : REQUIRED (varchar user_id)
   // Check if provided user_id matches an extant user_id
 	// Handle case where user_id is not specified
 	if (!isset($p['user_id'])) {
@@ -452,6 +452,50 @@ function addTag($parameters, $tagArray = NULL) {
 	// Done
 	return $tagArray;
 
+}
+
+/**
+* Function deleteTag
+* 
+* Delete a tag with the provided id
+ * @param [int]       $id      Id of tag to be removed
+ * @param [array(du)] $tagArray Array of du objects to delete du from
+ * @global [$log | The open log file]
+ * @return [array] $duArray with the specified du element removed
+ */
+
+function deleteTag($id,$tagArray = NULL) {
+    global $log;
+    
+    // If tagArray is not specified, delete it from array of all tags
+	$isAll = ($tagArray) ? false : true;
+	$tagArray = ($tagArray) ?: $GLOBALS['alltags'];
+
+    // If no du exists for specified ID
+	if ($tagArray[$id] === false) {
+	    // Handle error
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not find tag in " . (($isAll) ? "\$alltags" : "tagArray");
+		$output .= " with tag_id of '" . $id . "' to delete.\n";
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	} else {
+        // Remember current element to delete
+		$thistag = $tagArray[$id];
+		// Remove it from tag array
+		unset($tagArray[$id]);
+		// Record success
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Deleted tag from " . (($isAll) ? "\$all" : "tagArray");
+		$output .= " with tag_id of '" . $id . "'.\n";
+		fwrite($log, $output, 2048);
+		// Remove it from DB
+		$thistag->deleteFromDB();
+	}
+
+	// Done
+	return $tagArray;
 }
 
 /**
@@ -929,6 +973,8 @@ $alltags = getAllTags();
 $parameters = array('tag_name' => 'binge drinking'.rand(), 'user_id' => 1);
 $alltags = addTag($parameters);
  displayAsTable($alltags);
+$alltags = deleteTag(6);
+displayAsTable($alltags);
 
 //bad tags
 //$parameters = array('tag_name' => 'sinking slowly into a morass'.rand(), 'user_id' => 5000);
