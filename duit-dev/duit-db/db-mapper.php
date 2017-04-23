@@ -309,7 +309,6 @@ function displayAsTable($duArray) {
 
 }
 
-// TODO: addTag, preprocessTag, deleteTag
 
 function preprocessTag($parameters) {
     global $log;
@@ -969,7 +968,7 @@ $alltags = getAllTags();
 
 // Testing Example
 
- displayAsTable($all);
+// displayAsTable($all);
 //$parameters = array('tag_name' => 'binge drinking'.rand(), 'user_id' => 1);
 //$alltags = addTag($parameters);
 // displayAsTable($alltags);
