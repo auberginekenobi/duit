@@ -430,7 +430,7 @@ function addTag($parameters, $tagArray = NULL) {
     // Store du in array at key that is tag_id
 	$tagArray[$tag_id] = $newTag;
     
-    if ($tagArray[$tag_id] === false) {
+    if (!array_key_exists($tag_id,$tagArray)) {
 	    // Handle error
 		$output  = date("Y-m-d H:i:s T", time());
 		$output .= " Could not add new tag to tagArray. Current state of $newTag is\n";
@@ -472,7 +472,7 @@ function deleteTag($id,$tagArray = NULL) {
 	$tagArray = ($tagArray) ?: $GLOBALS['alltags'];
 
     // If no du exists for specified ID
-	if ($tagArray[$id] === false) {
+	if (!array_key_exists($id,$tagArray)) {
 	    // Handle error
 		$output  = date("Y-m-d H:i:s T", time());
 		$output .= " Could not find tag in " . (($isAll) ? "\$alltags" : "tagArray");
@@ -573,7 +573,7 @@ function addDu($parameters, $duArray = NULL) {
 	// Store du in array at key that is du_id
 	$duArray[$du_id] = $newDu;
 
-	if ($duArray[$du_id] === false) {
+	if (!array_key_exists($du_id,$duArray)) {
 	    // Handle error
 		$output  = date("Y-m-d H:i:s T", time());
 		$output .= " Could not add new du to duArray. Current state of $newDu is\n";
@@ -927,7 +927,7 @@ function deleteDu($id, $duArray = NULL) {
 	$duArray = ($duArray) ?: $GLOBALS['all'];
 
 	// If no du exists for specified ID
-	if ($duArray[$id] === false) {
+	if (!array_key_exists($id,$duArray)) {
 	    // Handle error
 		$output  = date("Y-m-d H:i:s T", time());
 		$output .= " Could not find du in " . (($isAll) ? "\$all" : "duArray");
@@ -970,11 +970,11 @@ $alltags = getAllTags();
 // Testing Example
 
  displayAsTable($all);
-$parameters = array('tag_name' => 'binge drinking'.rand(), 'user_id' => 1);
-$alltags = addTag($parameters);
- displayAsTable($alltags);
-$alltags = deleteTag(6);
-displayAsTable($alltags);
+//$parameters = array('tag_name' => 'binge drinking'.rand(), 'user_id' => 1);
+//$alltags = addTag($parameters);
+// displayAsTable($alltags);
+//$alltags = deleteTag(500);
+//displayAsTable($alltags);
 
 //bad tags
 //$parameters = array('tag_name' => 'sinking slowly into a morass'.rand(), 'user_id' => 5000);
@@ -997,9 +997,9 @@ displayAsTable($alltags);
 
 //displayAsTable($all);
 
-// $all = deleteDu(5);
-
-// displayAsTable($all);
+//$all = deleteDu(5);
+//
+//displayAsTable($all);
 
 // $all[1]->setDuPriority("4");
 // $all[3]->setNote("Make it extra yummy");
