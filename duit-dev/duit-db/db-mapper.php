@@ -383,7 +383,7 @@ function preprocessTag($parameters) {
  * $all = addDu(array(
  * 					'tag_name' => 'Job hunt',
  * 					'tag_note' => 'WHYYYYYYYYYYYYY',
- * 				), $allTags);
+ * 				), $alltags);
  *
  * @param [array(tag)]                $tagArray Array of tag objects to take new tag
  * @global [$log | The open log file]
@@ -395,7 +395,7 @@ function addTag($parameters, $tagArray = NULL) {
     
     // If tagArray is not specified, add it to all tags
     $isAll = ($tagArray) ? false : true;
-    $tagArray = ($tagArray) ?: $GLOBALS['allTags'];
+    $tagArray = ($tagArray) ?: $GLOBALS['alltags'];
     
     // Record add call
     $addAlert      = date("Y-m-d H:i:s T", time()) . " ";
@@ -441,7 +441,7 @@ function addTag($parameters, $tagArray = NULL) {
 	} else {
 		// Record success
 		$output  = date("Y-m-d H:i:s T", time());
-		$output .= " Added new tag to " . (($isAll) ? "\$allTags" : "tagArray");
+		$output .= " Added new tag to " . (($isAll) ? "\$alltags" : "tagArray");
 		$output .= " with tag_id of '" . $tag_id . "'.\n";
 		fwrite($log, $output, 2048);
 	}
@@ -926,7 +926,16 @@ $alltags = getAllTags();
 // Testing Example
 
  displayAsTable($all);
+$parameters = array('tag_name' => 'binge drinking'.rand(), 'user_id' => 1);
+$alltags = addTag($parameters);
  displayAsTable($alltags);
+
+//bad tags
+//$parameters = array('tag_name' => 'sinking slowly into a morass'.rand(), 'user_id' => 5000);
+//$alltags = addTag($parameters);
+//$parameters = array('tag_priority' => 1, 'user_id' => 1);
+//$alltags = addTag($parameters);
+//displayAsTable($alltags);
 
 //$testertag = new tag();
 //var_dump($testertag);
