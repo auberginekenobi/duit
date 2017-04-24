@@ -379,7 +379,7 @@ function preprocessTag($parameters) {
  * Adds a new tag with the specified set of properties at both object and db levels.
  *
  * Example call:
- * $all = addDu(array(
+ * $all = addTag(array(
  * 					'tag_name' => 'Job hunt',
  * 					'tag_note' => 'WHYYYYYYYYYYYYY',
  * 				), $alltags);
@@ -419,7 +419,7 @@ function addTag($parameters, $tagArray = NULL) {
     // Preprocess params
     $p = preprocessTag($parameters);
     
-    // Fill fields of du to match parameter inputs
+    // Fill fields of tag to match parameter inputs
 	$newTag->setTagFields($p['tag_id'],
 						$p['tag_name'],
 						$p['tag_priority'],
