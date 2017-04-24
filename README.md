@@ -12,7 +12,7 @@ Implemented features are indicated with checked boxes, planned features with unc
 
 - [x] Create and delete du's
 - [ ] Edit and duplicate du's
-- [ ] Check off completed du's and mark du's as in progress
+- [x] Check off completed du's and mark du's as in progress
 - [x] Link dates and times to du’s or leave them as stand-alone
 - [ ] Set du's to repeat daily, weekly, or monthly
 - [ ] Group du's into categories by assigning them custom tags
@@ -51,7 +51,15 @@ The backend is primarily handled by `duit-db/db-mapper.php`, which features a pl
 
 ## What's New
 
-v0.0.2 (3-14-2017): Du's and the database
+v0.0.3 (4-21-2017): Users, statuses, and tags, oh my!
+
+* Integration of Firebase for account management
+* Du status feature added, tags in progress
+* Tag association with users
+* Basic front-end forms introduced
+* Several back-end bug fixes
+
+v0.0.2 (3-19-2017): Du's and the database
 
 * Fleshed out du objects
 * Introduced collection of functions for interacting with the database

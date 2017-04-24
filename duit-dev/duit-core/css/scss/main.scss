@@ -10,3 +10,121 @@
 
 @import 'breakpoints';
 @import 'variables';
+
+a,
+a:link,
+a:active,
+a:hover,
+a:visited {
+	text-decoration: none;
+	transition: all 0.2s linear;
+}
+
+.hidden {
+	display: none;
+}
+
+header {
+	align-items: center;
+	border: 2px solid gray;
+	display: flex;
+	height: 6vh;
+	justify-content: space-between;
+	.col {
+		&.one,
+		&.three {
+			width: 10%;
+			max-width: 100px;
+			min-width: 50px;
+			text-align: center;
+		}
+		&.one {
+			border: 2px solid green;
+		}
+		&.two {
+			width: 80%;
+			border: 2px solid cyan;
+			time {
+				display: block;
+			}
+		}
+		&.three {
+			border: 2px solid orange;
+		}
+	}
+}
+
+section#center {
+	align-items: stretch;
+	display: flex;
+	flex-wrap: wrap;
+	height: 90vh;
+	justify-content: space-between;
+	@include respond-to('tiny') {
+		aside, main {
+			flex: 1 100%;
+		}
+	}
+	@include respond-to('small') {
+		main {
+			order: 1;
+		}
+		aside {
+			flex: 1 calc(25% - #{$gutter});
+			&#change-view {
+				order: 2;
+			}
+			&#detail-view {
+				order: 3;
+			}
+		}
+	}
+	@include respond-to('medium') {
+		main {
+			flex: 2;
+			order: 2;
+		}
+		aside {
+			flex: 1;
+			&#change-view {
+				order: 1;
+			}
+			&#detail-view {
+				order: 3;
+			}
+		}
+	}
+	
+	aside {
+		border: 2px solid red;
+	}
+	main {
+		border: 2px solid blue;
+	}
+}
+
+footer {
+	background-color: $purple;
+	display: table-cell;
+	font-family: $main-stack;
+	font-size: 0.7em;
+	height: 4vh;
+	text-align: center;
+	vertical-align: middle;
+	width: 100vw;
+	span {
+		color: $gray60;
+		i {
+			color: $pink;
+		}
+		a,
+		a:link,
+		a:active,
+		a:visited {
+			color: $gray40;
+		}
+		a:hover {
+			color: $gray10;
+		}
+	}
+}
