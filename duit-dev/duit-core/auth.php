@@ -42,7 +42,7 @@
 
 
     //testcase - add
-    //$du_name = " " . rand();
+    $du_name = " " . rand();
     // $du_priority = 4;
     // $du_enforce_priority = 1;
     // $du_status = 'Open';
