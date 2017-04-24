@@ -229,13 +229,63 @@ function getAll() {
 
 }
 
+/**
+ * Function getAllTags
+ *
+ * Fetches all tags from the database and stores them as tag objects in the
+ * returned array
+ * 
+ * @return [array] The array holding all of the tag objects, each of whose keys
+ * corresponds to the tag's tag_id
+ */
+function getAllTags() {
+
+	// Create new array to hold the du's
+	$all = array();
+
+	// Query statement for large, formatted table
+	$queryStatement = "
+	SELECT tag_id,
+	       tag_name, 
+	       tag_priority, 
+	       tag_note, 
+           user_id
+	FROM   tags
+	GROUP  BY tag_name 
+	ORDER  BY tag_id ASC";
+    
+    // Query the database for all du's
+	$result = query($queryStatement, "getAllTags()");
+    
+    // While there is another non-null row of the query result
+    while ($currRow = $result->fetch_assoc()) {
+    	// Create a new du
+    	$newTag = new tag();
+    	// Remember the current du's du_id
+    	$tag_id = $currRow['tag_id'];
+    	// Fill fields of du to match values fetched from the database
+    	$newTag->setTagFields($tag_id,
+    						$currRow['tag_name'],
+    						$currRow['tag_priority'],
+    						$currRow['tag_note'],
+                            $currRow['user_id']);
+    	// Store du in array at key that is du_id
+    	$all[$tag_id] = $newTag;   
+	}
+    
+    // Close result
+	$result->close();
+
+	// Done
+	return $all;
+}
 
 /**
  * Function displayAsTable
  *
- * Echoes a simple html table of the inputted du's; primarily used for debugging
+ * Echoes a simple html table of the inputted database items; primarily used for debugging
  * 
- * @param [array(du)] $duArray Array of du objects slated to display in table
+ * @param [array] $duArray Array of object wrappers for database entries slated to display in table. Must implement the function displayAsTableRow($headers);
  * @return void
  */
 function displayAsTable($duArray) {
@@ -259,6 +309,193 @@ function displayAsTable($duArray) {
 
 }
 
+
+function preprocessTag($parameters) {
+    global $log;
+    
+    $p = $parameters;
+    
+    // Field 'tag_name'             : REQUIRED (string name)
+	// Handle case where tag_name is not specified
+	if (!isset($p['tag_name'])) {
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new tag: no name found specified in input. Input was:\n";
+		$output .= "	" . var_export($parameters, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	}
+    
+    // Field 'tag_priority'     OPTIONAL int
+    // if not set, default 4
+    if (!isset($p['tag_priority'])) {
+        $p['tag_priority'] = 4;
+    } elseif ($p['tag_priority']!=1 && $p['tag_priority']!=2 &&
+              $p['tag_priority']!=3){
+        $p['tag_priority']=4;
+    }
+    
+    // Field 'du_note'             : OPTIONAL (string note)
+	// 
+	// Set du_note to NULL if it is not specified and handle case where it is
+	// mal-specified
+	if (!isset($p['tag_note'])) {
+		$p['tag_note']             = NULL;
+	} 
+    //TODO: regex
+    
+    // Field 'user_id'            : REQUIRED (varchar user_id)
+  // Check if provided user_id matches an extant user_id
+	// Handle case where user_id is not specified
+	if (!isset($p['user_id'])) {
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new tag: no user id found specified in input. Input was:\n";
+		$output .= "	" . var_export($parameters, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	} else {
+        $queryStatement = "
+        SELECT user_id
+        FROM users
+        WHERE user_id = '" . $p['user_id'] . "'";
+        $result = query($queryStatement, "preprocess()");
+        $currRow = $result->fetch_assoc();
+        if ($currRow == NULL){
+            $output  = date("Y-m-d H:i:s T", time());
+            $output .= " Could not add new tag: input user id does not correspond to an extant user. Input was:\n";
+            $output .= "	" . var_export($parameters, true);
+            // Write to log file and kill process
+            fwrite($log, $output, 2048);
+            exit($output);
+        }
+    }
+    
+    return $p;
+}
+
+/** Function addTag
+ *
+ * Adds a new tag with the specified set of properties at both object and db levels.
+ *
+ * Example call:
+ * $all = addDu(array(
+ * 					'tag_name' => 'Job hunt',
+ * 					'tag_note' => 'WHYYYYYYYYYYYYY',
+ * 				), $alltags);
+ *
+ * @param [array(tag)]                $tagArray Array of tag objects to take new tag
+ * @global [$log | The open log file]
+ * @return [array] $tagArray with the new du element added
+ */
+function addTag($parameters, $tagArray = NULL) {
+    
+    global $log;
+    
+    // If tagArray is not specified, add it to all tags
+    $isAll = ($tagArray) ? false : true;
+    $tagArray = ($tagArray) ?: $GLOBALS['alltags'];
+    
+    // Record add call
+    $addAlert      = date("Y-m-d H:i:s T", time()) . " ";
+	$addAlert     .= "Preparing to add new tag with parameters:\n";
+
+	// Unpack parameter array passed
+	foreach ($parameters as $p => $v) {
+		$addAlert .= "	";
+		$addAlert .= var_export($p, true) . " => ";
+		$addAlert .= var_export($v, true) . "\n";
+	}
+	fwrite($log, $addAlert, 4096);
+    
+    // Create a new tag
+    $newTag = new tag();
+    
+    // Get new ID for the du by adding 1 to the last ID used in the array
+	end($tagArray);
+	$tag_id = key($tagArray) + 1;
+	$parameters['tag_id'] = $tag_id;
+
+    // Preprocess params
+    $p = preprocessTag($parameters);
+    
+    // Fill fields of du to match parameter inputs
+	$newTag->setTagFields($p['tag_id'],
+						$p['tag_name'],
+						$p['tag_priority'],
+						$p['tag_note'],
+                        $p['user_id']);
+    
+    // Store du in array at key that is tag_id
+	$tagArray[$tag_id] = $newTag;
+    
+    if (!array_key_exists($tag_id,$tagArray)) {
+	    // Handle error
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new tag to tagArray. Current state of $newTag is\n";
+		$output .= "	" . var_export($newTag, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	} else {
+		// Record success
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Added new tag to " . (($isAll) ? "\$alltags" : "tagArray");
+		$output .= " with tag_id of '" . $tag_id . "'.\n";
+		fwrite($log, $output, 2048);
+	}
+    
+    // Push the new du and its properties to the database
+	$tagArray[$tag_id]->addToDB();
+
+	// Done
+	return $tagArray;
+
+}
+
+/**
+* Function deleteTag
+* 
+* Delete a tag with the provided id
+ * @param [int]       $id      Id of tag to be removed
+ * @param [array(du)] $tagArray Array of du objects to delete du from
+ * @global [$log | The open log file]
+ * @return [array] $duArray with the specified du element removed
+ */
+
+function deleteTag($id,$tagArray = NULL) {
+    global $log;
+    
+    // If tagArray is not specified, delete it from array of all tags
+	$isAll = ($tagArray) ? false : true;
+	$tagArray = ($tagArray) ?: $GLOBALS['alltags'];
+
+    // If no du exists for specified ID
+	if (!array_key_exists($id,$tagArray)) {
+	    // Handle error
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not find tag in " . (($isAll) ? "\$alltags" : "tagArray");
+		$output .= " with tag_id of '" . $id . "' to delete.\n";
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	} else {
+        // Remember current element to delete
+		$thistag = $tagArray[$id];
+		// Remove it from tag array
+		unset($tagArray[$id]);
+		// Record success
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Deleted tag from " . (($isAll) ? "\$all" : "tagArray");
+		$output .= " with tag_id of '" . $id . "'.\n";
+		fwrite($log, $output, 2048);
+		// Remove it from DB
+		$thistag->deleteFromDB();
+	}
+
+	// Done
+	return $tagArray;
+}
 
 /**
  * Function addDu
@@ -335,7 +572,7 @@ function addDu($parameters, $duArray = NULL) {
 	// Store du in array at key that is du_id
 	$duArray[$du_id] = $newDu;
 
-	if ($duArray[$du_id] === false) {
+	if (!array_key_exists($du_id,$duArray)) {
 	    // Handle error
 		$output  = date("Y-m-d H:i:s T", time());
 		$output .= " Could not add new du to duArray. Current state of $newDu is\n";
@@ -696,7 +933,7 @@ function deleteDu($id, $duArray = NULL) {
 	$duArray = ($duArray) ?: $GLOBALS['all'];
 
 	// If no du exists for specified ID
-	if ($duArray[$id] === false) {
+	if (!array_key_exists($id,$duArray)) {
 	    // Handle error
 		$output  = date("Y-m-d H:i:s T", time());
 		$output .= " Could not find du in " . (($isAll) ? "\$all" : "duArray");
@@ -725,6 +962,7 @@ function deleteDu($id, $duArray = NULL) {
 
 // Get du class object definitions
 require("du-class.php");
+require("tag-class.php");
 
 //Get user class object definitions
 //require("user-class.php");
@@ -733,10 +971,29 @@ require("du-class.php");
 // Main executions
 $log = openLogFile(true);
 $all = getAll();
+$alltags = getAllTags();
 
 // Testing Example
 
 // displayAsTable($all);
+//$parameters = array('tag_name' => 'binge drinking'.rand(), 'user_id' => 1);
+//$alltags = addTag($parameters);
+// displayAsTable($alltags);
+//$alltags = deleteTag(500);
+//displayAsTable($alltags);
+
+//bad tags
+//$parameters = array('tag_name' => 'sinking slowly into a morass'.rand(), 'user_id' => 5000);
+//$alltags = addTag($parameters);
+//$parameters = array('tag_priority' => 1, 'user_id' => 1);
+//$alltags = addTag($parameters);
+//displayAsTable($alltags);
+
+//$testertag = new tag();
+//var_dump($testertag);
+//$testertag->setTagFields(1,"asf",4," a anote",1);
+//var_dump($testertag);
+
 
 //$parameters = array('du_name' => 'Take out the trash'.rand(), 'du_has_date' => 1, 'du_time_start' => '2017-03-30', 'user_id' => 1);
 //$all = addDu($parameters);
@@ -746,9 +1003,9 @@ $all = getAll();
 
 //displayAsTable($all);
 
-// $all = deleteDu(5);
-
-// displayAsTable($all);
+//$all = deleteDu(5);
+//
+//displayAsTable($all);
 
 // $all[1]->setDuPriority("4");
 // $all[3]->setNote("Make it extra yummy");
