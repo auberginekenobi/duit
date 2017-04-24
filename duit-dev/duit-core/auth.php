@@ -42,7 +42,7 @@
 
 
     //testcase - add
-    $du_name = " " . rand();
+    //$du_name = " " . rand();
     // $du_priority = 4;
     // $du_enforce_priority = 1;
     // $du_status = 'Open';
@@ -51,7 +51,7 @@
     // $du_time_start = "2016-03-15 13:00:00";
     // $du_tags = "food"; // currently doesnt work
 
-    print_r($_GET);
+    //print_r($_GET);
     
     //test case 2 - add
     // $du_name = " " . rand();

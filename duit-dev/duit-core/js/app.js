@@ -86,7 +86,7 @@
 				"du_status" : du_status
 			};
 
-			if (du_time_deadline != "") {
+			if (du_time_end != "" && du_time_end != "") {
 				params["du_has_duration"] = 1;
 			}
 
@@ -165,6 +165,11 @@
 		}
 		return payload;
 	}
+
+  // converts time input to appropriate output
+  function timeConvert(input){
+
+  }
 
 	function callServer(function_name,params = {},callback){
 		firebase.auth().currentUser.getToken(/* forceRefresh */ true).then(function(idToken) {
