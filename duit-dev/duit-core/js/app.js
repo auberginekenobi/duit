@@ -71,11 +71,27 @@
 		btnAdd.addEventListener('click',e=>{
 			let du_name = $("#du_name").val();
 			let du_time_start = $('#du_time_start').val();
+			let du_time_start_time = $('#du_time_start_time').val();
 			let du_time_end = $('#du_time_end').val();
+			let du_time_end_time = $('#du_time_end_time').val();
 			let du_time_deadline = $('#du_time_deadline').val();
+			let du_time_deadline_time = $('#du_time_deadline_time').val();
+
 			let du_note = $('#du_note').val();
 			let du_status = $('#du_status').val();
 			let du_priority = $('#du_priority').val();
+
+			if (du_time_start != "" && du_time_start_time != "") {
+				du_time_start+=(" " + du_time_start_time + ":00");
+			}
+
+			if (du_time_end != "" && du_time_end_time != "") {
+				du_time_end+=(" " + du_time_end_time + ":00");
+			}
+
+			if (du_time_deadline != "" && du_time_deadline_time != "") {
+				du_time_deadline+=(" " + du_time_deadline_time + ":00");
+			}
 
 
 			var params = {
@@ -167,9 +183,11 @@
 	}
 
   // converts time input to appropriate output
+  // Converts from "2016-03-15T13:00" to "2016-03-15 13:00:00";
   function timeConvert(input){
 
   }
+
 
 	function callServer(function_name,params = {},callback){
 		firebase.auth().currentUser.getToken(/* forceRefresh */ true).then(function(idToken) {
@@ -210,4 +228,25 @@
 		});
 	}
 
+
+
+// $(document).ready(function(){
+//   console.log("hello)");
+//   //$("#du_time_start").val(date.getFullYear()+"-0"+(date.getMonth()+1)+"-"+date.getDate()+"T00:00")
+// });
+
+  $(document).ready(function() {
+	console.log( "ready!" );
+	// let date = new Date();
+	// let day = ("0" + date.getDate()).slice(-2);
+	// let month = ("0" + (date.getMonth() + 1)).slice(-2);
+
+	// $("#du_time_start").val(date.getFullYear()+"-"+month+"-"+day+"T00:00")
+	// $("#du_time_end").val(date.getFullYear()+"-"+month+"-"+day+"T00:00")
+	// $("#du_time_deadline").val(date.getFullYear()+"-"+month+"-"+day+"T00:00")
+
+});
+
+
 }());
+
