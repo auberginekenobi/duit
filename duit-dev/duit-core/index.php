@@ -39,7 +39,7 @@ table, th, td{
 	<button id="btnDisplayUsers" class = "btn btn-action">Display Users</button>
 	<button id="btnDisplayTags" class = "btn btn-action">Display Tags</button>
 
-	<button id="btnAddDu" class = "btn btn-action">Add</button>
+	<button id="btnAddDu" class = "btn btn-action">Add Task</button>
 
 	<div>
 	Name:<input id="du_name" type="text" placeholder="Du Name" value="test">
@@ -74,10 +74,13 @@ table, th, td{
 	</div>
 
 	<div>
+		Display Name:<input id="user_name" type="text" placeholder="Du Name" value="test">
 		<button id="btnAddUser" class = "btn btn-action">Add User</button>
 	</div>
 
 	<div>
+		Tag Name:<input id="tag_name" type="text" placeholder="Tag Name" value="test">
+		Tag Note:<input id="tag_note" type="text" placeholder="Tag Note" value="test">
 		<button id="btnAddTag" class = "btn btn-action">Add Tag</button>
 	</div>
 

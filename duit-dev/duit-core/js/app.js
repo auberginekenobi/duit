@@ -138,9 +138,10 @@
 	if(btnAddUser){
 		btnAddUser.addEventListener('click',e=>{
 		//	let user_name = $("#user_name").val();
-			let user_name = " "+Math.random(1000); //testing purposes
+			// let user_name = " "+Math.random(1000); //testing purposes
 			// to replicate issue
 			//let user_name = "test";
+			let user_name = $('#user_name').val();
 
 			var params = {
 				"user_name" : user_name
@@ -153,8 +154,11 @@
 	//add new tag
 	if(btnAddTag){
 		btnAddTag.addEventListener('click',e=>{
-			let tag_name = Math.random(1000)+""; //testing purposes
-			let tag_note = Math.random(1000)+""; //testing purposes
+			// let tag_name = Math.random(1000)+""; //testing purposes
+			// let tag_note = Math.random(1000)+""; //testing purposes
+			let tag_name = $('#tag_name').val();
+			let tag_note = $('#tag_note').val();
+
 
 			var params = {
 				"tag_name" : tag_name,
