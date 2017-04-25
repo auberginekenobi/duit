@@ -159,7 +159,7 @@ function preprocessUser($parameters) {
         $currRow = $result->fetch_assoc();
         if ($currRow != NULL){
             $output  = date("Y-m-d H:i:s T", time());
-            $output .= " Could not add new tag: input user id already corresponds to an extant user. Input was:\n";
+            $output .= " Could not add new user: input user id already corresponds to an extant user. Input was:\n";
             $output .= "	" . var_export($parameters, true);
             // Write to log file and kill process
             fwrite($log, $output, 2048);
@@ -171,7 +171,7 @@ function preprocessUser($parameters) {
 	// Handle case where user_name is not specified
 	if (!isset($p['user_name'])) {
 		$output  = date("Y-m-d H:i:s T", time());
-		$output .= " Could not add new uer: no name found specified in input. Input was:\n";
+		$output .= " Could not add new user: no name found specified in input. Input was:\n";
 		$output .= "	" . var_export($parameters, true);
 		// Write to log file and kill process
 		fwrite($log, $output, 2048);
