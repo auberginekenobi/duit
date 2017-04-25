@@ -47,7 +47,7 @@ class user {
 		$output .= "</tr>";
 		
 		//done
-		return output;
+		return $output;
 	}
 	
 	/**
@@ -67,7 +67,7 @@ class user {
 		$checkQuery = "
 		SELECT *
 		FROM   users
-		WHERE  user_id = " . $this->user_id
+		WHERE  user_id = " . "'" . $this->user_id . "'"
 		;
 		if (query($checkQuery, "addToDB()")->fetch_array()) { // If a user already exists
 			// Handle failure
@@ -78,27 +78,17 @@ class user {
 			fwrite($log, $output, 2048);
 			exit($output);
 		} else { // If no such user exists
-			// Get current max user_id from users table 
-			$resetValQuery  = "
-			SELECT MAX(user_id)
-			FROM   users"
-			;
-			$resetValResult = query($resetValQuery, "addToDB()");
-			// Get actual value of max user_id query result
-			$resetVal       = $resetValResult->fetch_array()[0];
-			// Reset user auto-incrementer in case of deletions to ensure proper
-			// user_id is recorded 
-			$resetQuery     = "ALTER TABLE users auto_increment = " . ($resetVal + 1);
-			query($resetQuery, "addToDB()");
 
 			// Insert where
 			$insertQuery  = "
 			INSERT INTO users
-			(user_name)";
+			(user_id
+			,user_name)";
 
 			// Insert what
 			$insertQuery .= "
-			VALUES ('" . $this->user_name . "'";
+			VALUES ('" . $this->user_id . "'" .
+				   ",'" . $this->user_name . "'";
 			$insertQuery .= ");";
 
 			query($insertQuery, "addToDB()");
@@ -148,7 +138,7 @@ class user {
 		$checkQuery = "
 		SELECT *
 		FROM users
-		WHERE user_id = " . $this->user_id
+		WHERE user_id = '" . $this->user_id . "'"
 		;
 		if (query($checkQuery, "deleteFromDB()")->fetch_array()) { // If user exists
 			$deleteQuery = "
@@ -160,7 +150,7 @@ class user {
 
 				// Record success
 			$output  = date("Y-m-d H:i:s T", time());
-			$output .= " Deleted du from database with user_id of '";
+			$output .= " Deleted user from database with user_id of '";
 			$output .= $this->user_id . "'.\n";
 			fwrite($log, $output, 2048);
 			} else { // If no user is found
