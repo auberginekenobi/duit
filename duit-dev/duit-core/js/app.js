@@ -80,12 +80,12 @@
 	// Delete selected du
 	if (deleteDuList) {
 		$(document).on('click','.deleteDu',function(e){
-			deleteDu();
+			deleteDu(e);
 		});
 	}
 
-	function deleteDu(){
-		let du_id = $(e.currentTarget).attr('class').slice(12);
+	function deleteDu(event){
+		let du_id = $(event.currentTarget).attr('class').slice(12);
 		let params = {
 			"du_id": du_id
 		};
