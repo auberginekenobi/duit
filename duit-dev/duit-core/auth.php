@@ -33,13 +33,21 @@
 		//User id parameters
 		$user_name = (isset($_GET["user_name"])) ? $_GET["user_name"] : "";
 		
-		if ($function_name=="displayAsTable"){
-			displayTable_wrap($all); //Note is possible to call $function_name(all) 
-		} elseif ($function_name=="add") {
+		if ($function_name=="displayAsTableDus"){
+			displayTableDus_wrap($all); //Note is possible to call $function_name(all) 
+		} elseif ($function_name =="displayAsTableUsers") {
+			displayTableUsers_wrap($allusers); 
+		} elseif($function_name == "displayAsTableTags"){
+			displayTableTags_wrap($alltags);
+		} elseif ($function_name=="addDu") {
 			addDu_wrap();
-		} elseif ($function_name="delete"){
+		} elseif ($function_name="deleteDu"){
 			deleteDu_wrap();
-		}
+		} else if ($function_name="addTag") {
+			addTag_wrap();
+		} else if ($function_name="addUser") {
+			addUser_wrap();
+		} 
 	}
 
 	function addUser_wrap(){
@@ -145,10 +153,23 @@
 		}
 	}
 
-	function displayTable_wrap(){
+	function displayTableDus_wrap(){
 		global $all;
 
 		displayAsTable($all);
+	}
+
+	function displayTableUsers_wrap(){
+		global $allusers;
+
+		displayAsTable($allusers);
+	}
+
+	function displayTableTags_wrap(){
+		global $alltags;
+
+		displayAsTable($alltags);
+
 	}
 
 	//Validate token ensures the identity of the caller

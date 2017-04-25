@@ -29,8 +29,8 @@
 
 	const txtEmail = document.getElementById('txtEmail');
 	const txtPassword = document.getElementById('txtPassword');
-	const btnDisplay = document.getElementById('btnDisplay');
-	const btnAdd = document.getElementById('btnAdd');
+	const btnDisplayDus = document.getElementById('btnDisplayDus');
+	const btnAddDu = document.getElementById('btnAddDu');
 	const btnLogin = document.getElementById('btnLogin');
 	const btnSignUp = document.getElementById('btnSignUp');
 	const btnLogout = document.getElementById('btnLogout');
@@ -49,9 +49,23 @@
 	}
 
 	// Add dus table display event
-	if (btnDisplay) {
-			btnDisplay.addEventListener('click',e=>{
-				callServer("displayAsTable");
+	if (btnDisplayDus) {
+			btnDisplayDus.addEventListener('click',e=>{
+				callServer("displayAsTableDus");
+		});
+	}
+
+		// Add tags table display event
+	if (btnDisplayTags) {
+			btnDisplayTags.addEventListener('click',e=>{
+				callServer("displayAsTableTags");
+		});
+	}
+
+		// Add users table display event
+	if (btnDisplayUsers) {
+			btnDisplayUsers.addEventListener('click',e=>{
+				callServer("displayAsTableUsers");
 		});
 	}
 
@@ -67,8 +81,8 @@
 	}
 
 	// Add new du
-	if (btnAdd) {
-		btnAdd.addEventListener('click',e=>{
+	if (btnAddDu) {
+		btnAddDu.addEventListener('click',e=>{
 			let du_name = $("#du_name").val();
 			let du_time_start = $('#du_time_start').val();
 			let du_time_start_time = $('#du_time_start_time').val();
@@ -116,12 +130,20 @@
 				params["du_time_start"] = du_time_deadline;
 			}
 
-			// TODO: Add du has date
-
-			console.log(params);
-
-			callServer("add",params);
+			callServer("addDu",params);
 		});
+	}
+
+	//add new tag
+	if(btnAddUser){
+		btnAddUser.addEventListener('click',e=>{
+		//	let user_name = $("#user_name").val();
+			let user_name = "test";
+
+			var params = {
+				"user_name" : user_name
+			}
+		})
 	}
 
 	// Add signup event
@@ -176,13 +198,6 @@
 		return payload;
 	}
 
-  // converts time input to appropriate output
-  // Converts from "2016-03-15T13:00" to "2016-03-15 13:00:00";
-  function timeConvert(input){
-
-  }
-
-
 	function callServer(function_name,params = {},callback){
 		firebase.auth().currentUser.getToken(/* forceRefresh */ true).then(function(idToken) {
 			// Send token to your backend via HTTPS
@@ -222,24 +237,9 @@
 		});
 	}
 
-
-
-// $(document).ready(function(){
-//   console.log("hello)");
-//   //$("#du_time_start").val(date.getFullYear()+"-0"+(date.getMonth()+1)+"-"+date.getDate()+"T00:00")
-// });
-
-  $(document).ready(function() {
-	console.log( "ready!" );
-	// let date = new Date();
-	// let day = ("0" + date.getDate()).slice(-2);
-	// let month = ("0" + (date.getMonth() + 1)).slice(-2);
-
-	// $("#du_time_start").val(date.getFullYear()+"-"+month+"-"+day+"T00:00")
-	// $("#du_time_end").val(date.getFullYear()+"-"+month+"-"+day+"T00:00")
-	// $("#du_time_deadline").val(date.getFullYear()+"-"+month+"-"+day+"T00:00")
-
-});
+	$(document).ready(function() {
+		console.log( "ready!" );
+	});
 
 
 }());

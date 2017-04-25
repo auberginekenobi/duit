@@ -35,12 +35,12 @@ table, th, td{
 
 	<button id="btnLogout" class="btn btn-action hide">Log out</button>
 
-	<button id="btnDisplay" class = "btn btn-action">Display</button>
+	<button id="btnDisplayDus" class = "btn btn-action">Display</button>
+	<button id="btnDisplayUsers" class = "btn btn-action">Display Users</button>
+	<button id="btnDisplayTags" class = "btn btn-action">Display Tags</button>
 
-	<button id="btnAdd" class = "btn btn-action">Add</button>
+	<button id="btnAddDu" class = "btn btn-action">Add</button>
 
-<!--   <button id="btnDelete" class = "btn btn-action">Delete</button>
- -->
 	<div>
 	Name:<input id="du_name" type="text" placeholder="Du Name" value="test">
 	Note:<input id="du_note" type="text" placeholder="Note">
@@ -73,6 +73,14 @@ table, th, td{
 	</div>
 
 
+	</div>
+
+	<div>
+		<button id="btnAddUser" class = "btn btn-action">Add User</button>
+	</div>
+
+	<div>
+		<button id="btnAddTag" class = "btn btn-action">Add Tag</button>
 	</div>
 
 <script src="js/app.js"></script>
