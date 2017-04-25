@@ -153,13 +153,16 @@
 	//add new tag
 	if(btnAddTag){
 		btnAddTag.addEventListener('click',e=>{
-			let tag_name = " "+Math.random(1000); //testing purposes
-			let tag_note = " "+Math.random(1000); //testing purposes
+			let tag_name = Math.random(1000)+""; //testing purposes
+			let tag_note = Math.random(1000)+""; //testing purposes
 
 			var params = {
 				"tag_name" : tag_name,
 				"tag_note" : tag_note
 			};
+
+			console.log("params");
+			console.log(params);
 
 			callServer("addTag",params);
 		})
@@ -235,7 +238,6 @@
 			}
 
 			console.log(payload);
-
 
 			$.ajax({
 				cache: false,

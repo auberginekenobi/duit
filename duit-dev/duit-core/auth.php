@@ -31,9 +31,11 @@
 
 		//User id parameters
 		$user_name = (isset($_GET["user_name"])) ? $_GET["user_name"] : "";
-		
-			echo $function_name;
 
+		//Tag parameters
+		$tag_note = (isset($_GET["tag_note"])) ? $_GET["tag_note"] : "";
+		$tag_name = (isset($_GET["tag_name"])) ? $_GET["tag_name"] : "";
+		
 		if ($function_name=="displayAsTableDus"){
 			displayTableDus_wrap($all); //Note is possible to call $function_name(all) 
 		} elseif ($function_name =="displayAsTableUsers") {
@@ -92,7 +94,9 @@
 			$tag_note != "" ? $parameters["tag_note"] = $tag_note : "";
 			$user_id != "" ? $parameters["user_id"] = $user_id : "";
 
-			$alltags = addUser($parameters);
+			print_r($parameters);
+
+			$alltags = addTag($parameters);
 			$result = array('message' => "success","added" => $parameters);
 			echo json_encode($result);
 		} else {
