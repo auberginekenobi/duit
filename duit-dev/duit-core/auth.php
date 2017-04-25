@@ -12,7 +12,7 @@
 
 		//Initial data needed for verification of user
 		$idToken = (isset($_GET["idToken"])) ? $_GET["idToken"] : "";
-		$uid = (isset($_GET["uid"])) ? $_GET["uid"] : "";
+		$user_id = (isset($_GET["user_id"])) ? $_GET["user_id"] : "";
 		$function_name = (isset($_GET["function_name"])) ? $_GET["function_name"] : "";
 
 
@@ -28,10 +28,10 @@
 		$du_note = (isset($_GET["du_note"])) ? $_GET["du_note"] : "";
 		$du_tags = (isset($_GET["du_tags"])) ? $_GET["du_tags"] : "";
 		$du_status = (isset($_GET["du_status"])) ? $_GET["du_status"] : "";
-		$user_id = $uid;
+		$du_id = (isset($_GET["du_id"])) ? $_GET["du_id"] : ""; //id used for deletion
 
-		//id used for deletion
-		$du_id = (isset($_GET["du_id"])) ? $_GET["du_id"] : "";
+		//User id parameters
+		$user_name = (isset($_GET["user_name"])) ? $_GET["user_name"] : "";
 		
 		if ($function_name=="displayAsTable"){
 			displayTable_wrap($all); //Note is possible to call $function_name(all) 
@@ -44,7 +44,22 @@
 
 	//TODO: Add user 
 	function addUser_wrap(){
+		global $idToken, $user_id, $all, $allusers;
+		global $user_name;
 
+		if (validateToken($idToken,$user_id)){
+			$parameters = array();
+
+			$user_name != "" ? $parameters["user_name"] = $user_name : "";
+			$user_id != "" ? $parameters["user_id"] = $user_id : "";
+
+			$allusers = addUser($parameters);
+			$result = array('message' => "success","added" => $parameters);
+			echo json_encode($result);
+		} else {
+			$result = array('message'=>"fail: user_id or token not validated");
+			echo json_encode($result);
+		}
 	}
 
 	function deleteUser_wrap(){
@@ -64,12 +79,12 @@
 
 	//TODO: Include Tag support
 	function addDu_wrap(){
-		global $idToken, $uid, $all;
+		global $idToken, $user_id, $all;
 		global $du_name, $du_has_date, $du_has_deadline, $du_has_duration,
 					 $du_time_start, $du_time_end, $du_priority, $du_enforce_priority, $tag_priorities,
 					 $calc_priority, $du_note, $du_tags, $du_status, $user_id;
 
-		if (validateToken($idToken,$uid)) {
+		if (validateToken($idToken,$user_id)) {
 			$parameters = array();
 
 			$du_name != "" ? $parameters["du_name"] = $du_name : "";
@@ -91,7 +106,7 @@
 			$result = array('message' => "success","added" => $parameters);
 			echo json_encode($result);
 		} else {
-			$result = array('message' => "fail: uid or token not validated");
+			$result = array('message' => "fail: user_id or token not validated");
 			echo json_encode($result);
 		}
 	}
@@ -104,15 +119,15 @@
 	//deleteDu does not work in cases where there are tags due to foreign key 
 	//constraints
 	function deleteDu_wrap(){
-		global $idToken, $uid, $all;
+		global $idToken, $user_id, $all;
 		global $du_id;
 
-		if (validateToken($idToken,$uid)) {
+		if (validateToken($idToken,$user_id)) {
 			$all = deleteDu($du_id);
 			$result = array('message' => "success","deleted" => $du_id);
 			echo json_encode($result);
 		} else {
-			$result = array('message' => "fail: uid or token not validated");
+			$result = array('message' => "fail: user_id or token not validated");
 			echo json_encode($result);
 		}
 	}
@@ -124,7 +139,7 @@
 	}
 
 	//Validate token ensures the identity of the caller
-	function validateToken($jwt,$uid){
+	function validateToken($jwt,$user_id){
 		//initial setting for validity
 		$valid = false;
 
@@ -160,7 +175,7 @@
 			$validExp = $currentTime < $token->exp;
 			$validAud = $correctAudience == $token->aud;
 			$validIssuer = $correctIssuer == $token->iss;
-			$validSub = !empty($token->sub)  && $uid == $token->sub;
+			$validSub = !empty($token->sub)  && $user_id == $token->sub;
 
 			//Aggregate of all payload checks
 			$valid = $validKey && $validEncryption && $validTime && $validExp && $validAud && $validIssuer && $validSub;

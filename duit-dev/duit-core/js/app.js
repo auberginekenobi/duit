@@ -124,12 +124,6 @@
 		});
 	}
 
-	// TODO:
-	// btnDelete.addEventListener('click',e=>{
-	//   callServer("delete");
-	//  // callServer("")
-	// });
-
 	// Add signup event
 	if (btnSignUp) {
 		btnSignUp.addEventListener('click', e=> {
@@ -199,7 +193,7 @@
 				"du_time_end","du_priority","du_enforce_priority","du_note","du_status"];
 
 			let payload = "idToken="+idToken+
-				"&uid="+firebase.auth().currentUser.uid+
+				"&user_id="+firebase.auth().currentUser.uid+
 				"&function_name="+function_name;
 
 			for (let i = 0; i < paramKeys.length; i++) {
