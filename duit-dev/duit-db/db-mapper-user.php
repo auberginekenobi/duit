@@ -16,6 +16,52 @@
  * @since     File available since the dawn of the Fourth Age
  */
 
+//////////////////////////////////////////////////////////////////
+require("user-class.php");
+
+/**
+ * Function getAllUsers
+ *
+ * Fetches all tags from the database and stores them as user objects in the
+ * returned array
+ * 
+ * @return [array] The array holding all of the user objects, each of whose keys
+ * corresponds to the user's user_id
+ */
+function getAllUsers() {
+
+	// Create new array to hold the du's
+	$allusers = array();
+
+	// Query statement for large, formatted table
+	$queryStatement = "
+	SELECT user_id,
+	       user_name
+	FROM   users
+	GROUP  BY user_name 
+	ORDER  BY user_id ASC";
+    
+    // Query the database for all du's
+	$result = query($queryStatement, "getAllUsers()");
+    
+    // While there is another non-null row of the query result
+    while ($currRow = $result->fetch_assoc()) {
+		// Remember the current user's user_id
+		$user_id = $currRow['user_id'];
+		$user_name = $currRow['user_name'];
+    	// Create a new user
+    	$newUser = new user($user_id,$user_name);
+    	// Store user in array at key that is user_id
+    	$all[$user_id] = $newUser;   
+	}
+    
+    // Close result
+	$result->close();
+
+	// Done
+	return $all;
+}
+
 /** Function addUser
  *
  * Adds a new tag with the specified set of properties at both object and db levels.
@@ -59,9 +105,9 @@ function addUser($parameters, $userArray = NULL) {
     $newUser = new user($p['user_id'],$p['user_name']);
     
     // Store user in array at user_id key
-    $userArray[$user_id] = newUser;
+    $userArray[$user_id] = $newUser;
     
-    if (!array_key_exists($user_id,$tagArray)) {
+    if (!array_key_exists($user_id,$userArray)) {
 	    // Handle error
 		$output  = date("Y-m-d H:i:s T", time());
 		$output .= " Could not add new user to userArray. Current state of $newUser is\n";
@@ -83,6 +129,99 @@ function addUser($parameters, $userArray = NULL) {
 	// Done
 	return $userArray;
 
+}
+
+/**
+ * Function preprocessUser
+ *
+ */
+function preprocessUser($parameters) {
+    global $log;
+    
+    $p = $parameters;
+    
+    // Field 'user_id'            : REQUIRED (varchar user_id)
+    // Check if provided user_id matches an extant user_id
+	// Handle case where user_id is not specified
+	if (!isset($p['user_id'])) {
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new user: no user id found specified in input. Input was:\n";
+		$output .= "	" . var_export($parameters, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	} else {
+        $queryStatement = "
+        SELECT user_id
+        FROM users
+        WHERE user_id = '" . $p['user_id'] . "'";
+        $result = query($queryStatement, "preprocess()");
+        $currRow = $result->fetch_assoc();
+        if ($currRow != NULL){
+            $output  = date("Y-m-d H:i:s T", time());
+            $output .= " Could not add new tag: input user id already corresponds to an extant user. Input was:\n";
+            $output .= "	" . var_export($parameters, true);
+            // Write to log file and kill process
+            fwrite($log, $output, 2048);
+            exit($output);
+        }
+    }
+	
+	// Field 'user_name'             : REQUIRED (string)
+	// Handle case where user_name is not specified
+	if (!isset($p['user_name'])) {
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not add new uer: no name found specified in input. Input was:\n";
+		$output .= "	" . var_export($parameters, true);
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	}
+	
+	return $p;
+}
+
+/**
+* Function deleteTag
+* 
+* Delete a tag with the provided id
+ * @param [int]       $id      Id of tag to be removed
+ * @param [array(du)] $tagArray Array of du objects to delete du from
+ * @global [$log | The open log file]
+ * @return [array] $duArray with the specified du element removed
+ */
+function deleteUser($id, $userArray = NULL) {
+	global $log;
+	
+	// If userArray is not specified, delete it from array of all tags
+	$isAll = ($userArray) ? false : true;
+	$userArray = ($userArray) ?: $GLOBALS['allusers'];
+	
+	// If no user exists for specified ID
+	if (!array_key_exists($id,$userArray)) {
+	    // Handle error
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Could not find user in " . (($isAll) ? "\$allusers" : "userArray");
+		$output .= " with user_id of '" . $id . "' to delete.\n";
+		// Write to log file and kill process
+		fwrite($log, $output, 2048);
+	    exit($output);
+	} else {
+		// Remember current element to delete
+		$thisuser = $userArray[$id];
+		// Remove it from tag array
+		unset($userArray[$id]);
+		// Record success
+		$output  = date("Y-m-d H:i:s T", time());
+		$output .= " Deleted user from " . (($isAll) ? "\$all" : "userArray");
+		$output .= " with user_id of '" . $id . "'.\n";
+		fwrite($log, $output, 2048);
+		// Remove it from DB
+		$thisuser->deleteFromDB();
+	}
+
+	// Done
+	return $userArray;
 }
 
 ?>

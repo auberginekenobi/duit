@@ -470,7 +470,7 @@ function deleteTag($id,$tagArray = NULL) {
 	$isAll = ($tagArray) ? false : true;
 	$tagArray = ($tagArray) ?: $GLOBALS['alltags'];
 
-    // If no du exists for specified ID
+    // If no tag exists for specified ID
 	if (!array_key_exists($id,$tagArray)) {
 	    // Handle error
 		$output  = date("Y-m-d H:i:s T", time());
@@ -963,6 +963,7 @@ function deleteDu($id, $duArray = NULL) {
 // Get du class object definitions
 require("du-class.php");
 require("tag-class.php");
+require("db-mapper-user.php");
 
 //Get user class object definitions
 //require("user-class.php");
@@ -972,10 +973,18 @@ require("tag-class.php");
 $log = openLogFile(true);
 $all = getAll();
 $alltags = getAllTags();
+$allusers = getAllUsers();
 
 // Testing Example
 
-// displayAsTable($all);
+//displayAsTable($allusers);
+//$parameters = array('user_name' => 'Winky'.rand(), 'user_id' => 'herbivore');
+//$allusers = addUser($parameters);
+//displayAsTable($allusers);
+//$allusers = deleteUser('herbivore');
+//displayAsTable($allusers);
+
+
 //$parameters = array('tag_name' => 'binge drinking'.rand(), 'user_id' => 1);
 //$alltags = addTag($parameters);
 // displayAsTable($alltags);
