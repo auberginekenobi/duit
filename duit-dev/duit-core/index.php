@@ -42,7 +42,7 @@ table, th, td{
 <!--   <button id="btnDelete" class = "btn btn-action">Delete</button>
  -->
 	<div>
-	Name:<input id="du_name" type="text" placeholder="Du Name" value="test!">
+	Name:<input id="du_name" type="text" placeholder="Du Name" value="test">
 	Note:<input id="du_note" type="text" placeholder="Note">
 	Time Start:<input id="du_time_start" type="date" placeholder="mm/dd/yyyy">
 			   <input id="du_time_start_time" type="time" = placeholder="00:00 (24 hour time)">

@@ -32,46 +32,6 @@
 
 		//id used for deletion
 		$du_id = (isset($_GET["du_id"])) ? $_GET["du_id"] : "";
-
-		// $testVar = (isset($_GET["du_id"])) ? "set" : "unset";
-		// echo $testVar;
-
-		// echo $du_id;
-		// echo "";
-		// echo "test";
-
-
-		//testcase - add
-		//$du_name = " " . rand();
-		// $du_priority = 4;
-		// $du_enforce_priority = 1;
-		// $du_status = 'Open';
-		// $du_note = "pew pew pew!";
-		// $du_has_deadline = 1;
-		// $du_time_start = "2016-03-15 13:00:00";
-		// $du_tags = "food"; // currently doesnt work
-
-		//print_r($_GET);
-		
-		//test case 2 - add
-		// $du_name = " " . rand();
-		// $user_id = $_GET["uid"];
-		// $du_note = "Make it extra yummy";
-		// $du_has_deadline = 1;
-		// $du_time_start = date("Y-m-d");
-
-		// test case 3 - add
-		// $du_name = " " . rand();
-		// $user_id = $_GET["uid"];
-		// $du_note = "Make it extra yummerz!!";
-		// $du_has_duration = 1;
-		// $du_time_start = date("Y-m-d T");   
-		// $du_time_end = "2018-03-14 18:00:00";
-
-		//test case 4 - delete last element
-		//$du_id = end($all)->getId();
-
-
 		
 		if ($function_name=="displayAsTable"){
 			displayTable_wrap($all); //Note is possible to call $function_name(all) 
@@ -82,11 +42,22 @@
 		}
 	}
 
+	//TODO: Add user 
 	function addUser_wrap(){
 
 	}
 
 	function deleteUser_wrap(){
+
+	}
+
+	//TODO: Add tag
+	function addTag_wrap(){
+
+		
+	}
+
+	function deleteTag_wrap(){
 
 	}
 
@@ -116,9 +87,6 @@
 			$du_status != "" ? $parameters["du_status"] = $du_status : "";
 			$user_id != "" ? $parameters["user_id"] = $user_id : "";
 
-			//testing regex
-			// echo (!preg_match('/[a-zA-Z]+/', "test"));
-
 			$all = addDu($parameters);
 			$result = array('message' => "success","added" => $parameters);
 			echo json_encode($result);
@@ -128,6 +96,7 @@
 		}
 	}
 
+	//TODO: Edit Du
 	function editDu_wrap(){
 
 	}
@@ -154,6 +123,7 @@
 		displayAsTable($all);
 	}
 
+	//Validate token ensures the identity of the caller
 	function validateToken($jwt,$uid){
 		//initial setting for validity
 		$valid = false;
