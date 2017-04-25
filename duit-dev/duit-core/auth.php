@@ -42,7 +42,6 @@
 		}
 	}
 
-	//TODO: Add user 
 	function addUser_wrap(){
 		global $idToken, $user_id, $all, $allusers;
 		global $user_name;
@@ -66,9 +65,23 @@
 
 	}
 
-	//TODO: Add tag
 	function addTag_wrap(){
+		global $idToken, $user_id, $all, $allusers, $alltags;
+		global $tag_name, $tag_note;
 
+		if (validateTokens($idToken,$user_id)){
+			$parameters = array();
+
+			$tag_name != "" ? $parameters["tag_name"] = $tag_name : "";
+			$tag_note != "" ? $parameters["tag_note"] = $tag_note : "";
+
+			$alltags = addUser($parameters);
+			$result = array('message' => "success","added" => $parameters);
+			echo json_encode($result);
+		} else {
+			$result = array('message'=>"fail: user_id or token not validated");
+			echo json_encode($result);
+		}
 		
 	}
 
