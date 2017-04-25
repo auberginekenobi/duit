@@ -16,7 +16,7 @@
 
 (function(){
 	// Initialize Firebase
-	var config = {
+	let config = {
 		apiKey: "AIzaSyCdqoYOd1r8QE1-UGMOxCEIr7nJQymCXN8",
 		authDomain: "duit-ba651.firebaseapp.com",
 		databaseURL: "https://duit-ba651.firebaseio.com",
@@ -34,18 +34,26 @@
 	const btnLogin = document.getElementById('btnLogin');
 	const btnSignUp = document.getElementById('btnSignUp');
 	const btnLogout = document.getElementById('btnLogout');
+	const deleteDuList = document.getElementsByClassName('deleteDu');
+
+	//$('.deleteDu')
 
 	// Add login event
 	if (btnLogin) {
 		btnLogin.addEventListener('click', e=>{
-			// Get email and pass
-			const email = txtEmail.value;
-			const pass = txtPassword.value;
-			const auth = firebase.auth();
-			// Sign in
-			const promise = auth.signInWithEmailAndPassword(email,pass);
-			promise.catch(e=>console.log(e.message));
+			login();
 		});
+	}
+
+	function login(){
+		// Get email and pass
+		const email = txtEmail.value;
+		const pass = txtPassword.value;
+		const auth = firebase.auth();
+		// Sign in
+		const promise = auth.signInWithEmailAndPassword(email,pass);
+		promise.catch(e=>console.log(e.message));
+
 	}
 
 	// Add dus table display event
@@ -55,14 +63,14 @@
 		});
 	}
 
-		// Add tags table display event
+	// Add tags table display event
 	if (btnDisplayTags) {
 			btnDisplayTags.addEventListener('click',e=>{
 				callServer("displayAsTableTags");
 		});
 	}
 
-		// Add users table display event
+	// Add users table display event
 	if (btnDisplayUsers) {
 			btnDisplayUsers.addEventListener('click',e=>{
 				callServer("displayAsTableUsers");
@@ -70,135 +78,149 @@
 	}
 
 	// Delete selected du
-	if ($('.deleteDu')) {
+	if (deleteDuList) {
 		$(document).on('click','.deleteDu',function(e){
-			let du_id = $(e.currentTarget).attr('class').slice(12);
-			var params = {
-				"du_id": du_id
-			};
-			callServer("deleteDu",params);
+			deleteDu();
 		});
+	}
+
+	function deleteDu(){
+		let du_id = $(e.currentTarget).attr('class').slice(12);
+		let params = {
+			"du_id": du_id
+		};
+		callServer("deleteDu",params);
 	}
 
 	// Add new du
 	if (btnAddDu) {
 		btnAddDu.addEventListener('click',e=>{
-			let du_name = $("#du_name").val();
-			let du_time_start = $('#du_time_start').val();
-			let du_time_start_time = $('#du_time_start_time').val();
-			let du_time_end = $('#du_time_end').val();
-			let du_time_end_time = $('#du_time_end_time').val();
-			let du_time_deadline = $('#du_time_deadline').val();
-			let du_time_deadline_time = $('#du_time_deadline_time').val();
-
-			let du_note = $('#du_note').val();
-			let du_status = $('#du_status').val();
-			let du_priority = $('#du_priority').val();
-
-			if (du_time_start != "" && du_time_start_time != "") {
-				du_time_start+=(" " + du_time_start_time + ":00");
-			}
-
-			if (du_time_end != "" && du_time_end_time != "") {
-				du_time_end+=(" " + du_time_end_time + ":00");
-			}
-
-			if (du_time_deadline != "" && du_time_deadline_time != "") {
-				du_time_deadline+=(" " + du_time_deadline_time + ":00");
-			}
-
-
-			var params = {
-				"du_name" : du_name,
-				"du_time_start" : du_time_start,
-				"du_time_end" : du_time_end,
-				"du_note" : du_note,
-				"du_status" : du_status
-			};
-
-			if (du_time_end != "" && du_time_end != "") {
-				params["du_has_duration"] = 1;
-			}
-
-			if (du_priority != "none"){
-				params["du_enforce_priority"] = 1;
-				params["du_priority"] = du_priority;          
-			}
-
-			if (du_time_deadline != ""){
-				params["du_has_deadline"] = 1;
-				params["du_time_start"] = du_time_deadline;
-			}
-
-			callServer("addDu",params);
+			addDu();
 		});
+	}
+
+	function addDu(){
+		let du_name = $("#du_name").val();
+		let du_time_start = $('#du_time_start').val();
+		let du_time_start_time = $('#du_time_start_time').val();
+		let du_time_end = $('#du_time_end').val();
+		let du_time_end_time = $('#du_time_end_time').val();
+		let du_time_deadline = $('#du_time_deadline').val();
+		let du_time_deadline_time = $('#du_time_deadline_time').val();
+
+		let du_note = $('#du_note').val();
+		let du_status = $('#du_status').val();
+		let du_priority = $('#du_priority').val();
+
+		if (du_time_start != "" && du_time_start_time != "") {
+			du_time_start+=(" " + du_time_start_time + ":00");
+		}
+
+		if (du_time_end != "" && du_time_end_time != "") {
+			du_time_end+=(" " + du_time_end_time + ":00");
+		}
+
+		if (du_time_deadline != "" && du_time_deadline_time != "") {
+			du_time_deadline+=(" " + du_time_deadline_time + ":00");
+		}
+
+
+		let params = {
+			"du_name" : du_name,
+			"du_time_start" : du_time_start,
+			"du_time_end" : du_time_end,
+			"du_note" : du_note,
+			"du_status" : du_status
+		};
+
+		if (du_time_end != "" && du_time_end != "") {
+			params["du_has_duration"] = 1;
+		}
+
+		if (du_priority != "none"){
+			params["du_enforce_priority"] = 1;
+			params["du_priority"] = du_priority;          
+		}
+
+		if (du_time_deadline != ""){
+			params["du_has_deadline"] = 1;
+			params["du_time_start"] = du_time_deadline;
+		}
+
+		callServer("addDu",params);
+	
 	}
 
 	//add new user
 	if(btnAddUser){
 		btnAddUser.addEventListener('click',e=>{
-		//	let user_name = $("#user_name").val();
-			// let user_name = " "+Math.random(1000); //testing purposes
-			// to replicate issue
-			//let user_name = "test";
-			let user_name = $('#user_name').val();
-
-			var params = {
-				"user_name" : user_name
-			}
-
-			callServer("addUser",params);
+			addUser();
 		})
+	}
+
+	function addUser(){
+		let user_name = $('#user_name').val();
+
+		let params = {
+			"user_name" : user_name
+		}
+		callServer("addUser",params);
 	}
 
 	//add new tag
 	if(btnAddTag){
 		btnAddTag.addEventListener('click',e=>{
-			// let tag_name = Math.random(1000)+""; //testing purposes
-			// let tag_note = Math.random(1000)+""; //testing purposes
-			let tag_name = $('#tag_name').val();
-			let tag_note = $('#tag_note').val();
-
-
-			var params = {
-				"tag_name" : tag_name,
-				"tag_note" : tag_note
-			};
-
-			console.log("params");
-			console.log(params);
-
-			callServer("addTag",params);
+			addTag();
 		})
+	}
+
+	function addTag() {
+		let tag_name = $('#tag_name').val();
+		let tag_note = $('#tag_note').val();
+
+
+		let params = {
+			"tag_name" : tag_name,
+			"tag_note" : tag_note
+		};
+
+		console.log("params");
+		console.log(params);
+
+		callServer("addTag",params);
 	}
 
 	// Add signup event
 	if (btnSignUp) {
 		btnSignUp.addEventListener('click', e=> {
-			// Get email and pass
-			const email = txtEmail.value;
-			const pass = txtPassword.value;
-			const auth = firebase.auth();
-			// Sign in
-			const promise = auth.createUserWithEmailAndPassword(email,pass).then(function(){
-				
-				// Stores by uid
-				firebase.database().ref('users/' + auth.currentUser.uid).set({
-					uid: auth.currentUser.uid
-				});  
-
-				// TODO: send a request to create a user in PHP
-			}, function (reason) {
-				console.log(reason);
-			}); 
+			signUp();
 		});
+	}
+
+	function signUp(){
+		// Get email and pass
+		const email = txtEmail.value;
+		const pass = txtPassword.value;
+		const auth = firebase.auth();
+		
+		// Sign in
+		const promise = auth.createUserWithEmailAndPassword(email,pass).then(function(){
+			//create a user
+			addUser();
+		}, function (reason) {
+			console.log(reason);
+		}); 
 	}
 
 	// Add signout
 	if (btnLogout) {
 		btnLogout.addEventListener('click', e=>{
-			firebase.auth().signOut();
+			sighOut();
 		});
+	}
+
+	function signOut(){
+		firebase.auth().signOut();		
 	}
 
 	// Add a real time listener for changes in user state
