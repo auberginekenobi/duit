@@ -15,7 +15,6 @@
 		$user_id = (isset($_GET["user_id"])) ? $_GET["user_id"] : "";
 		$function_name = (isset($_GET["function_name"])) ? $_GET["function_name"] : "";
 
-
 		//All properties of a du, may need to include check for undefined as well
 		$du_name = (isset($_GET["du_name"])) ? $_GET["du_name"] : "";
 		$du_has_date = (isset($_GET["du_has_date"])) ? $_GET["du_has_date"] : "";
@@ -33,19 +32,21 @@
 		//User id parameters
 		$user_name = (isset($_GET["user_name"])) ? $_GET["user_name"] : "";
 		
+			echo $function_name;
+
 		if ($function_name=="displayAsTableDus"){
 			displayTableDus_wrap($all); //Note is possible to call $function_name(all) 
 		} elseif ($function_name =="displayAsTableUsers") {
 			displayTableUsers_wrap($allusers); 
 		} elseif($function_name == "displayAsTableTags"){
 			displayTableTags_wrap($alltags);
-		} elseif ($function_name=="addDu") {
+		} elseif ($function_name == "addDu") {
 			addDu_wrap();
-		} elseif ($function_name="deleteDu"){
+		} elseif ($function_name=="deleteDu"){
 			deleteDu_wrap();
-		} else if ($function_name="addTag") {
+		} else if ($function_name=="addTag") {
 			addTag_wrap();
-		} else if ($function_name="addUser") {
+		} else if ($function_name=="addUser") {
 			addUser_wrap();
 		} 
 	}
@@ -55,12 +56,19 @@
 		global $user_name;
 
 		if (validateToken($idToken,$user_id)){
+			$user_id = rand()+" "; // NOTE: TEST CODE, RANDOMLY GENERATES A USER ID FOR INSERT
+
 			$parameters = array();
 
 			$user_name != "" ? $parameters["user_name"] = $user_name : "";
 			$user_id != "" ? $parameters["user_id"] = $user_id : "";
 
+
+			print_r($parameters);
+
 			$allusers = addUser($parameters);
+
+
 			$result = array('message' => "success","added" => $parameters);
 			echo json_encode($result);
 		} else {
@@ -77,11 +85,12 @@
 		global $idToken, $user_id, $all, $allusers, $alltags;
 		global $tag_name, $tag_note;
 
-		if (validateTokens($idToken,$user_id)){
+		if (validateToken($idToken,$user_id)){
 			$parameters = array();
 
 			$tag_name != "" ? $parameters["tag_name"] = $tag_name : "";
 			$tag_note != "" ? $parameters["tag_note"] = $tag_note : "";
+			$user_id != "" ? $parameters["user_id"] = $user_id : "";
 
 			$alltags = addUser($parameters);
 			$result = array('message' => "success","added" => $parameters);

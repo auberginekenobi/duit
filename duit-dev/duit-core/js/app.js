@@ -134,15 +134,34 @@
 		});
 	}
 
-	//add new tag
+	//add new user
 	if(btnAddUser){
 		btnAddUser.addEventListener('click',e=>{
 		//	let user_name = $("#user_name").val();
-			let user_name = "test";
+			let user_name = " "+Math.random(1000); //testing purposes
+			// to replicate issue
+			//let user_name = "test";
 
 			var params = {
 				"user_name" : user_name
 			}
+
+			callServer("addUser",params);
+		})
+	}
+
+	//add new tag
+	if(btnAddTag){
+		btnAddTag.addEventListener('click',e=>{
+			let tag_name = " "+Math.random(1000); //testing purposes
+			let tag_note = " "+Math.random(1000); //testing purposes
+
+			var params = {
+				"tag_name" : tag_name,
+				"tag_note" : tag_note
+			};
+
+			callServer("addTag",params);
 		})
 	}
 
@@ -202,10 +221,9 @@
 		firebase.auth().currentUser.getToken(/* forceRefresh */ true).then(function(idToken) {
 			// Send token to your backend via HTTPS
 			console.log(function_name);
-			console.log(params);
 
 			let paramKeys = ["du_id","du_name","du_has_date","du_has_deadline","du_has_duration","du_time_start",
-				"du_time_end","du_priority","du_enforce_priority","du_note","du_status"];
+				"du_time_end","du_priority","du_enforce_priority","du_note","du_status","user_name","tag_name","tag_note"];
 
 			let payload = "idToken="+idToken+
 				"&user_id="+firebase.auth().currentUser.uid+

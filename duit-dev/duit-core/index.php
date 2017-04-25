@@ -69,8 +69,6 @@ table, th, td{
 
 	</div>
 
-	<div class="responseContainer">
-	</div>
 
 
 	</div>
@@ -82,6 +80,10 @@ table, th, td{
 	<div>
 		<button id="btnAddTag" class = "btn btn-action">Add Tag</button>
 	</div>
+
+	<div class="responseContainer">
+	</div>
+
 
 <script src="js/app.js"></script>
 
