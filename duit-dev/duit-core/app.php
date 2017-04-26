@@ -26,8 +26,8 @@ require_once('../duit-db/db-mapper.php');
 <body>
 
 <!-- FONTS -->
-<!-- Open Sans weights 300, 400, and 700 onle -->
-<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i' rel='stylesheet'>
+<!-- Roboto weights 100, 300, 400, 500, 700, and 900 only -->
+<link href='Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i'>
 <!-- Header fonts (Amsi) sourced in CSS -->
 
 <!-- CSS -->
@@ -118,9 +118,65 @@ require_once('../duit-db/db-mapper.php');
 		</aside>
 			
 		<main>
-			Main box
-			<button id="btnDisplay">Display</button>
-			<button id="btnHideDisplay">Hide Display</button>
+			
+			<!-- Taken from index.php -->
+
+			<input id="txtEmail" type = "email" placeholder="Email">
+			<input id="txtPassword" type="password" placeholder="Password">
+			<button id="btnLogin" class="btn btn-action">Log in</button>
+			<button id="btnSignUp" class="btn btn-secondary">Sign Up</button>
+			<button id="btnLogout" class="btn btn-action hide">Log out</button>
+
+			<br /><br />
+
+			<button id="btnDisplayDus" class = "btn btn-action">Display</button>
+			<button id="btnDisplayUsers" class = "btn btn-action">Display Users</button>
+			<button id="btnDisplayTags" class = "btn btn-action">Display Tags</button>
+
+			<br /><br />
+
+			Name:<input id="du_name" type="text" placeholder="Du Name" value="test">
+			Note:<input id="du_note" type="text" placeholder="Note">
+			Time Start:<input id="du_time_start" type="date" placeholder="mm/dd/yyyy">
+					   <input id="du_time_start_time" type="time" = placeholder="00:00 (24 hour time)">
+			Time End:<input id="du_time_end" type="date" placeholder="mm/dd/yyyy">
+					 <input id="du_time_end_time" type="time" = placeholder="00:00 (24 hour time)">
+			Deadline Date:<input id="du_time_deadline" type="date" placeholder="mm/dd/yyyy">
+					      <input id="du_time_deadline_time" type="time" = placeholder="00:00 (24 hour time)">
+			Status:
+			<select id="du_status">
+				<option value="Open">Open</option>
+				<option value="Active">Active</option>
+				<option value="Completed">Completed</option>
+			</select>
+			Priority:
+			<select id="du_priority">
+				<option value="none"> </option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+			</select>
+			Tags:
+			<input id="txtTags" type="text" placeholder="Tags">
+
+			<br /><br />
+
+			<button id="btnAddDu" class = "btn btn-action">Add Task</button>
+
+			<br /><br />
+
+			Display Name:<input id="user_name" type="text" placeholder="Du Name" value="test">
+			<button id="btnAddUser" class = "btn btn-action">Add User</button>
+
+			<br /><br />
+
+			Tag Name:<input id="tag_name" type="text" placeholder="Tag Name" value="test">
+			Tag Note:<input id="tag_note" type="text" placeholder="Tag Note" value="test">
+			<button id="btnAddTag" class = "btn btn-action">Add Tag</button>
+
+			<!-- End of stuff from index.php -->
+
 			<div class="responseContainer">
 				<!-- Space where AJAX call will display result -->
 			</div>

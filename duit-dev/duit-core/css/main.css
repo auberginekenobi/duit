@@ -465,11 +465,11 @@ header .col.two {
 
 header .col.two time {
   display: block;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 header .col.two time#time {
-  color: #468f77;
+  color: #00b9c0;
   font-size: 2.4em;
   padding-bottom: 5px;
 }
@@ -480,10 +480,10 @@ header .col.two time#date {
 }
 
 header #settings-btn {
-  background-color: #3b394d;
+  background-color: #1a4e6c;
   border-radius: 100%;
   box-sizing: border-box;
-  color: #dce5e2;
+  color: white;
   display: table-cell;
   height: 1.7em;
   line-height: 1.7em;
@@ -507,14 +507,14 @@ header #settings-btn {
 }
 
 header #settings-btn:hover {
-  background-color: #23222b;
+  background-color: #103043;
   cursor: pointer;
 }
 
 header #quick-add-btn {
   border-radius: 100%;
   box-sizing: border-box;
-  color: #323836;
+  color: #dce5e2;
   display: table-cell;
   font-size: 1.5em;
   height: 1.5em;
@@ -528,7 +528,7 @@ header #quick-add-btn {
 
 header #quick-add-btn:hover {
   background-color: #edf2f0;
-  color: #468f77;
+  color: white;
   cursor: pointer;
 }
 
@@ -597,7 +597,7 @@ aside#settings ul li a:active {
   box-sizing: border-box;
   color: #323836;
   display: block;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Roboto", sans-serif;
   line-height: 1em;
   padding: 12px;
   width: 100%;
@@ -749,7 +749,7 @@ section#center main {
 footer {
   background-color: #23222b;
   display: table-cell;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 0.7em;
   height: 5vh;
   text-align: center;

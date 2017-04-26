@@ -1,30 +1,31 @@
-$b-green : #468f77;
-$y-green : #b4c66e;
-$gray5   : #edf2f0;
-$gray10  : #dce5e2;
-$gray15  : #cad9d3;
-$gray20  : #beccc7;
-$gray30  : #a6b3ae;
-$gray40  : #939e9a;
-$gray60  : #616c68;
-$gray80  : #323836;
-$purple  : #23222b;
-$l-purple: #3b394d;
-$pink    : #d28484;
+$b-green      : #468f77;
+$y-green      : #b4c66e;
+$gray5        : #edf2f0;
+$gray10       : #dce5e2;
+$gray15       : #cad9d3;
+$gray20       : #beccc7;
+$gray30       : #a6b3ae;
+$gray40       : #939e9a;
+$gray60       : #616c68;
+$gray80       : #323836;
+$d-purple     : #23222b;
+$turquoise    : #00b9c0;
+$d-turquoise  : #1a4e6c;
+$pink         : #d28484;
 
-$background : -5;
-$foreground : 1;
-$windowLevel: 5;
+$background   : -5;
+$foreground   : 1;
+$windowLevel  : 5;
 
-$gutter : 1em;
+$gutter       : 1em;
 
 // Logo font Amsi 600
 
-$title-stack: 'Amsi', sans-serif;
-$header-stack: 'Amsi Condensed', sans-serif;
-$main-stack: 'Open Sans', sans-serif;
+$title-stack  : 'Amsi', sans-serif;
+$header-stack : 'Amsi Condensed', sans-serif;
+$main-stack   : 'Roboto', sans-serif;
 
-// Open Sans weights 300, 400, and 700 sourced in HTML
+// Open Sans weights 100, 300-500, 700, and 900 sourced in HTML
 
 // Amsi weights 200-800
 

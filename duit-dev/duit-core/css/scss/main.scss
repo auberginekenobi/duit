@@ -116,7 +116,7 @@ header {
 				display: block;
 				font-family: $main-stack;
 				&#time {
-					color: $b-green;
+					color: $turquoise;
 					font-size: 2.4em;
 					padding-bottom: 5px;
 				}
@@ -135,10 +135,10 @@ header {
 			font-size: 1.7em;
 		}
 
-		background-color: $l-purple;
+		background-color: $d-turquoise;
 		border-radius: 100%;
 		box-sizing: border-box;
-		color: $gray10;
+		color: white;
 		display: table-cell;
 		height: 1.7em;
 		line-height: 1.7em;
@@ -147,14 +147,14 @@ header {
 		vertical-align: middle;
 		width: 1.7em;
 		&:hover {
-			background-color: $purple;
+			background-color: darken($d-turquoise, 10%);
 			cursor: pointer;
 		}
 	}
 	#quick-add-btn {
 		border-radius: 100%;
 		box-sizing: border-box;
-		color: $gray80;
+		color: $gray10;
 		display: table-cell;
 		font-size: 1.5em;
 		height: 1.5em;
@@ -165,7 +165,7 @@ header {
 		width: 1.5em;
 		&:hover {
 			background-color: $gray5;
-			color: $b-green;
+			color: white;
 			cursor: pointer;
 		}
 	}
@@ -312,7 +312,7 @@ section#center {
 }
 
 footer {
-	background-color: $purple;
+	background-color: $d-purple;
 	display: table-cell;
 	font-family: $main-stack;
 	font-size: 0.7em;
