@@ -654,6 +654,8 @@ section#center {
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.8em;
   height: 85vh;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;

@@ -296,6 +296,8 @@ section#center {
 	background-color: $gray5;
 	display: flex;
 	flex-wrap: wrap;
+	font-family: $main-stack;
+	font-size: 0.8em;
 	height: 85vh;
 	justify-content: space-between;
 	aside:first-child {
