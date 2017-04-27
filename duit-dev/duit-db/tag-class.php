@@ -11,6 +11,8 @@
  * @copyright 2017 DUiT
  * @since     File available since the day the music died  
  */
+
+// @TODO include du
 class tag {
     // protected tag properties
     protected $tag_id;           // int
@@ -18,6 +20,7 @@ class tag {
     protected $tag_priority;     // int, default 4
     protected $tag_note;         // string, optional
     protected $user_id;          // string
+	// @TODO array of dus
     
     /**
      * Main constructor
@@ -27,6 +30,7 @@ class tag {
     
     /**
      * Constructor with all the fields
+	 * @TODO map du objects to a du list
      */
     public function setTagFields($tag_id, $tag_name, $tag_priority, $tag_note, $user_id){
         try {
@@ -317,5 +321,7 @@ class tag {
     public function getUserID() {
         return $this->user_id;
     }
+	
+	// @TODO getDus, associateDu, dissociateDu
 }
 ?>

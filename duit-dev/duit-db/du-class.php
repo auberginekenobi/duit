@@ -11,6 +11,8 @@
  * @copyright 2017 DUiT
  * @since     File available since release 0.0.2  
  */
+
+// @TODO include tag
 class du {
 
 	// Protected properties of du
@@ -27,6 +29,7 @@ class du {
 	protected $tag_priorities;      // [array(int)]      Priorities specifications for each tag recorded for the du
 	protected $calc_priority;       // [int]             Priority calculated for the du; see setting of $calc_priority for more detailed information
 	protected $du_note;             // [string]          The note recorded for the du
+	// @TODO change to array of tags
 	protected $du_tags;             // [array(string)]   Tags recorded for the du
 	protected $du_status;			// [string]					 The status of a given Du. (Open/Active/Completed)
   protected $user_id;             // [string]            User associated with the du
@@ -60,7 +63,7 @@ class du {
      * @param [string] $du_status			  The status of a given Du. (Open/Active/Completed)
      * @param [int] $user_id                  User associated with du
 	 * @param [string] $du_tags               Tags recorded for the du as a string, entries separated by ", "
-
+	 * @TODO map tag objects to a tag list
 	 */
 	public function setDuFields($du_id,
 								$du_timestamp,
@@ -1133,6 +1136,7 @@ class du {
         return $this->user_id;
     }
 
+	// @TODO getTags, associateTag, dissociateTag
 }
 
 ?>
