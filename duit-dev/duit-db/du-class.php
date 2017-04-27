@@ -13,6 +13,7 @@
  */
 
 // @TODO include tag
+require_once("tag-class.php");
 class du {
 
 	// Protected properties of du
@@ -30,7 +31,7 @@ class du {
 	protected $calc_priority;       // [int]             Priority calculated for the du; see setting of $calc_priority for more detailed information
 	protected $du_note;             // [string]          The note recorded for the du
 	// @TODO change to array of tags
-	protected $du_tags;             // [array(string)]   Tags recorded for the du
+	protected $du_tags;             // [array(tag)]   	 Tags recorded for the du
 	protected $du_status;			// [string]					 The status of a given Du. (Open/Active/Completed)
   protected $user_id;             // [string]            User associated with the du
 

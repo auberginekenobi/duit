@@ -280,6 +280,8 @@ function getAllTags() {
 	return $all;
 }
 
+// @TODO function associateAll puts all tags in du objects and all dus in tag objects.
+
 /**
  * Function displayAsTable
  *
@@ -961,12 +963,12 @@ function deleteDu($id, $duArray = NULL) {
 }
 
 // Get du class object definitions
-require("du-class.php");
-require("tag-class.php");
-require("db-mapper-user.php");
+require_once("du-class.php");
+require_once("tag-class.php");
+require_once("db-mapper-user.php");
 
 //Get user class object definitions
-//require("user-class.php");
+require_once("user-class.php");
 
 
 // Main executions
@@ -977,7 +979,7 @@ $allusers = getAllUsers();
 
 // Testing Example
 
-//displayAsTable($allusers);
+displayAsTable($all);
 //$parameters = array('user_name' => 'Winky'.rand(), 'user_id' => 'herbivore');
 //$allusers = addUser($parameters);
 //displayAsTable($allusers);

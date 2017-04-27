@@ -13,6 +13,7 @@
  */
 
 // @TODO include du
+require_once("du-class.php");
 class tag {
     // protected tag properties
     protected $tag_id;           // int
@@ -21,6 +22,7 @@ class tag {
     protected $tag_note;         // string, optional
     protected $user_id;          // string
 	// @TODO array of dus
+	protected $tag_dus;		 	 // array of du objects
     
     /**
      * Main constructor
