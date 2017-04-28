@@ -13,6 +13,17 @@
 table, th, td{
 	border: 1px solid black;
 }
+
+.hide {
+	display: none;
+}
+
+.login_form{
+	/*display: absolute;*/
+	width: 500px;
+    /* height: 100px; */
+    margin: 0 auto;
+}
 </style>
 
 
@@ -25,13 +36,19 @@ table, th, td{
 
 	<div class="container">
 
-	<input id="txtEmail" type = "email" placeholder="Email">
+	<div class="login_form hide">
+		Email: <input id="txtEmail" type = "email" placeholder="Email"><br>
 
-	<input id="txtPassword" type="password" placeholder="Password">
+		Password: <input id="txtPassword" type="password" placeholder="Password"><br>
 
-	<button id="btnLogin" class="btn btn-action">Log in</button>
+		Display Name:<input id="user_name" type="text" placeholder="Du Name" value="test"><br>
 
-	<button id="btnSignUp" class="btn btn-secondary">Sign Up</button>
+		<button id="btnLogin" class="btn btn-action">Login</button>
+
+		<button id="btnSignUp" class="btn btn-secondary">Sign Up</button>
+	</div>
+
+	<button id="btnLoginDisplay" class="btn btn-action">Login</button>
 
 	<button id="btnLogout" class="btn btn-action hide">Log out</button>
 
@@ -73,10 +90,11 @@ table, th, td{
 
 	</div>
 
-	<div>
+<!-- Code meant for testing add user internally, this function is never called outside of this -->
+<!-- 	<div>
 		Display Name:<input id="user_name" type="text" placeholder="Du Name" value="test">
 		<button id="btnAddUser" class = "btn btn-action">Add User</button>
-	</div>
+	</div> -->
 
 	<div>
 		Tag Name:<input id="tag_name" type="text" placeholder="Tag Name" value="test">

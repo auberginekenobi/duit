@@ -58,7 +58,7 @@
 		global $user_name;
 
 		if (validateToken($idToken,$user_id)){
-			$user_id = rand()+" "; // NOTE: TEST CODE, RANDOMLY GENERATES A USER ID FOR INSERT
+			//$user_id = rand()+" "; // NOTE: TEST CODE, RANDOMLY GENERATES A USER ID FOR INSERT
 
 			$parameters = array();
 

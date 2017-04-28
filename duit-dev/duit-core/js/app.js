@@ -41,6 +41,7 @@ const btnLogin = document.getElementById('btnLogin');
 const btnSignUp = document.getElementById('btnSignUp');
 const btnLogout = document.getElementById('btnLogout');
 const deleteDuList = document.getElementsByClassName('deleteDu');
+const btnLoginDisplay = document.getElementById('btnLoginDisplay');
 
 //$('.deleteDu')
 
@@ -103,6 +104,17 @@ if (btnAddDu) {
 	btnAddDu.addEventListener('click',e=>{
 		addDu();
 	});
+}
+
+if (btnLoginDisplay){
+	btnLoginDisplay.addEventListener('click',e=>{
+		displayLogin();
+	});
+}
+
+function displayLogin(){
+	console.log("yo!");
+	$(".login_form").removeClass('hide');
 }
 
 function addDu(){
@@ -221,7 +233,7 @@ function signUp(){
 // Add signout
 if (btnLogout) {
 	btnLogout.addEventListener('click', e=>{
-		sighOut();
+		signOut();
 	});
 }
 
