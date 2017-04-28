@@ -113,8 +113,9 @@ if (btnLoginDisplay){
 }
 
 function displayLogin(){
-	console.log("yo!");
 	$(".login_form").removeClass('hide');
+	$(".overlay").removeClass('hide');
+	console.log("??");
 }
 
 function addDu(){
