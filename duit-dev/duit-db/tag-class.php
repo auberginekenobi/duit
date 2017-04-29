@@ -99,14 +99,19 @@ class tag {
 			FROM   tags
 			WHERE  tag_id = " . $this->tag_id
 		;
-		if (query($checkQuery, "addToDB()")->fetch_array()) { // If a tag already exists
+    $checkQuery2 = "
+      SELECT *
+      FROM tags
+      WHERE tag_name = " ."'" . $this->tag_name . "'"
+    ;
+		if (query($checkQuery, "addToDB()")->fetch_array() || query($checkQuery2, "addToDB()")->fetch_array()) { // If a tag already exists
 			// Handle failure
 			$output  = date("Y-m-d H:i:s T", time());
 			$output .= " Could not add new tag to database: item with tag_id '";
 			$output .= $this->tag_id . "' already exists.\n";
-			// Write to log file and kill process
+			// Write to log file and don't kill process
 			fwrite($log, $output, 2048);
-		    exit($output);
+		   // exit($output);
 		} else {// If no such tag exists
 			// Get current max tag_id from tags table 
 			$resetValQuery  = "
