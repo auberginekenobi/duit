@@ -959,7 +959,23 @@ function deleteDu($id, $duArray = NULL) {
 
 	// Done
 	return $duArray;
+}
 
+// @TODO Wrapper functions
+
+function getDuByID($id){
+	$all = $GLOBALS['all'];
+	return $all[$id];
+}
+
+function getTagByID($id){
+	$alltags = $GLOBALS['alltags'];
+	return $alltags[$id];
+}
+
+function getUserByID($id){
+	$allusers = $GLOBALS['allusers'];
+	return $allusers[$id];
 }
 
 // Get du class object definitions
@@ -980,6 +996,7 @@ $allusers = getAllUsers();
 // Testing Example
 
 displayAsTable($all);
+var_dump(getDuByID(1));
 //$parameters = array('user_name' => 'Winky'.rand(), 'user_id' => 'herbivore');
 //$allusers = addUser($parameters);
 //displayAsTable($allusers);
