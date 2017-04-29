@@ -12,7 +12,6 @@
  * @since     File available since the day the music died  
  */
 
-// @TODO include du
 require_once("du-class.php");
 class tag {
     // protected tag properties
@@ -21,8 +20,8 @@ class tag {
     protected $tag_priority;     // int, default 4
     protected $tag_note;         // string, optional
     protected $user_id;          // string
-	// @TODO array of dus
-	protected $tag_dus;		 	 // array of du objects
+	public    $tag_dus;		 	 // array of du objects
+								 // other classes need to play with this, so it's public.
     
     /**
      * Main constructor
@@ -32,7 +31,6 @@ class tag {
     
     /**
      * Constructor with all the fields
-	 * @TODO map du objects to a du list
      */
     public function setTagFields($tag_id, $tag_name, $tag_priority, $tag_note, $user_id){
         try {
@@ -104,7 +102,7 @@ class tag {
 		if (query($checkQuery, "addToDB()")->fetch_array()) { // If a tag already exists
 			// Handle failure
 			$output  = date("Y-m-d H:i:s T", time());
-			$output .= " Could not add new du to database: item with tag_id '";
+			$output .= " Could not add new tag to database: item with tag_id '";
 			$output .= $this->tag_id . "' already exists.\n";
 			// Write to log file and kill process
 			fwrite($log, $output, 2048);
@@ -192,6 +190,11 @@ class tag {
 			WHERE  tag_id = " . $this->tag_id
 		;
 		if (query($checkQuery, "deleteFromDB()")->fetch_array()) { // If there is a tag
+			// dissocuate all dus from the tag to be deleted
+			foreach ($tag_dus as $du){
+				dissociateDu($du);
+			}
+			
 			$deleteQuery = "
 				DELETE FROM tags
 				WHERE tag_id   = '" . $this->tag_id . "'"
@@ -324,6 +327,17 @@ class tag {
         return $this->user_id;
     }
 	
-	// @TODO getDus, associateDu, dissociateDu
+	
+	public function getDus() {
+		return tag_dus;
+	}
+	
+	public function associateDu($du) {
+		$du->associateTag($this);
+	}
+	
+	public function dissociateDu($du) {
+		$du->dissociateTag($this);
+	}
 }
 ?>

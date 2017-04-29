@@ -12,7 +12,6 @@
  * @since     File available since release 0.0.2  
  */
 
-// @TODO include tag
 require_once("tag-class.php");
 class du {
 
@@ -30,7 +29,6 @@ class du {
 	protected $tag_priorities;      // [array(int)]      Priorities specifications for each tag recorded for the du
 	protected $calc_priority;       // [int]             Priority calculated for the du; see setting of $calc_priority for more detailed information
 	protected $du_note;             // [string]          The note recorded for the du
-	// @TODO change to array of tags
 	protected $du_tags;             // [array(tag)]   	 Tags recorded for the du
 	protected $du_status;			// [string]					 The status of a given Du. (Open/Active/Completed)
   protected $user_id;             // [string]            User associated with the du
@@ -63,8 +61,7 @@ class du {
 	 * @param [string] $du_note               The note recorded for the du
      * @param [string] $du_status			  The status of a given Du. (Open/Active/Completed)
      * @param [int] $user_id                  User associated with du
-	 * @param [string] $du_tags               Tags recorded for the du as a string, entries separated by ", "
-	 * @TODO map tag objects to a tag list
+	 * @param [tag] $du_tags                  Tags recorded for the du, each as an object in an array
 	 */
 	public function setDuFields($du_id,
 								$du_timestamp,
@@ -79,8 +76,7 @@ class du {
 								$tag_priorities,
 								$du_note,
                                 $du_status,
-                                $user_id,
-								$du_tags
+                                $user_id
 								) {
 
 		try {
@@ -104,8 +100,8 @@ class du {
 			$this->du_note             = $du_note;
             $this->du_status 		   = $du_status;
             $this->user_id             = $user_id;
-			$this->du_tags             = ($du_tags)                    ? explode(", ", $du_tags) :
-			                                                             NULL; // Explode, if tags exist
+//			$this->du_tags             = ($du_tags)                    ? explode(", ", $du_tags) :
+//			                                                             NULL; // Explode, if tags exist
 
 
 			// Calculation of overall du priority follows the flow below:
@@ -155,7 +151,7 @@ class du {
 		$addHeaders .= "<th>du_note</th>";
         $addHeaders .= "<th>du_status</th>";
         $addHeaders .= "<th>user_id</th>";
-		$addHeaders .= "<th>du_tags</th>";
+//		$addHeaders .= "<th>du_tags</th>";
 		$addHeaders .= "</tr>";
 
 		// If request for du headers
@@ -184,8 +180,8 @@ class du {
 		$output .= "<td>" . $this->du_note . "</td>";
     $output .= "<td>" . $this->du_status . "</td>";
     $output .= "<td>" . $this->user_id . "</td>";
-		$output .= "<td>" . (($this->du_tags)        ? implode(", ", $this->du_tags) :
-			                                           "") . "</td>";
+//		$output .= "<td>" . (($this->du_tags)        ? implode(", ", $this->du_tags) :
+//			                                           "") . "</td>";
 		$output .= "</tr>";
 
 		// Done
@@ -390,6 +386,11 @@ class du {
 			WHERE  du_id = " . $this->du_id
 		;
 		if (query($checkQuery, "deleteFromDB()")->fetch_array()) { // If there is a du
+			// dissociate all tags from the du to be deleted
+			foreach ($du_tags as $tag) {
+				dissociateTag($tag);
+			}
+			
 			$deleteQuery = "
 				DELETE FROM dus
 				WHERE du_id   = '" . $this->du_id . "'"
@@ -1136,8 +1137,154 @@ class du {
     public function getUserID() {
         return $this->user_id;
     }
-
-	// @TODO getTags, associateTag, dissociateTag
+	
+	/** function getTags
+	*
+	* return the tags
+	* 
+	* @return [array(tag)]
+	*/
+	public function getTags() {
+		return $du_tags;
+	}
+	
+	/**
+	* function associateTag
+	*
+	* associates a tag with this du
+	*
+	* @param [tag] the tag to associate
+	* @global log
+	* @return boolean success
+	*/
+	public function associateTag($tag) {
+		// check that the tag exists
+		$tag_id = $tag->getID();
+		$queryStatement = "
+        SELECT tag_id
+        FROM tags
+        WHERE tag_id = '" . $tag_id . "'";
+        $result = query($queryStatement, "associateTag");
+        $currRow = $result->fetch_assoc();
+        if ($currRow == NULL){
+            $output  = date("Y-m-d H:i:s T", time());
+            $output .= " Could not associate du " . $du_name . 
+				"with tag id " . $tag_id . 
+				": no tag with that ID found.";
+            // Write to log file and kill process
+            fwrite($log, $output, 2048);
+            exit($output);
+        }
+		
+		// check that the pairing doesn't already exist
+		$queryStatement = "
+        SELECT *
+        FROM du_tag_pairs
+        WHERE tag_id = '" . $tag_id . "'" . 
+			"AND du_id = '" . $du_id . "'" . 
+			";";
+        $result = query($queryStatement, "associateTag");
+        $currRow = $result->fetch_assoc();
+        if ($currRow != NULL){
+            $output  = date("Y-m-d H:i:s T", time());
+            $output .= " Could not associate du " . $du_name . 
+				"with tag id " . $tag_id . 
+				": du-tag pair already found.";
+            // Write to log file and kill process
+            fwrite($log, $output, 2048);
+            exit($output);
+        }
+		
+		// update database
+		$queryStatement = "
+		INSERT INTO du_tag_pairs (
+		du_id, tag_id)
+		VALUES (" 
+			. $du_id . ","
+			. $tag_id . ");";
+		if (query($queryStatement, "associateTag") === true) {
+			// Record successful record update
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " Updated record for du_id ";
+			$output .= $this->du_id . " successfully: ";
+			$output .= "associated with tag " . $tag_id;
+			fwrite($log, $output, 256);
+			// and add to array
+			$du_tags[$tag_id]=$tag;
+			$tag->tag_dus[$du_id]=$this;
+			return true; 
+		} else {
+			return false;
+		}
+	}
+	
+	/** function dissociateTag
+	*
+	* dissociates a tag with this du
+	*
+	* @param [tag] the tag to dissociate
+	* @global log
+	* @return boolean success
+	*/
+	function dissociateTag ($tag) {
+		// check that the tag exists
+		$tag_id = $tag->getID();
+		$queryStatement = "
+        SELECT tag_id
+        FROM tags
+        WHERE tag_id = '" . $tag_id . "'";
+        $result = query($queryStatement, "associateTag");
+        $currRow = $result->fetch_assoc();
+        if ($currRow == NULL){
+            $output  = date("Y-m-d H:i:s T", time());
+            $output .= " Could not dissociate du " . $du_name . 
+				"with tag id " . $tag_id . 
+				": no tag with that ID found.";
+            // Write to log file and kill process
+            fwrite($log, $output, 2048);
+            exit($output);
+        }
+		
+		// check that the pairing exists
+		$queryStatement = "
+        SELECT *
+        FROM du_tag_pairs
+        WHERE tag_id = '" . $tag_id . "'" . 
+			"AND du_id = '" . $du_id . "'" . 
+			";";
+        $result = query($queryStatement, "associateTag");
+        $currRow = $result->fetch_assoc();
+        if ($currRow == NULL){
+            $output  = date("Y-m-d H:i:s T", time());
+            $output .= " Could not dissociate du " . $du_name . 
+				"with tag id " . $tag_id . 
+				": du-tag pair not found.";
+            // Write to log file and kill process
+            fwrite($log, $output, 2048);
+            exit($output);
+        }
+		// update database
+		$queryStatement = "
+		DELETE FROM du_tag_pairs 
+		WHERE " 
+			. "du_id = '" . $du_id . "'"
+			. "AND tag_id = '" . $tag_id . "';";
+		if (query($queryStatement, "dissociateTag") === true) {
+			// Record successful record update
+			$output  = date("Y-m-d H:i:s T", time());
+			$output .= " Updated record for du_id ";
+			$output .= $this->du_id . " successfully: ";
+			$output .= "dissociated from tag " . $tag_id;
+			fwrite($log, $output, 256);
+			// and remove from arrays
+			unset($du_tags[$tag_id]);
+			unset($tag->tag_dus[$du_id]);
+			return true; 
+		} else {
+			return false;
+		}
+		
+	}
 }
 
 ?>
