@@ -42,6 +42,12 @@ const btnSignUp = document.getElementById('btnSignUp');
 const btnLogout = document.getElementById('btnLogout');
 const deleteDuList = document.getElementsByClassName('deleteDu');
 const btnLoginDisplay = document.getElementById('btnLoginDisplay');
+const btnLoginHide = document.getElementById('btnLoginHide');
+const btnCreateActDisplay = document.getElementById('btnCreateActDisplay');
+const btnLoginRedisplay = document.getElementById('btnLoginRedisplay');
+
+const overlay = document.getElementById('overlay');
+
 
 //$('.deleteDu')
 
@@ -112,10 +118,46 @@ if (btnLoginDisplay){
 	});
 }
 
+if (btnCreateActDisplay){
+	btnCreateActDisplay.addEventListener('click',e=>{
+		displayCreate();
+	});
+}
+
+if (btnLoginRedisplay){
+	btnLoginRedisplay.addEventListener('click',e=>{
+		hideCreate();
+	});
+}
+
+if (overlay){
+	overlay.addEventListener('click',e=>{hideLogin();});
+}
+
 function displayLogin(){
 	$(".login_form").removeClass('hide');
-	$(".overlay").removeClass('hide');
-	console.log("??");
+	$("#overlay").removeClass('hide');
+}
+
+function displayCreate(){
+	$('.login_form_contents').addClass('hide');
+	$('.signup_form_contents').removeClass('hide');
+}
+
+function hideCreate(){
+	$('.login_form_contents').removeClass('hide');
+	$('.signup_form_contents').addClass('hide');	
+}
+
+if (btnLoginHide){
+	btnLoginHide.addEventListener('click',e=>{
+		hideLogin();
+	});
+}
+
+function hideLogin(){
+	$(".login_form").addClass('hide');
+	$("#overlay").addClass('hide');	
 }
 
 function addDu(){
@@ -171,11 +213,11 @@ function addDu(){
 }
 
 //add new user
-if(btnAddUser){
-	btnAddUser.addEventListener('click',e=>{
-		addUser();
-	})
-}
+// if(btnAddUser){
+// 	btnAddUser.addEventListener('click',e=>{
+// 		addUser();
+// 	})
+// }
 
 function addUser(){
 	let user_name = $('#user_name').val();

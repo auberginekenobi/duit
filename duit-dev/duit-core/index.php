@@ -18,7 +18,7 @@ table, th, td{
 	display: none;
 }
 
-.overlay {
+#overlay {
     position   : absolute;
     top        : 0;
     left       : 0;
@@ -30,44 +30,68 @@ table, th, td{
     z-index    : 5;
 }
 
-/*.login_form{
-	width: 360px;
-	padding: 8% 0 0;
-	margin: auto;
-	position: relative;
-	z-index: 10;
-	background: #FFFFFF;
-	max-width: 360px;
-	margin: 0 auto 100px;
-	padding: 45px;
-	text-align: center;
-	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-
-}*/
+body {
+  font-family: "Roboto", sans-serif;	
+}
 
 .login_form {
     width: 360px;
     padding: 8% 0 0;
-    /* margin: auto; */
-    /* margin-top: 50%; */
     position: absolute; 
     z-index: 10;
     background: #FFFFFF;
     max-width: 360px;
     margin: 0 auto;
-    /*margin: 50px;*/
     padding: 45px;
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
     left: 0;
     right: 0;
-    top: 40%;
+    top: 25%;
 }
 
 .container{
 	height: 100%;
 }
 
+.txtInput {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.login_form .btn {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #008080;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.login_form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+
+.login_form .message a {
+  color: #008080;
+  text-decoration: none;
+}
 
 </style>
 
@@ -78,21 +102,27 @@ table, th, td{
 
 
 
-	<div class="overlay hide"></div>
+	<div id="overlay" class="hide"></div>
 
 
 	<div class="container">
 
 		<div class="login_form hide">
-			<input id="txtEmail" type = "email" placeholder="Email"><br>
+			<input id="txtEmail" class="txtInput" type = "email" placeholder="Email"><br>
 
-			<input id="txtPassword" type="password" placeholder="Password"><br>
+			<input id="txtPassword" class="txtInput" type="password" placeholder="Password"><br>
 
-			<input id="user_name" type="text" placeholder="Du Name" value="test"><br>
+			<input id="user_name" class="txtInput signup_form_contents hide" type="text" placeholder="Display Name"><br>
 
-			<button id="btnLogin" class="btn btn-action">Login</button>
+			<button id="btnLogin" class="btn btn-action login_form_contents">Login</button>
 
-			<button id="btnSignUp" class="btn btn-secondary">Sign Up</button>
+
+			<button id="btnSignUp" class="btn btn-secondary signup_form_contents hide">Sign Up</button>
+
+<!-- 			<button id="btnLoginHide" class="btn btn-secondary">Close</button>
+ -->
+			<div class="message login_form_contents">Not registered? <a href="#" id="btnCreateActDisplay">Create an account</a></div>
+			<div class="message signup_form_contents hide">Already registered? <a href="#" id="btnLoginRedisplay">Sign in</a></div>
 		</div>
 
 		<h1>DUiT</h1>
