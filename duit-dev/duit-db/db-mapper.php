@@ -1043,14 +1043,16 @@ associateAll();
 
 // Testing Example
 
-displayAsTable($all);
-$du = getDuByID(1);
-$tag=getTagByID(1);
-var_dump(sizeof($du->getTags()));
-var_dump(sizeof($tag->getDus));
-$du->dissociateTag($tag); 
-var_dump($du);
-var_dump($tag);
+// displayAsTable($all);
+// $du = getDuByID(1);
+// $tag = getTagByID(1);
+// var_dump(sizeof($du->getTags()));
+// var_dump(sizeof($tag->getDus()));
+// $du->dissociateTag($tag); 
+// var_dump($du);
+// var_dump($tag);
+
+
 //$parameters = array('user_name' => 'Winky'.rand(), 'user_id' => 'herbivore');
 //$allusers = addUser($parameters);
 //displayAsTable($allusers);
