@@ -961,7 +961,7 @@ function deleteDu($id, $duArray = NULL) {
 	return $duArray;
 }
 
-// @TODO Wrapper functions
+// Wrapper functions
 
 function getDuByID($id){
 	$all = $GLOBALS['all'];
@@ -996,7 +996,6 @@ $allusers = getAllUsers();
 // Testing Example
 
 displayAsTable($all);
-var_dump(getDuByID(1));
 //$parameters = array('user_name' => 'Winky'.rand(), 'user_id' => 'herbivore');
 //$allusers = addUser($parameters);
 //displayAsTable($allusers);
