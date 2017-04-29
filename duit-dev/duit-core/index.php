@@ -161,7 +161,7 @@ body {
 			<option value="4">4</option>
 		</select>
 		Tags:
-		<input id="txtTags" type="text" placeholder="Tags">
+		<input id="du_tags" type="text" placeholder="Tags">
 
 	</div>
 

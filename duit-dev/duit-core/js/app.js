@@ -172,6 +172,7 @@ function addDu(){
 	let du_note = $('#du_note').val();
 	let du_status = $('#du_status').val();
 	let du_priority = $('#du_priority').val();
+	let du_tags = $('#du_tags').val();
 
 	if (du_time_start != "" && du_time_start_time != "") {
 		du_time_start+=(" " + du_time_start_time + ":00");
@@ -191,7 +192,8 @@ function addDu(){
 		"du_time_start" : du_time_start,
 		"du_time_end" : du_time_end,
 		"du_note" : du_note,
-		"du_status" : du_status
+		"du_status" : du_status,
+		"du_tags" : du_tags
 	};
 
 	if (du_time_end != "" && du_time_end != "") {
@@ -313,7 +315,7 @@ function callServer(function_name,params = {},callback){
 		console.log(function_name);
 
 		let paramKeys = ["du_id","du_name","du_has_date","du_has_deadline","du_has_duration","du_time_start",
-			"du_time_end","du_priority","du_enforce_priority","du_note","du_status","user_name","tag_name","tag_note"];
+			"du_time_end","du_priority","du_enforce_priority","du_note","du_status","user_name","du_tags","tag_name","tag_note"];
 
 		let payload = "idToken="+idToken+
 			"&user_id="+firebase.auth().currentUser.uid+
