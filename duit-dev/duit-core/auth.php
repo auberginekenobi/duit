@@ -1,10 +1,12 @@
 <?php
-	require __DIR__ . '/vendor/autoload.php';
+	require_once __DIR__ . '/vendor/autoload.php';
 	require_once '../duit-db/db-mapper.php';
 	use \Firebase\JWT\JWT;
 
+	//leeway of 60 seconds to make sure JWT functions properly from time sync
 	JWT::$leeway = 60;
 
+	// Functions will only be called if server receives a GET request
 	if(!empty($_GET)) {
 
 		//Set timezone for data storage
@@ -79,6 +81,7 @@
 		}
 	}
 
+	//TODO: Delete users
 	function deleteUser_wrap(){
 
 	}
@@ -109,12 +112,11 @@
 		
 	}
 
+	//TODO: Delete Tag
 	function deleteTag_wrap(){
 
 	}
 
-
-	//TODO: Include Tag support
 	function addDu_wrap(){
 		global $idToken, $user_id, $all, $allusers, $alltags;
 		global $du_name, $du_has_date, $du_has_deadline, $du_has_duration,
@@ -150,32 +152,26 @@
 			$all = addDu($parameters);
 			$result = array('message' => "success","added" => $parameters);
 
-			// print_r(end($all));
-			// echo("<br>");
-			// print_r($allusers);
-			// 			echo("<br>");
+			if($tag_name != ""){
+				// add the du (above)
+				$du = end($all);
+				// add the tag
+				addTag_wrap();
 
-			// print_r($alltags);
+				$tag = end($alltags); //just a test, not really the case if tag already exists
 
-			// add the du (above)
-			$du = end($all);
-			// add the tag
-			addTag_wrap();
-
-			$tag = end($alltags); //just a test, not really the case if tag already exists
-
-			for ($x = 1; $x < count($alltags); $x++){
-				$tempTag = $alltags[$x];
-				if ($tempTag->getUserID() == $user_id && $tempTag->getName() == $tag_name) {
-					$tag = $alltags[$x];
+				for ($x = 1; $x < count($alltags); $x++){
+					$tempTag = $alltags[$x];
+					if ($tempTag->getUserID() == $user_id && $tempTag->getName() == $tag_name) {
+						$tag = $alltags[$x];
+					}
 				}
+
+				//du associate du with tag
+				$du->associateTag($tag);
+				//tag associate tag with du
+				$tag->associateDu($du);
 			}
-
-			//du associate du with tag
-			$du->associateTag($tag);
-			//tag associate tag with du
-			$tag->associateDu($du);
-
 			echo json_encode($result);
 		} else {
 			$result = array('message' => "fail: user_id or token not validated");
