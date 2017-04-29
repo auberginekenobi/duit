@@ -120,6 +120,9 @@
 		global $du_name, $du_has_date, $du_has_deadline, $du_has_duration,
 					 $du_time_start, $du_time_end, $du_priority, $du_enforce_priority, $tag_priorities,
 					 $calc_priority, $du_note, $du_tags, $du_status, $user_id;
+		global $tag_name, $tag_note;
+
+
 
 		echo ("adding du");
 
@@ -140,6 +143,10 @@
 			$du_status != "" ? $parameters["du_status"] = $du_status : "";
 			$user_id != "" ? $parameters["user_id"] = $user_id : "";
 
+			$tag_name != "" ? $parameters["tag_name"] = $tag_name : "";
+			$tag_note != "" ? $parameters["tag_note"] = $tag_note : "";
+			$user_id != "" ? $parameters["user_id"] = $user_id : "";
+
 			$all = addDu($parameters);
 			$result = array('message' => "success","added" => $parameters);
 
@@ -155,7 +162,15 @@
 			// add the tag
 			addTag_wrap();
 
-			$tag = end($alltags); //just a test, not really the case
+			$tag = end($alltags); //just a test, not really the case if tag already exists
+
+			for ($x = 1; $x < count($alltags); $x++){
+				$tempTag = $alltags[$x];
+				if ($tempTag->getUserID() == $user_id && $tempTag->getName() == $tag_name) {
+					$tag = $alltags[$x];
+				}
+			}
+
 			//du associate du with tag
 			$du->associateTag($tag);
 			//tag associate tag with du
