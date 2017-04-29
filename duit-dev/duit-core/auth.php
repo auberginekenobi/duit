@@ -87,6 +87,8 @@
 		global $idToken, $user_id, $all, $allusers, $alltags;
 		global $tag_name, $tag_note;
 
+		echo ("Adding tag..");
+
 		if (validateToken($idToken,$user_id)){
 			$parameters = array();
 
@@ -94,10 +96,11 @@
 			$tag_note != "" ? $parameters["tag_note"] = $tag_note : "";
 			$user_id != "" ? $parameters["user_id"] = $user_id : "";
 
-			print_r($parameters);
-
 			$alltags = addTag($parameters);
 			$result = array('message' => "success","added" => $parameters);
+
+			//associateAll();
+
 			echo json_encode($result);
 		} else {
 			$result = array('message'=>"fail: user_id or token not validated");
@@ -113,10 +116,12 @@
 
 	//TODO: Include Tag support
 	function addDu_wrap(){
-		global $idToken, $user_id, $all;
+		global $idToken, $user_id, $all, $allusers, $alltags;
 		global $du_name, $du_has_date, $du_has_deadline, $du_has_duration,
 					 $du_time_start, $du_time_end, $du_priority, $du_enforce_priority, $tag_priorities,
 					 $calc_priority, $du_note, $du_tags, $du_status, $user_id;
+
+		echo ("adding du");
 
 		if (validateToken($idToken,$user_id)) {
 			$parameters = array();
@@ -132,12 +137,30 @@
 			$tag_priorities != "" ? $parameters["tag_priorities"] = $tag_priorities : "";
 			$calc_priority != "" ? $parameters["calc_priority"] = $calc_priority : "";
 			$du_note != "" ? $parameters["du_note"] = $du_note : "";
-			$du_tags != "" ? $parameters["du_tags"] = $du_tags : "";
 			$du_status != "" ? $parameters["du_status"] = $du_status : "";
 			$user_id != "" ? $parameters["user_id"] = $user_id : "";
 
 			$all = addDu($parameters);
 			$result = array('message' => "success","added" => $parameters);
+
+			// print_r(end($all));
+			// echo("<br>");
+			// print_r($allusers);
+			// 			echo("<br>");
+
+			// print_r($alltags);
+
+			// add the du (above)
+			$du = end($all);
+			// add the tag
+			addTag_wrap();
+
+			$tag = end($alltags); //just a test, not really the case
+			//du associate du with tag
+			$du->associateTag($tag);
+			//tag associate tag with du
+			$tag->associateDu($du);
+
 			echo json_encode($result);
 		} else {
 			$result = array('message' => "fail: user_id or token not validated");
