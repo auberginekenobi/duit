@@ -329,7 +329,7 @@ class tag {
 	
 	
 	public function getDus() {
-		return tag_dus;
+		return $this->tag_dus;
 	}
 	
 	public function associateDu($du) {

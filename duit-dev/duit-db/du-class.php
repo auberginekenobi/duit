@@ -1145,7 +1145,7 @@ class du {
 	* @return [array(tag)]
 	*/
 	public function getTags() {
-		return $du_tags;
+		return $this->du_tags;
 	}
 	
 	/**
@@ -1158,6 +1158,7 @@ class du {
 	* @return boolean success
 	*/
 	public function associateTag($tag) {
+		global $log;
 		// check that the tag exists
 		$tag_id = $tag->getID();
 		$queryStatement = "
@@ -1168,7 +1169,7 @@ class du {
         $currRow = $result->fetch_assoc();
         if ($currRow == NULL){
             $output  = date("Y-m-d H:i:s T", time());
-            $output .= " Could not associate du " . $du_name . 
+            $output .= " Could not associate du " . $this->du_name . 
 				"with tag id " . $tag_id . 
 				": no tag with that ID found.";
             // Write to log file and kill process
@@ -1181,41 +1182,44 @@ class du {
         SELECT *
         FROM du_tag_pairs
         WHERE tag_id = '" . $tag_id . "'" . 
-			"AND du_id = '" . $du_id . "'" . 
+			"AND du_id = '" . $this->du_id . "'" . 
 			";";
         $result = query($queryStatement, "associateTag");
         $currRow = $result->fetch_assoc();
         if ($currRow != NULL){
             $output  = date("Y-m-d H:i:s T", time());
-            $output .= " Could not associate du " . $du_name . 
+            $output .= " Could not associate du " . $this->du_name . 
 				"with tag id " . $tag_id . 
 				": du-tag pair already found.";
-            // Write to log file and kill process
+            // Write to log file BUT DO NOT kill process
             fwrite($log, $output, 2048);
-            exit($output);
-        }
+			$returnval = false;
+            //exit($output);
+        } else {
 		
-		// update database
-		$queryStatement = "
-		INSERT INTO du_tag_pairs (
-		du_id, tag_id)
-		VALUES (" 
-			. $du_id . ","
-			. $tag_id . ");";
-		if (query($queryStatement, "associateTag") === true) {
-			// Record successful record update
-			$output  = date("Y-m-d H:i:s T", time());
-			$output .= " Updated record for du_id ";
-			$output .= $this->du_id . " successfully: ";
-			$output .= "associated with tag " . $tag_id;
-			fwrite($log, $output, 256);
-			// and add to array
-			$du_tags[$tag_id]=$tag;
-			$tag->tag_dus[$du_id]=$this;
-			return true; 
-		} else {
-			return false;
+			// update database
+			$queryStatement = "
+			INSERT INTO du_tag_pairs (
+			du_id, tag_id)
+			VALUES (" 
+				. $this->du_id . ","
+				. $tag_id . ");";
+			if (query($queryStatement, "associateTag") === true) {
+				// Record successful record update
+				$output  = date("Y-m-d H:i:s T", time());
+				$output .= " Updated record for du_id ";
+				$output .= $this->du_id . " successfully: ";
+				$output .= "associated with tag " . $tag_id;
+				fwrite($log, $output, 256);
+				$returnval = true;
+			} else {
+				$returnval = false;
+			}
 		}
+		// and add to array
+		$this->du_tags[$tag_id]=$tag;
+		$tag->tag_dus[$this->du_id]=$this;
+		return $returnval;
 	}
 	
 	/** function dissociateTag
@@ -1227,6 +1231,7 @@ class du {
 	* @return boolean success
 	*/
 	function dissociateTag ($tag) {
+		global $log;
 		// check that the tag exists
 		$tag_id = $tag->getID();
 		$queryStatement = "
@@ -1237,7 +1242,7 @@ class du {
         $currRow = $result->fetch_assoc();
         if ($currRow == NULL){
             $output  = date("Y-m-d H:i:s T", time());
-            $output .= " Could not dissociate du " . $du_name . 
+            $output .= " Could not dissociate du " . $this->du_name . 
 				"with tag id " . $tag_id . 
 				": no tag with that ID found.";
             // Write to log file and kill process
@@ -1250,13 +1255,13 @@ class du {
         SELECT *
         FROM du_tag_pairs
         WHERE tag_id = '" . $tag_id . "'" . 
-			"AND du_id = '" . $du_id . "'" . 
+			"AND du_id = '" . $this->du_id . "'" . 
 			";";
         $result = query($queryStatement, "associateTag");
         $currRow = $result->fetch_assoc();
         if ($currRow == NULL){
             $output  = date("Y-m-d H:i:s T", time());
-            $output .= " Could not dissociate du " . $du_name . 
+            $output .= " Could not dissociate du " . $this->du_name . 
 				"with tag id " . $tag_id . 
 				": du-tag pair not found.";
             // Write to log file and kill process
@@ -1267,7 +1272,7 @@ class du {
 		$queryStatement = "
 		DELETE FROM du_tag_pairs 
 		WHERE " 
-			. "du_id = '" . $du_id . "'"
+			. "du_id = '" . $this->du_id . "'"
 			. "AND tag_id = '" . $tag_id . "';";
 		if (query($queryStatement, "dissociateTag") === true) {
 			// Record successful record update
@@ -1277,8 +1282,8 @@ class du {
 			$output .= "dissociated from tag " . $tag_id;
 			fwrite($log, $output, 256);
 			// and remove from arrays
-			unset($du_tags[$tag_id]);
-			unset($tag->tag_dus[$du_id]);
+			unset($this->du_tags[$tag_id]);
+			unset($tag->tag_dus[$this->du_id]);
 			return true; 
 		} else {
 			return false;
