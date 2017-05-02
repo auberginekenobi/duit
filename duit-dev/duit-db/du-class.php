@@ -386,11 +386,14 @@ class du {
 			WHERE  du_id = " . $this->du_id
 		;
 		if (query($checkQuery, "deleteFromDB()")->fetch_array()) { // If there is a du
-			// dissociate all tags from the du to be deleted
-			foreach ($du_tags as $tag) {
-				dissociateTag($tag);
+			if(isset($du_tags)){
+				// dissociate all tags from the du to be deleted
+				foreach ($du_tags as $tag) {
+					dissociateTag($tag);
+				}
+			} else {
+				echo "empty";
 			}
-			
 			$deleteQuery = "
 				DELETE FROM dus
 				WHERE du_id   = '" . $this->du_id . "'"

@@ -87,7 +87,9 @@ VALUES       ('1',
              ('7KlhTHGlsjQhXbvJDiW8toS0gtG3',
               'Owen'),
              ('aMl3IxVzqQbZ2tcTiBsbC8A0ZfX2',
-              'Catty.pins');
+              'Catty.pins'),
+             ('qVtP96athUZL9Iu6AMJ8puPPEO42',
+              'Ptrixsta');
 
 INSERT INTO dus 
             (du_name, 

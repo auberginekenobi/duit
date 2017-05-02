@@ -43,6 +43,10 @@ const btnLoginDisplay = document.getElementById('btnLoginDisplay');
 const btnLoginHide = document.getElementById('btnLoginHide');
 const btnCreateActDisplay = document.getElementById('btnCreateActDisplay');
 const btnLoginRedisplay = document.getElementById('btnLoginRedisplay');
+const btnDisplayTags = document.getElementById('btnDisplayTags');
+const btnDisplayUsers = document.getElementById('btnDisplayUsers');
+const btnAddTag = document.getElementById('btnAddTag');
+
 
 const overlay = document.getElementById('overlay');
 
@@ -53,6 +57,12 @@ const overlay = document.getElementById('overlay');
 if (btnLogin) {
 	btnLogin.addEventListener('click', e=>{
 		login();
+
+		let url = "app.php";
+		window.location = url;
+		window.open(url);
+
+
 	});
 }
 
