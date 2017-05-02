@@ -10,5 +10,7 @@
  * @since     File available since release 0.0.4  
  */
 
+// @prepros-append begin.js
 // @prepros-append app-dist.js
 // @prepros-append interact-dist.js
+// @prepros-append end.js

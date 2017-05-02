@@ -26,8 +26,8 @@ require_once('../duit-db/db-mapper.php');
 <body>
 
 <!-- FONTS -->
-<!-- Open Sans weights 300, 400, and 700 onle -->
-<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i' rel='stylesheet'>
+<!-- Roboto weights 100, 300, 400, 500, 700, and 900 only -->
+<link href='Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i'>
 <!-- Header fonts (Amsi) sourced in CSS -->
 
 <!-- CSS -->
@@ -38,44 +38,163 @@ require_once('../duit-db/db-mapper.php');
 <!-- JS -->
 <script src="https://www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-<script src='js/main-dist.js'></script>
 
-<header>
-	<div class='col one'>
-		<i class='fa fa-cog' id='settings-btn' aria-hidden='true'></i>
-	</div>
-	<div class='col two'>
-		<time id='time'>4:35 PM</time>
-		<time id='date'>Friday, April 21</time>
-	</div>
-	<div class='col three'>
-		<i class='fa fa-plus' id='quick-add-btn' aria-hidden='true'></i>
-	</div>
-</header>
+<div class='overlay darken'>
+	<!-- Overlay that triggers on 'pop up windows' to obscure things behind it -->
+</div>
 
-<aside id='settings' class='hidden'>
-	<img src='../../img/duit-check-50.png' id='logo'>
-</aside>
-
-<section id='center'>
-
-	<aside id='change-view'>
-		Side menu
-	</aside>
-		
-	<main>
-		Main box
+<div class='overlay module centering-container'>
+	<main class='module-window'>
+		<form>
+			<!-- Space where window module content will be placed -->
+		</form>
 	</main>
+</div>
 
-	<aside id='detail-view'>
-		Detail view
-	</aside>
+<!-- Header row -->
+<div id='header-container'>
+	<header>
+		<div class='col one'>
+			<div class='centering-container'>
+				<div id='settings-btn'>
+					<i class='fa fa-bars' aria-hidden='true'></i>
+				</div>
+			</div>
+		</div>
+		<div class='col two'>
+			<time id='time'>4:35 PM</time>
+			<time id='date'>Friday, April 21, 2017</time>
+		</div>
+		<div class='col three'>
+			<div class='centering-container'>
+				<i class='fa fa-plus module-btn' id='quick-add-btn' aria-hidden='true'></i>
+			</div>
+		</div>
+	</header>
+</div>
+<!-- End header row -->
 
-</section>
+<!-- Settings menu, hidden off screen by default -->
+<aside id='settings' style='left: -400px;'>
+	<img src='../../img/duit-check-50.png' id='logo'>
+	<ul>
+		<li>
+			<a class='module-btn' id='manage-tags-btn'>
+				<i class="fa fa-tag" aria-hidden="true"></i> Manage Tags
+			</a>
+		</li>
+		<li>
+			<a class='module-btn' id='manage-views-btn'>
+				<i class="fa fa-list-alt" aria-hidden="true"></i> Manage Views
+			</a>
+		</li>
+		<hr />
+		<li>
+			<a href='' target='_blank'>
+				<i class="fa fa-bar-chart" aria-hidden="true"></i> Activity Statistics
+			</a>
+		</li>
+		<hr />
+		<li>
+			<a class='module-btn' id='account-options-btn'>
+				<i class='fa fa-cog' aria-hidden='true'></i> Account Options
+			</a>
+		</li>
+		<li>
+			<a href='index.php' id='btnLogout'>
+				<i class="fa fa-sign-out" aria-hidden="true"></i> Logout
+			</a>
+		</li>
+	</ul>
+</aside>
+<!-- End settings menu -->
 
+<!-- Main block of page -->
+<div id='main-container'>
+	<section id='center'>
+
+		<aside id='change-view'>
+			Side menu
+		</aside>
+			
+		<main>
+			
+			<!-- Taken from index.php -->
+
+			<input id="txtEmail" type = "email" placeholder="Email">
+			<input id="txtPassword" type="password" placeholder="Password">
+			<button id="btnLogin" class="btn btn-action">Log in</button>
+			<button id="btnSignUp" class="btn btn-secondary">Sign Up</button>
+			<button id="btnLogout" class="btn btn-action hide">Log out</button>
+
+			<br /><br />
+
+			<button id="btnDisplayDus" class = "btn btn-action">Display</button>
+			<button id="btnDisplayUsers" class = "btn btn-action">Display Users</button>
+			<button id="btnDisplayTags" class = "btn btn-action">Display Tags</button>
+
+			<br /><br />
+
+			Name:<input id="du_name" type="text" placeholder="Du Name" value="test">
+			Note:<input id="du_note" type="text" placeholder="Note">
+			Time Start:<input id="du_time_start" type="date" placeholder="mm/dd/yyyy">
+					   <input id="du_time_start_time" type="time" = placeholder="00:00 (24 hour time)">
+			Time End:<input id="du_time_end" type="date" placeholder="mm/dd/yyyy">
+					 <input id="du_time_end_time" type="time" = placeholder="00:00 (24 hour time)">
+			Deadline Date:<input id="du_time_deadline" type="date" placeholder="mm/dd/yyyy">
+					      <input id="du_time_deadline_time" type="time" = placeholder="00:00 (24 hour time)">
+			Status:
+			<select id="du_status">
+				<option value="Open">Open</option>
+				<option value="Active">Active</option>
+				<option value="Completed">Completed</option>
+			</select>
+			Priority:
+			<select id="du_priority">
+				<option value="none"> </option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+			</select>
+			Tags:
+			<input id="txtTags" type="text" placeholder="Tags">
+
+			<br /><br />
+
+			<button id="btnAddDu" class = "btn btn-action">Add Task</button>
+
+			<br /><br />
+
+			Display Name:<input id="user_name" type="text" placeholder="Du Name" value="test">
+			<button id="btnAddUser" class = "btn btn-action">Add User</button>
+
+			<br /><br />
+
+			Tag Name:<input id="tag_name" type="text" placeholder="Tag Name" value="test">
+			Tag Note:<input id="tag_note" type="text" placeholder="Tag Note" value="test">
+			<button id="btnAddTag" class = "btn btn-action">Add Tag</button>
+
+			<!-- End of stuff from index.php -->
+
+			<div class="responseContainer">
+				<!-- Space where AJAX call will display result -->
+			</div>
+		</main>
+
+		<aside id='detail-view'>
+			Detail view
+		</aside>
+
+	</section>
+</div>
+<!-- End main block -->
+
+<!-- Footer row -->
 <footer>
 	<span>Designed and developed with <i class='fa fa-heart' aria-hidden='true'></i> by Kelli Rockwell (<a target='_blank' href='https://github.com/courier-new'>@courier-new</a>), Owen Chapman (<a target='_blank' href='https://github.com/auberginekenobi'>@auberginekenobi</a>), and Patrick Shao (<a target='_blank' href='https://github.com/patrickshao'>@patrickshao</a>). View the project on <a target='_blank' href='https://github.com/auberginekenobi/duit'>GitHub</a>.</span>
 </footer>
+<!-- End footer row -->
 
 
 
@@ -109,7 +228,9 @@ require_once('../duit-db/db-mapper.php');
 // displayAsTable($all);
 
 ?>
-	
+
+<!-- MAIN JS SCRIPT -->
+<script src='js/main-dist.js'></script>	
 	
 </body>
 </html>

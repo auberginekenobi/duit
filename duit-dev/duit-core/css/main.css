@@ -1,332 +1,337 @@
 /**
- * main.css
- *
- * Main style sheet for app styles
- *
- * @author    Kelli Rockwell <kellirockwell@mail.com>
- * @copyright 2017 DUiT
- * @since     File available since release 0.0.3  
- */
+* main.css
+*
+* Main style sheet for app styles
+*
+* @author    Kelli Rockwell <kellirockwell@mail.com>
+* @copyright 2017 DUiT
+* @since     File available since release 0.0.3  
+*/
 @font-face {
   font-family: 'Amsi';
   font-style: normal;
   font-weight: 200;
-  src: url("../../fonts/AmsiPro-XLight.ttf");
+  src: url("../../../fonts/AmsiPro-XLight.ttf");
 }
 
 @font-face {
   font-family: 'Amsi';
   font-style: italic;
   font-weight: 200;
-  src: url("../../fonts/AmsiPro-XLightItalic.ttf");
+  src: url("../../../fonts/AmsiPro-XLightItalic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi';
   font-style: normal;
   font-weight: 300;
-  src: url("../../fonts/AmsiPro-Light.ttf");
+  src: url("../../../fonts/AmsiPro-Light.ttf");
 }
 
 @font-face {
   font-family: 'Amsi';
   font-style: italic;
   font-weight: 300;
-  src: url("../../fonts/AmsiPro-LightItalic.ttf");
+  src: url("../../../fonts/AmsiPro-LightItalic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi';
   font-style: normal;
   font-weight: 400;
-  src: url("../../fonts/AmsiPro-Regular.ttf");
+  src: url("../../../fonts/AmsiPro-Regular.ttf");
 }
 
 @font-face {
   font-family: 'Amsi';
   font-style: italic;
   font-weight: 400;
-  src: url("../../fonts/AmsiPro-Italic.ttf");
+  src: url("../../../fonts/AmsiPro-Italic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi';
   font-style: normal;
   font-weight: 500;
-  src: url("../../fonts/AmsiPro-SemiBold.ttf");
+  src: url("../../../fonts/AmsiPro-SemiBold.ttf");
 }
 
 @font-face {
   font-family: 'Amsi';
   font-style: italic;
   font-weight: 500;
-  src: url("../../fonts/AmsiPro-SemiBoldItalic.ttf");
+  src: url("../../../fonts/AmsiPro-SemiBoldItalic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi';
   font-style: normal;
   font-weight: 600;
-  src: url("../../fonts/AmsiPro-Bold.ttf");
+  src: url("../../../fonts/AmsiPro-Bold.ttf");
 }
 
 @font-face {
   font-family: 'Amsi';
   font-style: italic;
   font-weight: 600;
-  src: url("../../fonts/AmsiPro-BoldItalic.ttf");
+  src: url("../../../fonts/AmsiPro-BoldItalic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi';
   font-style: normal;
   font-weight: 700;
-  src: url("../../fonts/AmsiPro-Black.ttf");
+  src: url("../../../fonts/AmsiPro-Black.ttf");
 }
 
 @font-face {
   font-family: 'Amsi';
   font-style: italic;
   font-weight: 700;
-  src: url("../../fonts/AmsiPro-BlackItalic.ttf");
+  src: url("../../../fonts/AmsiPro-BlackItalic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi';
   font-style: normal;
   font-weight: 800;
-  src: url("../../fonts/AmsiPro-Ultra.ttf");
+  src: url("../../../fonts/AmsiPro-Ultra.ttf");
 }
 
 @font-face {
   font-family: 'Amsi';
   font-style: italic;
   font-weight: 800;
-  src: url("../../fonts/AmsiPro-UltraItalic.ttf");
+  src: url("../../../fonts/AmsiPro-UltraItalic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Narrow';
   font-style: normal;
   font-weight: 100;
-  src: url("../../fonts/AmsiProNarw-Thin.ttf");
+  src: url("../../../fonts/AmsiProNarw-Thin.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Narrow';
   font-style: italic;
   font-weight: 100;
-  src: url("../../fonts/AmsiProNarw-ThinItalic.ttf");
+  src: url("../../../fonts/AmsiProNarw-ThinItalic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Narrow';
   font-style: normal;
   font-weight: 200;
-  src: url("../../fonts/AmsiProNarw-XLight.ttf");
+  src: url("../../../fonts/AmsiProNarw-XLight.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Narrow';
   font-style: italic;
   font-weight: 200;
-  src: url("../../fonts/AmsiProNarw-XLightItalic.ttf");
+  src: url("../../../fonts/AmsiProNarw-XLightItalic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Narrow';
   font-style: normal;
   font-weight: 300;
-  src: url("../../fonts/AmsiProNarw-Light.ttf");
+  src: url("../../../fonts/AmsiProNarw-Light.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Narrow';
   font-style: italic;
   font-weight: 300;
-  src: url("../../fonts/AmsiProNarw-LightItalic.ttf");
+  src: url("../../../fonts/AmsiProNarw-LightItalic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Narrow';
   font-style: normal;
   font-weight: 400;
-  src: url("../../fonts/AmsiProNarw-Regular.ttf");
+  src: url("../../../fonts/AmsiProNarw-Regular.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Narrow';
   font-style: italic;
   font-weight: 400;
-  src: url("../../fonts/AmsiProNarw-Italic.ttf");
+  src: url("../../../fonts/AmsiProNarw-Italic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Narrow';
   font-style: normal;
   font-weight: 500;
-  src: url("../../fonts/AmsiProNarw-SemiBold.ttf");
+  src: url("../../../fonts/AmsiProNarw-SemiBold.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Narrow';
   font-style: italic;
   font-weight: 500;
-  src: url("../../fonts/AmsiProNarw-SemiBoldItalic.ttf");
+  src: url("../../../fonts/AmsiProNarw-SemiBoldItalic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Narrow';
   font-style: normal;
   font-weight: 600;
-  src: url("../../fonts/AmsiProNarw-Bold.ttf");
+  src: url("../../../fonts/AmsiProNarw-Bold.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Narrow';
   font-style: italic;
   font-weight: 600;
-  src: url("../../fonts/AmsiProNarw-BoldItalic.ttf");
+  src: url("../../../fonts/AmsiProNarw-BoldItalic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Narrow';
   font-style: normal;
   font-weight: 700;
-  src: url("../../fonts/AmsiProNarw-Black.ttf");
+  src: url("../../../fonts/AmsiProNarw-Black.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Narrow';
   font-style: italic;
   font-weight: 700;
-  src: url("../../fonts/AmsiProNarw-BlackItalic.ttf");
+  src: url("../../../fonts/AmsiProNarw-BlackItalic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Narrow';
   font-style: normal;
   font-weight: 800;
-  src: url("../../fonts/AmsiProNarw-Ultra.ttf");
+  src: url("../../../fonts/AmsiProNarw-Ultra.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Narrow';
   font-style: italic;
   font-weight: 800;
-  src: url("../../fonts/AmsiProNarw-UltraItalic.ttf");
+  src: url("../../../fonts/AmsiProNarw-UltraItalic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Condensed';
   font-style: normal;
   font-weight: 100;
-  src: url("../../fonts/AmsiProCond-Thin.ttf");
+  src: url("../../../fonts/AmsiProCond-Thin.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Condensed';
   font-style: italic;
   font-weight: 100;
-  src: url("../../fonts/AmsiProCond-ThinItalic.ttf");
+  src: url("../../../fonts/AmsiProCond-ThinItalic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Condensed';
   font-style: normal;
   font-weight: 200;
-  src: url("../../fonts/AmsiProCond-XLight.ttf");
+  src: url("../../../fonts/AmsiProCond-XLight.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Condensed';
   font-style: italic;
   font-weight: 200;
-  src: url("../../fonts/AmsiProCond-XLightItalic.ttf");
+  src: url("../../../fonts/AmsiProCond-XLightItalic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Condensed';
   font-style: normal;
   font-weight: 300;
-  src: url("../../fonts/AmsiProCond-Light.ttf");
+  src: url("../../../fonts/AmsiProCond-Light.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Condensed';
   font-style: italic;
   font-weight: 300;
-  src: url("../../fonts/AmsiProCond-LightItalic.ttf");
+  src: url("../../../fonts/AmsiProCond-LightItalic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Condensed';
   font-style: normal;
   font-weight: 400;
-  src: url("../../fonts/AmsiProCond-Regular.ttf");
+  src: url("../../../fonts/AmsiProCond-Regular.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Condensed';
   font-style: italic;
   font-weight: 400;
-  src: url("../../fonts/AmsiProCond-Italic.ttf");
+  src: url("../../../fonts/AmsiProCond-Italic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Condensed';
   font-style: normal;
   font-weight: 500;
-  src: url("../../fonts/AmsiProCond-SemiBold.ttf");
+  src: url("../../../fonts/AmsiProCond-SemiBold.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Condensed';
   font-style: italic;
   font-weight: 500;
-  src: url("../../fonts/AmsiProCond-SemiBoldItalic.ttf");
+  src: url("../../../fonts/AmsiProCond-SemiBoldItalic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Condensed';
   font-style: normal;
   font-weight: 600;
-  src: url("../../fonts/AmsiProCond-Bold.ttf");
+  src: url("../../../fonts/AmsiProCond-Bold.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Condensed';
   font-style: italic;
   font-weight: 600;
-  src: url("../../fonts/AmsiProCond-BoldItalic.ttf");
+  src: url("../../../fonts/AmsiProCond-BoldItalic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Condensed';
   font-style: normal;
   font-weight: 700;
-  src: url("../../fonts/AmsiProCond-Black.ttf");
+  src: url("../../../fonts/AmsiProCond-Black.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Condensed';
   font-style: italic;
   font-weight: 700;
-  src: url("../../fonts/AmsiProCond-BlackItalic.ttf");
+  src: url("../../../fonts/AmsiProCond-BlackItalic.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Condensed';
   font-style: normal;
   font-weight: 800;
-  src: url("../../fonts/AmsiProCond-Ultra.ttf");
+  src: url("../../../fonts/AmsiProCond-Ultra.ttf");
 }
 
 @font-face {
   font-family: 'Amsi Condensed';
   font-style: italic;
   font-weight: 800;
-  src: url("../../fonts/AmsiProCond-UltraItalic.ttf");
+  src: url("../../../fonts/AmsiProCond-UltraItalic.ttf");
+}
+
+body {
+  margin: 0;
+  padding: 0;
 }
 
 a,
@@ -340,7 +345,93 @@ a:visited {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
+}
+
+.show-borders {
+  z-index: 5;
+  border: 2px solid red;
+}
+
+.centering-container {
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.centering-container.absolute {
+  box-sizing: border-box;
+  height: 100vh;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100vw;
+}
+
+.overlay {
+  left: 0;
+  position: absolute;
+  top: 0;
+  z-index: -10;
+  opacity: 0;
+}
+
+.overlay.darken {
+  background-color: rgba(97, 108, 104, 0.3);
+  height: 100vh;
+  width: 100vw;
+}
+
+#header-container {
+  position: relative;
+  z-index: 2;
+}
+
+#main-container {
+  position: relative;
+  z-index: 1;
+}
+
+.module-window {
+  box-sizing: border-box;
+  min-height: 20%;
+  -webkit-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(50, 56, 54, 0.3);
+}
+
+@media (min-width: 0px) {
+  .module-window {
+    width: 80%;
+    padding: 15px;
+  }
+}
+
+@media (min-width: 600px) {
+  .module-window {
+    width: 60%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .module-window {
+    max-width: 800px;
+    min-width: 600px;
+    padding: 30px;
+    width: 50%;
+  }
 }
 
 header {
@@ -348,40 +439,206 @@ header {
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
-  border: 2px solid gray;
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(50, 56, 54, 0.3);
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  height: 6vh;
+  height: 9vh;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
+  padding-bottom: 1vh;
 }
 
 header .col.one, header .col.three {
-  width: 10%;
   max-width: 100px;
-  min-width: 50px;
-  text-align: center;
-}
-
-header .col.one {
-  border: 2px solid green;
+  min-width: 70px;
+  width: 6%;
 }
 
 header .col.two {
-  width: 80%;
-  border: 2px solid cyan;
+  width: 88%;
 }
 
 header .col.two time {
   display: block;
+  font-family: "Roboto", sans-serif;
 }
 
-header .col.three {
-  border: 2px solid orange;
+header .col.two time#time {
+  color: #00b9c0;
+  font-size: 2.4em;
+  padding-bottom: 5px;
+}
+
+header .col.two time#date {
+  color: #939e9a;
+  padding-left: 1px;
+}
+
+header #settings-btn {
+  background-color: #1a4e6c;
+  border-radius: 100%;
+  box-sizing: border-box;
+  color: white;
+  display: table-cell;
+  height: 1.7em;
+  line-height: 1.7em;
+  text-align: center;
+  -webkit-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+  vertical-align: middle;
+  width: 1.7em;
+}
+
+@media (min-width: 0px) {
+  header #settings-btn {
+    font-size: 1.3em;
+  }
+}
+
+@media (min-width: 1024px) {
+  header #settings-btn {
+    font-size: 1.7em;
+  }
+}
+
+header #settings-btn:hover {
+  background-color: #103043;
+  cursor: pointer;
+}
+
+header #quick-add-btn {
+  border-radius: 100%;
+  box-sizing: border-box;
+  color: #dce5e2;
+  display: table-cell;
+  font-size: 1.5em;
+  height: 1.5em;
+  line-height: 1.5em;
+  text-align: center;
+  -webkit-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+  vertical-align: middle;
+  width: 1.5em;
+}
+
+header #quick-add-btn:hover {
+  background-color: #edf2f0;
+  color: white;
+  cursor: pointer;
+}
+
+aside#settings {
+  background-color: white;
+  border-right: 12px solid #b4c66e;
+  box-shadow: 2px 0 6px rgba(50, 56, 54, 0.3);
+  box-sizing: border-box;
+  height: 95vh;
+  left: 0;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  -webkit-transition: width 0.2s linear;
+  transition: width 0.2s linear;
+  z-index: 5;
+}
+
+@media (min-width: 0px) {
+  aside#settings {
+    padding: 30px 15px;
+    width: 80%;
+  }
+}
+
+@media (min-width: 600px) {
+  aside#settings {
+    max-width: 350px;
+    padding: 30px;
+    width: 50%;
+  }
+}
+
+@media (min-width: 1024px) {
+  aside#settings {
+    max-width: 400px;
+    padding-top: 80px;
+    width: 30%;
+  }
+}
+
+aside#settings img {
+  max-width: 50px;
+  min-width: 30px;
+  width: 20%;
+}
+
+aside#settings ul {
+  list-style: none;
+  margin-top: 30px;
+  padding: 0;
+  text-align: left;
+  -webkit-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+
+aside#settings ul li {
+  box-sizing: border-box;
+  padding: 1px;
+  width: 100%;
+}
+
+aside#settings ul li a,
+aside#settings ul li a:link,
+aside#settings ul li a:active {
+  box-sizing: border-box;
+  color: #323836;
+  display: block;
+  font-family: "Roboto", sans-serif;
+  line-height: 1em;
+  padding: 12px;
+  width: 100%;
+}
+
+@media (min-width: 0px) {
+  aside#settings ul li a,
+  aside#settings ul li a:link,
+  aside#settings ul li a:active {
+    font-size: 1em;
+  }
+}
+
+@media (min-width: 600px) {
+  aside#settings ul li a,
+  aside#settings ul li a:link,
+  aside#settings ul li a:active {
+    font-size: 1.2em;
+  }
+}
+
+aside#settings ul li a:hover {
+  background-color: #edf2f0;
+  cursor: pointer;
+}
+
+aside#settings ul li a:hover i {
+  color: #468f77;
+}
+
+aside#settings ul li i {
+  color: #beccc7;
+  margin-right: 10px;
+  text-align: center;
+  -webkit-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+  width: 25px;
+}
+
+aside#settings ul hr {
+  border: 1px solid rgba(147, 158, 154, 0.3);
 }
 
 section#center {
@@ -389,6 +646,7 @@ section#center {
   -webkit-align-items: stretch;
   -ms-flex-align: stretch;
   align-items: stretch;
+  background-color: #edf2f0;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -396,7 +654,9 @@ section#center {
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  height: 90vh;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.8em;
+  height: 85vh;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
@@ -404,11 +664,13 @@ section#center {
 }
 
 @media (min-width: 0px) {
-  section#center aside, section#center main {
+  section#center aside,
+  section#center main {
     -webkit-box-flex: 1;
     -webkit-flex: 1 100%;
     -ms-flex: 1 100%;
     flex: 1 100%;
+    padding: 15px;
   }
 }
 
@@ -449,12 +711,14 @@ section#center {
     -webkit-order: 2;
     -ms-flex-order: 2;
     order: 2;
+    padding: 30px;
   }
   section#center aside {
     -webkit-box-flex: 1;
     -webkit-flex: 1;
     -ms-flex: 1;
     flex: 1;
+    padding: 30px;
   }
   section#center aside#change-view {
     -webkit-box-ordinal-group: 2;
@@ -470,20 +734,26 @@ section#center {
   }
 }
 
-section#center aside {
-  border: 2px solid red;
+section#center aside:first-child {
+  border-right: 1px solid white;
+}
+
+section#center aside:last-child {
+  border-left: 1px solid rgba(147, 158, 154, 0.3);
 }
 
 section#center main {
-  border: 2px solid blue;
+  border-left: 1px solid rgba(147, 158, 154, 0.3);
+  border-right: 1px solid white;
+  overflow: auto;
 }
 
 footer {
   background-color: #23222b;
   display: table-cell;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 0.7em;
-  height: 4vh;
+  height: 5vh;
   text-align: center;
   vertical-align: middle;
   width: 100vw;

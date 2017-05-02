@@ -7,13 +7,11 @@
 * Notice: this file utilizes conventions from ES6 (ES2015).
 * jQuery 3.2.0+
 *
-*
 * Function will be wrapped in a closure (function call around entire file) at
 * minification process for security purposes. However, as we want different 
 * javascript files to be able to communicate between each other, we are not
 * doing between files. 
 * 
-*
 * TODO: Move DOM listeners to interact.js
 *
 * @author    Patrick Shao <shao.pat@gmail.com>

@@ -1,15 +1,20 @@
 /**
- * main.css
- *
- * Main style sheet for app styles
- *
- * @author    Kelli Rockwell <kellirockwell@mail.com>
- * @copyright 2017 DUiT
- * @since     File available since release 0.0.3  
- */
+* main.css
+*
+* Main style sheet for app styles
+*
+* @author    Kelli Rockwell <kellirockwell@mail.com>
+* @copyright 2017 DUiT
+* @since     File available since release 0.0.3  
+*/
 
 @import 'breakpoints';
 @import 'variables';
+
+body {
+	margin: 0;
+	padding: 0;
+}
 
 a,
 a:link,
@@ -21,48 +26,238 @@ a:visited {
 }
 
 .hidden {
-	display: none;
+	display: none !important;
+}
+
+.show-borders {
+	z-index: $windowLevel;
+	border: 2px solid red;
+}
+
+.centering-container {
+	align-items: center;
+	display: flex;
+	height: 100%;
+	justify-content: center;
+	width: 100%;
+	&.absolute {
+		box-sizing: border-box;
+		height: 100vh;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 100vw;
+	}
+}
+
+.overlay {
+	left: 0;
+	position: absolute;
+	top: 0;
+	z-index: 2*$background;
+	opacity: 0;
+	&.darken {
+		background-color: rgba($gray60, 0.3);
+		height: 100vh;
+		width: 100vw;
+	}
+}
+
+#header-container {
+	position: relative;
+	z-index: $foreground + 1; 
+}
+
+#main-container {
+	position: relative;
+	z-index: $foreground; 
+}
+
+.module-window {
+	@include respond-to('tiny') {
+		width: 80%;
+		padding: 15px;
+	}
+	@include respond-to('small') {
+		width: 60%;
+	}
+	@include respond-to('medium') {
+		max-width: 800px;
+		min-width: 600px;
+		padding: 30px;
+		width: 50%;		
+	}
+
+	box-sizing: border-box;
+	min-height: 20%;
+	transition: all 0.2s linear; 
+	background-color: white;
+	box-shadow: 0 0 10px rgba($gray80, 0.3);
 }
 
 header {
 	align-items: center;
-	border: 2px solid gray;
+	background-color: white;
+	box-shadow: 0 2px 6px rgba($gray80, 0.3);
 	display: flex;
-	height: 6vh;
-	justify-content: space-between;
+	height: 9vh;
+	justify-content: space-between;	
+	padding-bottom: 1vh;
 	.col {
 		&.one,
 		&.three {
-			width: 10%;
 			max-width: 100px;
-			min-width: 50px;
-			text-align: center;
-		}
-		&.one {
-			border: 2px solid green;
+			min-width: 70px;
+			width: 6%;
 		}
 		&.two {
-			width: 80%;
-			border: 2px solid cyan;
+			width: 88%;
 			time {
 				display: block;
+				font-family: $main-stack;
+				&#time {
+					color: $turquoise;
+					font-size: 2.4em;
+					padding-bottom: 5px;
+				}
+				&#date {
+					color: $gray40;
+					padding-left: 1px;
+				}
 			}
 		}
-		&.three {
-			border: 2px solid orange;
+	}
+	#settings-btn {
+		@include respond-to('tiny') {
+			font-size: 1.3em;
+		}
+		@include respond-to('medium') {
+			font-size: 1.7em;
+		}
+
+		background-color: $d-turquoise;
+		border-radius: 100%;
+		box-sizing: border-box;
+		color: white;
+		display: table-cell;
+		height: 1.7em;
+		line-height: 1.7em;
+		text-align: center;
+		transition: all 0.2s linear;
+		vertical-align: middle;
+		width: 1.7em;
+		&:hover {
+			background-color: darken($d-turquoise, 10%);
+			cursor: pointer;
+		}
+	}
+	#quick-add-btn {
+		border-radius: 100%;
+		box-sizing: border-box;
+		color: $gray10;
+		display: table-cell;
+		font-size: 1.5em;
+		height: 1.5em;
+		line-height: 1.5em;
+		text-align: center;
+		transition: all 0.2s linear;
+		vertical-align: middle;
+		width: 1.5em;
+		&:hover {
+			background-color: $gray5;
+			color: white;
+			cursor: pointer;
+		}
+	}
+}
+
+aside#settings {
+	@include respond-to('tiny') {
+		padding: 30px 15px;
+		width: 80%;
+	}
+	@include respond-to('small') {
+		max-width: 350px;
+		padding: 30px;
+		width: 50%;
+	}
+	@include respond-to('medium') {
+		max-width: 400px;
+		padding-top: 80px;
+		width: 30%;
+	}
+
+	background-color: white;
+	border-right: 12px solid $y-green;
+	box-shadow: 2px 0 6px rgba($gray80, 0.3);
+	box-sizing: border-box;
+	height: 95vh;
+	left: 0;
+	position: absolute;
+	text-align: center;
+	top: 0;
+	transition: width 0.2s linear;
+	z-index: $windowLevel;
+	img {
+		max-width: 50px;
+		min-width: 30px;
+		width: 20%;
+	}
+	ul {
+		list-style: none;
+		margin-top: 30px;
+		padding: 0;
+		text-align: left;
+		transition: all 0.2s linear;
+		li {
+			box-sizing: border-box;
+			padding: 1px;
+			width: 100%;
+			a,
+			a:link,
+			a:active {
+				@include respond-to('tiny') {
+					font-size: 1em;
+				}
+				@include respond-to('small') {
+					font-size: 1.2em;
+				}
+
+				box-sizing: border-box;
+				color: $gray80;
+				display: block;
+				font-family: $main-stack;
+				line-height: 1em;
+				padding: 12px;
+				width: 100%;
+			}
+			a:hover {
+				background-color: $gray5;
+				cursor: pointer;
+				i {
+					color: $b-green;
+				}
+			}
+			i {
+				color: $gray20;
+				margin-right: 10px;
+				text-align: center;
+				transition: all 0.2s linear;
+				width: 25px;
+			}
+		}
+		hr {
+			border: 1px solid rgba($gray40, 0.3);
 		}
 	}
 }
 
 section#center {
-	align-items: stretch;
-	display: flex;
-	flex-wrap: wrap;
-	height: 90vh;
-	justify-content: space-between;
 	@include respond-to('tiny') {
-		aside, main {
+		aside,
+		main {
 			flex: 1 100%;
+			padding: 15px;
 		}
 	}
 	@include respond-to('small') {
@@ -83,9 +278,11 @@ section#center {
 		main {
 			flex: 2;
 			order: 2;
+			padding: 30px;
 		}
 		aside {
 			flex: 1;
+			padding: 30px;
 			&#change-view {
 				order: 1;
 			}
@@ -94,21 +291,34 @@ section#center {
 			}
 		}
 	}
-	
-	aside {
-		border: 2px solid red;
+
+	align-items: stretch;
+	background-color: $gray5;
+	display: flex;
+	flex-wrap: wrap;
+	font-family: $main-stack;
+	font-size: 0.8em;
+	height: 85vh;
+	justify-content: space-between;
+	aside:first-child {
+		border-right: 1px solid white;
+	}
+	aside:last-child {
+		border-left: 1px solid rgba($gray40, 0.3);
 	}
 	main {
-		border: 2px solid blue;
+		border-left: 1px solid rgba($gray40, 0.3);
+		border-right: 1px solid white;
+		overflow: auto;
 	}
 }
 
 footer {
-	background-color: $purple;
+	background-color: $d-purple;
 	display: table-cell;
 	font-family: $main-stack;
 	font-size: 0.7em;
-	height: 4vh;
+	height: 5vh;
 	text-align: center;
 	vertical-align: middle;
 	width: 100vw;
