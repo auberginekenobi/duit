@@ -209,7 +209,7 @@ function addDu(){
 function formatAMPM(date) {
   let hours = date.getHours();
   let minutes = date.getMinutes();
-  let ampm = hours >= 12 ? 'pm' : 'am';
+  let ampm = hours >= 12 ? 'PM' : 'AM';
   hours = hours % 12;
   hours = hours ? hours : 12; // the hour '0' should be '12'
   minutes = minutes < 10 ? '0'+minutes : minutes;
@@ -217,8 +217,21 @@ function formatAMPM(date) {
   return strTime;
 }
 
+function formatDate(now){
+	let days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+	let months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+	let day = days[ now.getDay() ];
+	let month = months[ now.getMonth() ];
+
+	return day+", "+month+" "+now.getDay()+", "+now.getFullYear();
+}
+
 function timeDisplay(){
-	document.getElementById('time').innerHTML = formatAMPM(new Date());
+	let now = new Date();
+
+	document.getElementById('time').innerHTML = formatAMPM(now);
+	document.getElementById('date').innerHTML = formatDate(now);
 }
 
 //initially displays the time
@@ -295,12 +308,13 @@ function signOut(){
 firebase.auth().onAuthStateChanged(user=>{
 	if (user){
 
-		let url = "http://localhost:8888/cs135/duit/duit-dev/duit-core/app.php"; //temporary hardcoded
+		//TODO: Non hardcode URL
+		//TODO: Forward only after user has been created on MySQL DB
+		let url = "http://localhost:8888/cs135/duit/duit-dev/duit-core/app.php";
 		if (window.location != url) {
 			window.location = url;
 			window.open(url);
 		}
-
 
 		console.log(user);
 		if (btnLogout) {

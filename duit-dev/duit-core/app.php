@@ -69,7 +69,7 @@ require_once('../duit-db/db-mapper.php');
 		</div>
 		<div class='col two'>
 			<time id='time'></time>
-			<time id='date'>Friday, April 21, 2017</time>
+			<time id='date'></time>
 		</div>
 		<div class='col three'>
 			<div class='centering-container'>
