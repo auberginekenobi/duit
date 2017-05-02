@@ -251,7 +251,7 @@ function getAllTags() {
 	       tag_note, 
            user_id
 	FROM   tags
-	GROUP  BY tag_name 
+	GROUP  BY tag_id 
 	ORDER  BY tag_id ASC";
     
     // Query the database for all du's
