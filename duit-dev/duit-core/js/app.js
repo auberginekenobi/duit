@@ -41,6 +41,13 @@ const btnLogin = document.getElementById('btnLogin');
 const btnSignUp = document.getElementById('btnSignUp');
 const btnLogout = document.getElementById('btnLogout');
 const deleteDuList = document.getElementsByClassName('deleteDu');
+const btnLoginDisplay = document.getElementById('btnLoginDisplay');
+const btnLoginHide = document.getElementById('btnLoginHide');
+const btnCreateActDisplay = document.getElementById('btnCreateActDisplay');
+const btnLoginRedisplay = document.getElementById('btnLoginRedisplay');
+
+const overlay = document.getElementById('overlay');
+
 
 //$('.deleteDu')
 
@@ -105,6 +112,54 @@ if (btnAddDu) {
 	});
 }
 
+if (btnLoginDisplay){
+	btnLoginDisplay.addEventListener('click',e=>{
+		displayLogin();
+	});
+}
+
+if (btnCreateActDisplay){
+	btnCreateActDisplay.addEventListener('click',e=>{
+		displayCreate();
+	});
+}
+
+if (btnLoginRedisplay){
+	btnLoginRedisplay.addEventListener('click',e=>{
+		hideCreate();
+	});
+}
+
+if (overlay){
+	overlay.addEventListener('click',e=>{hideLogin();});
+}
+
+function displayLogin(){
+	$(".login_form").removeClass('hide');
+	$("#overlay").removeClass('hide');
+}
+
+function displayCreate(){
+	$('.login_form_contents').addClass('hide');
+	$('.signup_form_contents').removeClass('hide');
+}
+
+function hideCreate(){
+	$('.login_form_contents').removeClass('hide');
+	$('.signup_form_contents').addClass('hide');	
+}
+
+if (btnLoginHide){
+	btnLoginHide.addEventListener('click',e=>{
+		hideLogin();
+	});
+}
+
+function hideLogin(){
+	$(".login_form").addClass('hide');
+	$("#overlay").addClass('hide');	
+}
+
 function addDu(){
 	let du_name = $("#du_name").val();
 	let du_time_start = $('#du_time_start').val();
@@ -117,6 +172,7 @@ function addDu(){
 	let du_note = $('#du_note').val();
 	let du_status = $('#du_status').val();
 	let du_priority = $('#du_priority').val();
+	let tag_name = $('#du_tags').val();
 
 	if (du_time_start != "" && du_time_start_time != "") {
 		du_time_start+=(" " + du_time_start_time + ":00");
@@ -136,7 +192,8 @@ function addDu(){
 		"du_time_start" : du_time_start,
 		"du_time_end" : du_time_end,
 		"du_note" : du_note,
-		"du_status" : du_status
+		"du_status" : du_status,
+		"tag_name" : tag_name
 	};
 
 	if (du_time_end != "" && du_time_end != "") {
@@ -158,11 +215,11 @@ function addDu(){
 }
 
 //add new user
-if(btnAddUser){
-	btnAddUser.addEventListener('click',e=>{
-		addUser();
-	})
-}
+// if(btnAddUser){
+// 	btnAddUser.addEventListener('click',e=>{
+// 		addUser();
+// 	})
+// }
 
 function addUser(){
 	let user_name = $('#user_name').val();
@@ -221,7 +278,7 @@ function signUp(){
 // Add signout
 if (btnLogout) {
 	btnLogout.addEventListener('click', e=>{
-		sighOut();
+		signOut();
 	});
 }
 
@@ -258,7 +315,7 @@ function callServer(function_name,params = {},callback){
 		console.log(function_name);
 
 		let paramKeys = ["du_id","du_name","du_has_date","du_has_deadline","du_has_duration","du_time_start",
-			"du_time_end","du_priority","du_enforce_priority","du_note","du_status","user_name","tag_name","tag_note"];
+			"du_time_end","du_priority","du_enforce_priority","du_note","du_status","user_name","tag_name","tag_name","tag_note"];
 
 		let payload = "idToken="+idToken+
 			"&user_id="+firebase.auth().currentUser.uid+
