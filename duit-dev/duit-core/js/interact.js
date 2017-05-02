@@ -117,7 +117,7 @@
 
  	// Close module window
  	function closeModule() {
- 		let $form = $('.module-window form');
+ 		let $form = $('.module-window div');
  		$moduleIsOpen = false;
  		// Hide darkened overlay and window
  		toggleOverlay(0, '.overlay.darken');
@@ -131,7 +131,7 @@
 
  	// Open module window of specified type
  	function openModule(module) {
- 		let $form = $('.module-window form');
+ 		let $form = $('.module-window div');
  		$moduleIsOpen = true;
  		// Make sure settings is closed
  		closeSettings();
@@ -139,7 +139,45 @@
  		toggleOverlay(1, '.overlay.darken');
  		toggleOverlay(1, '.overlay.module');
  		// Change content of window to reflect type
- 		$form.html(module);
+    if (module == "quick-add-btn"){
+      let moduleText = `
+        <div class="container"><h1>DUiT</h1>
+        <button id="btnDisplayDus" class = "btn btn-action">Display</button>
+        <button id="btnDisplayUsers" class = "btn btn-action">Display Users</button>
+        <button id="btnDisplayTags" class = "btn btn-action">Display Tags</button>
+
+        <button id="btnAddDu" class = "btn btn-action">Add Task</button>
+
+        <div>
+        Name:<input id="du_name" type="text" placeholder="Du Name" value="test">
+        Note:<input id="du_note" type="text" placeholder="Note">
+        Time Start:<input id="du_time_start" type="date" placeholder="mm/dd/yyyy">
+               <input id="du_time_start_time" type="time" = placeholder="00:00 (24 hour time)">
+        Time End:<input id="du_time_end" type="date" placeholder="mm/dd/yyyy">
+             <input id="du_time_end_time" type="time" = placeholder="00:00 (24 hour time)">
+        Deadline Date:<input id="du_time_deadline" type="date" placeholder="mm/dd/yyyy">
+                <input id="du_time_deadline_time" type="time" = placeholder="00:00 (24 hour time)">
+        Status:
+        <select id="du_status">
+          <option value="Open">Open</option>
+          <option value="Active">Active</option>
+          <option value="Completed">Completed</option>
+        </select>
+        Priority:
+        <select id="du_priority">
+          <option value="none"> </option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+        Tags:
+        <input id="du_tags" type="text" placeholder="Tags">
+      </div>`;
+      $form.html(moduleText);
+    } else {
+ 		 $form.html(module);
+  }
  		// Bring window content up to full opacity
  		$form.animate({opacity: 1}, 700);
  	}

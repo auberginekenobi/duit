@@ -45,9 +45,9 @@ require_once('../duit-db/db-mapper.php');
 
 <div class='overlay module centering-container'>
 	<main class='module-window'>
-		<form>
+		<div>
 			<!-- Space where window module content will be placed -->
-		</form>
+		</div>
 	</main>
 </div>
 
@@ -121,7 +121,7 @@ require_once('../duit-db/db-mapper.php');
 			
 			<div id="overlay" class="hide"></div>
 
-
+<!-- 
 	<div class="container">
 
 
@@ -163,19 +163,19 @@ require_once('../duit-db/db-mapper.php');
 
 
 	</div>
-
+ -->
 <!-- Code meant for testing add user internally, this function is never called outside of this -->
 <!-- 	<div>
 		Display Name:<input id="user_name" type="text" placeholder="Du Name" value="test">
 		<button id="btnAddUser" class = "btn btn-action">Add User</button>
 	</div> -->
 
-	<div>
+<!-- 	<div>
 		Tag Name:<input id="tag_name" type="text" placeholder="Tag Name" value="test">
 		Tag Note:<input id="tag_note" type="text" placeholder="Tag Note" value="test">
 		<button id="btnAddTag" class = "btn btn-action">Add Tag</button>
 	</div>
-
+ -->
 			<!-- End of stuff from index.php -->
 
 			<div class="responseContainer">
