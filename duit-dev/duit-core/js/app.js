@@ -57,12 +57,6 @@ const overlay = document.getElementById('overlay');
 if (btnLogin) {
 	btnLogin.addEventListener('click', e=>{
 		login();
-
-		let url = "app.php";
-		window.location = url;
-		window.open(url);
-
-
 	});
 }
 
@@ -74,6 +68,11 @@ function login(){
 	// Sign in
 	const promise = auth.signInWithEmailAndPassword(email,pass);
 	promise.catch(e=>console.log(e.message));
+	promise.then(function(){
+		let url = "app.php";
+		window.location = url;
+		window.open(url);
+	});
 
 }
 
@@ -297,6 +296,14 @@ function signOut(){
 // Add a real time listener for changes in user state
 firebase.auth().onAuthStateChanged(user=>{
 	if (user){
+
+		let url = "http://localhost:8888/cs135/duit/duit-dev/duit-core/app.php"; //temporary hardcoded
+		if (window.location != url) {
+			window.location = url;
+			window.open(url);
+		}
+
+
 		console.log(user);
 		if (btnLogout) {
 			btnLogout.classList.remove('hide');
