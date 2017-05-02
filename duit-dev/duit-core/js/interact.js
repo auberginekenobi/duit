@@ -141,12 +141,7 @@
  		// Change content of window to reflect type
     if (module == "quick-add-btn"){
       let moduleText = `
-        <div class="container"><h1>DUiT</h1>
-        <button id="btnDisplayDus" class = "btn btn-action">Display</button>
-        <button id="btnDisplayUsers" class = "btn btn-action">Display Users</button>
-        <button id="btnDisplayTags" class = "btn btn-action">Display Tags</button>
-
-        <button id="btnAddDu" class = "btn btn-action">Add Task</button>
+        <div class="container">
 
         <div>
         Name:<input id="du_name" type="text" placeholder="Du Name" value="test">
@@ -173,6 +168,8 @@
         </select>
         Tags:
         <input id="du_tags" type="text" placeholder="Tags">
+                <button id="btnAddDu" class = "btn btn-action">Add Task</button>
+
       </div>`;
       $form.html(moduleText);
     } else {

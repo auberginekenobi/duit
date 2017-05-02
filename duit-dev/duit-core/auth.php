@@ -38,11 +38,11 @@
 		$tag_note = (isset($_GET["tag_note"])) ? $_GET["tag_note"] : "";
 		$tag_name = (isset($_GET["tag_name"])) ? $_GET["tag_name"] : "";
 		
-		if ($function_name=="displayAsTableDus"){
+		if ($function_name=="btnDisplayDus"){
 			displayTableDus_wrap($all); //Note is possible to call $function_name(all) 
-		} elseif ($function_name =="displayAsTableUsers") {
+		} elseif ($function_name =="btnDisplayUsers") {
 			displayTableUsers_wrap($allusers); 
-		} elseif($function_name == "displayAsTableTags"){
+		} elseif($function_name == "btnDisplayTags"){
 			displayTableTags_wrap($alltags);
 		} elseif ($function_name == "addDu") {
 			addDu_wrap();
@@ -191,10 +191,12 @@
 			$du = getDuById($du_id);
 			$tags = $du->getTags();
 
-			foreach ($tags as $tag) {
-				$du->dissociateTag($tag);
-				//echo "removing tag";
-				//$tag->dissociateDu($du);
+			if (isset($tags)){
+				foreach ($tags as $tag) {
+					$du->dissociateTag($tag);
+					//echo "removing tag";
+					//$tag->dissociateDu($du);
+				}
 			}
 
 			$all = deleteDu($du_id);
