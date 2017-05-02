@@ -187,11 +187,21 @@
 	//deleteDu does not work in cases where there are tags due to foreign key 
 	//constraints
 	function deleteDu_wrap(){
-		global $idToken, $user_id, $all;
+		global $idToken, $user_id, $all, $allusers, $alltags;
 		global $du_id;
 
 		if (validateToken($idToken,$user_id)) {
+			$du = getDuById($du_id);
+			$tags = $du->getTags();
+
+			foreach ($tags as $tag) {
+				$du->dissociateTag($tag);
+				echo "removing tag";
+				//$tag->dissociateDu($du);
+			}
+
 			$all = deleteDu($du_id);
+
 			$result = array('message' => "success","deleted" => $du_id);
 			echo json_encode($result);
 		} else {

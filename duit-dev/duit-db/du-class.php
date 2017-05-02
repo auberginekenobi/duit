@@ -386,14 +386,13 @@ class du {
 			WHERE  du_id = " . $this->du_id
 		;
 		if (query($checkQuery, "deleteFromDB()")->fetch_array()) { // If there is a du
-			if(isset($du_tags)){
+			if(isset($du_tags)){	
 				// dissociate all tags from the du to be deleted
 				foreach ($du_tags as $tag) {
 					dissociateTag($tag);
 				}
-			} else {
-				echo "empty";
 			}
+
 			$deleteQuery = "
 				DELETE FROM dus
 				WHERE du_id   = '" . $this->du_id . "'"
@@ -1197,7 +1196,7 @@ class du {
             // Write to log file BUT DO NOT kill process
             fwrite($log, $output, 2048);
 			$returnval = false;
-            //exit($output);
+            // exit($output);
         } else {
 		
 			// update database
