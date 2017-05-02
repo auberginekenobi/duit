@@ -46,19 +46,14 @@ const btnLoginRedisplay = document.getElementById('btnLoginRedisplay');
 const btnDisplayTags = document.getElementById('btnDisplayTags');
 const btnDisplayUsers = document.getElementById('btnDisplayUsers');
 const btnAddTag = document.getElementById('btnAddTag');
-
-
 const overlay = document.getElementById('overlay');
 
 
-//$('.deleteDu')
-
 // Add login event
-if (btnLogin) {
-	btnLogin.addEventListener('click', e=>{
-		login();
-	});
-}
+$(document).on('click','#btnLogin',function(e){
+	login();
+});
+
 
 function login(){
 	// Get email and pass
@@ -77,32 +72,24 @@ function login(){
 }
 
 // Add dus table display event
-if (btnDisplayDus) {
-		btnDisplayDus.addEventListener('click',e=>{
-			callServer("displayAsTableDus");
-	});
-}
+$(document).on('click','#btnDisplayDus',function(e){
+	callServer("btnDisplayDus");
+});
 
 // Add tags table display event
-if (btnDisplayTags) {
-		btnDisplayTags.addEventListener('click',e=>{
-			callServer("displayAsTableTags");
-	});
-}
+$(document).on('click','#btnDisplayTags',function(e){
+	callServer("btnDisplayTags");
+});
 
-// Add users table display event
-if (btnDisplayUsers) {
-		btnDisplayUsers.addEventListener('click',e=>{
-			callServer("displayAsTableUsers");
-	});
-}
+
+$(document).on('click','#btnDisplayUsers',function(e){
+	callServer("btnDisplayUsers");
+});
 
 // Delete selected du
-if (deleteDuList) {
-	$(document).on('click','.deleteDu',function(e){
-		deleteDu(e);
-	});
-}
+$(document).on('click','.deleteDu',function(e){
+	deleteDu(e);
+});
 
 function deleteDu(event){
 	let du_id = $(event.currentTarget).attr('class').slice(12);
@@ -112,34 +99,25 @@ function deleteDu(event){
 	callServer("deleteDu",params);
 }
 
-// Add new du
-if (btnAddDu) {
-	btnAddDu.addEventListener('click',e=>{
-		addDu();
-	});
-}
+$(document).on('click','#btnAddDu',function(e){
+	addDu();
+});
 
-if (btnLoginDisplay){
-	btnLoginDisplay.addEventListener('click',e=>{
-		displayLogin();
-	});
-}
+$(document).on('click','#btnLoginDisplay',function(e){
+	displayLogin();
+});
 
-if (btnCreateActDisplay){
-	btnCreateActDisplay.addEventListener('click',e=>{
-		displayCreate();
-	});
-}
+$(document).on('click','#btnCreateActDisplay',function(e){
+	displayCreate();
+});
 
-if (btnLoginRedisplay){
-	btnLoginRedisplay.addEventListener('click',e=>{
-		hideCreate();
-	});
-}
+$(document).on('click','#btnLoginRedisplay',function(e){
+	hideCreate();
+});
 
-if (overlay){
-	overlay.addEventListener('click',e=>{hideLogin();});
-}
+$(document).on('click','#overlay',function(e){
+	hideLogin();
+});
 
 function displayLogin(){
 	$(".login_form").removeClass('hide');
