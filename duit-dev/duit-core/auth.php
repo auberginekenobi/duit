@@ -167,10 +167,7 @@
 					}
 				}
 
-				//du associate du with tag
 				$du->associateTag($tag);
-				//tag associate tag with du
-				$tag->associateDu($du);
 			}
 			echo json_encode($result);
 		} else {
@@ -196,7 +193,7 @@
 
 			foreach ($tags as $tag) {
 				$du->dissociateTag($tag);
-				echo "removing tag";
+				//echo "removing tag";
 				//$tag->dissociateDu($du);
 			}
 
