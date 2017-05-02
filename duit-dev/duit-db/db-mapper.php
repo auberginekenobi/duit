@@ -251,7 +251,7 @@ function getAllTags() {
 	       tag_note, 
            user_id
 	FROM   tags
-	GROUP  BY tag_name 
+	GROUP  BY tag_id 
 	ORDER  BY tag_id ASC";
     
     // Query the database for all du's
@@ -278,6 +278,45 @@ function getAllTags() {
 
 	// Done
 	return $all;
+}
+
+// @TODO function associateAll puts all tags in du objects and all dus in tag objects.
+
+/** function associateAll
+*
+* Iterates through the du_tag_pairs table, and creates associations
+* between dus and tags for each.
+* Should probably call this one after getAll and getAllTags unless you
+* want to regret everything you've ever done in life.
+*
+* @global all, alltags
+* @return void
+*/
+function associateAll() {
+	$all = $GLOBALS['all'];
+	$alltags = $GLOBALS['alltags'];
+	
+	// Query statement for large, formatted table
+	$queryStatement = "
+	SELECT du_id,
+	       tag_id
+	FROM   du_tag_pairs"
+	;
+    
+    // Query the database for all du's
+	$result = query($queryStatement, "associateAll()");
+	
+	// While there is another non-null row of the query result
+    while ($currRow = $result->fetch_assoc()) {
+    	// get du and tag
+		$du_id = $currRow['du_id'];
+		$du = getDuByID($du_id);
+    	$tag_id = $currRow['tag_id'];
+		$tag = getTagByID($tag_id);
+		
+    	// associate du with tag
+		$du->associateTag($tag); 
+	}
 }
 
 /**
@@ -957,16 +996,32 @@ function deleteDu($id, $duArray = NULL) {
 
 	// Done
 	return $duArray;
+}
 
+// Wrapper functions
+
+function getDuByID($id){
+	$all = $GLOBALS['all'];
+	return $all[$id];
+}
+
+function getTagByID($id){
+	$alltags = $GLOBALS['alltags'];
+	return $alltags[$id];
+}
+
+function getUserByID($id){
+	$allusers = $GLOBALS['allusers'];
+	return $allusers[$id];
 }
 
 // Get du class object definitions
-require("du-class.php");
-require("tag-class.php");
-require("db-mapper-user.php");
+require_once("du-class.php");
+require_once("tag-class.php");
+require_once("db-mapper-user.php");
 
 //Get user class object definitions
-//require("user-class.php");
+require_once("user-class.php");
 
 
 // Main executions
@@ -974,10 +1029,30 @@ $log = openLogFile(true);
 $all = getAll();
 $alltags = getAllTags();
 $allusers = getAllUsers();
+associateAll();
+
+
+//$dus = array(1,1,3,4);
+//$tags= array(3,1,1,2);
+//for ($x=0; $x<4; $x++){		
+//    // associate du with tag
+//	$du = getDuByID($dus[$x]);
+//	$tag=getTagByID($tags[$x]);
+//	$du->associateTag($tag); 
+//}
 
 // Testing Example
 
-//displayAsTable($allusers);
+// displayAsTable($all);
+// $du = getDuByID(1);
+// $tag = getTagByID(1);
+// var_dump(sizeof($du->getTags()));
+// var_dump(sizeof($tag->getDus()));
+// $du->dissociateTag($tag); 
+// var_dump($du);
+// var_dump($tag);
+
+
 //$parameters = array('user_name' => 'Winky'.rand(), 'user_id' => 'herbivore');
 //$allusers = addUser($parameters);
 //displayAsTable($allusers);

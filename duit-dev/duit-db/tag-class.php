@@ -11,6 +11,8 @@
  * @copyright 2017 DUiT
  * @since     File available since the day the music died  
  */
+
+require_once("du-class.php");
 class tag {
     // protected tag properties
     protected $tag_id;           // int
@@ -18,6 +20,8 @@ class tag {
     protected $tag_priority;     // int, default 4
     protected $tag_note;         // string, optional
     protected $user_id;          // string
+	public    $tag_dus;		 	 // array of du objects
+								 // other classes need to play with this, so it's public.
     
     /**
      * Main constructor
@@ -95,14 +99,19 @@ class tag {
 			FROM   tags
 			WHERE  tag_id = " . $this->tag_id
 		;
-		if (query($checkQuery, "addToDB()")->fetch_array()) { // If a tag already exists
+    $checkQuery2 = "
+      SELECT *
+      FROM tags
+      WHERE tag_name = " ."'" . $this->tag_name . "'"
+    ;
+		if (query($checkQuery, "addToDB()")->fetch_array() || query($checkQuery2, "addToDB()")->fetch_array()) { // If a tag already exists
 			// Handle failure
 			$output  = date("Y-m-d H:i:s T", time());
-			$output .= " Could not add new du to database: item with tag_id '";
+			$output .= " Could not add new tag to database: item with tag_id '";
 			$output .= $this->tag_id . "' already exists.\n";
-			// Write to log file and kill process
+			// Write to log file and don't kill process
 			fwrite($log, $output, 2048);
-		    exit($output);
+		   // exit($output);
 		} else {// If no such tag exists
 			// Get current max tag_id from tags table 
 			$resetValQuery  = "
@@ -186,6 +195,11 @@ class tag {
 			WHERE  tag_id = " . $this->tag_id
 		;
 		if (query($checkQuery, "deleteFromDB()")->fetch_array()) { // If there is a tag
+			// dissocuate all dus from the tag to be deleted
+			foreach ($tag_dus as $du){
+				dissociateDu($du);
+			}
+			
 			$deleteQuery = "
 				DELETE FROM tags
 				WHERE tag_id   = '" . $this->tag_id . "'"
@@ -317,5 +331,18 @@ class tag {
     public function getUserID() {
         return $this->user_id;
     }
+	
+	
+	public function getDus() {
+		return $this->tag_dus;
+	}
+	
+	public function associateDu($du) {
+		$du->associateTag($this);
+	}
+	
+	public function dissociateDu($du) {
+		$du->dissociateTag($this);
+	}
 }
 ?>
