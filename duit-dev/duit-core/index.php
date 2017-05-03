@@ -102,12 +102,12 @@ body {
 
 
 
-	<div id="overlay" class="hide"></div>
+	<div id="overlay"></div>
 
 
 	<div class="container">
 
-		<div class="login_form hide">
+		<div class="login_form">
 			<input id="txtEmail" class="txtInput" type = "email" placeholder="Email"><br>
 
 			<input id="txtPassword" class="txtInput" type="password" placeholder="Password"><br>
@@ -124,7 +124,7 @@ body {
 			<div class="message login_form_contents">Not registered? <a href="#" id="btnCreateActDisplay">Create an account</a></div>
 			<div class="message signup_form_contents hide">Already registered? <a href="#" id="btnLoginRedisplay">Sign in</a></div>
 		</div>
-
+<!-- 
 		<h1>DUiT</h1>
 
 		<button id="btnLoginDisplay" class="btn btn-action">Login</button>
@@ -167,7 +167,7 @@ body {
 
 
 
-	</div>
+	</div> -->
 
 <!-- Code meant for testing add user internally, this function is never called outside of this -->
 <!-- 	<div>
@@ -175,7 +175,7 @@ body {
 		<button id="btnAddUser" class = "btn btn-action">Add User</button>
 	</div> -->
 
-	<div>
+<!-- 	<div>
 		Tag Name:<input id="tag_name" type="text" placeholder="Tag Name" value="test">
 		Tag Note:<input id="tag_note" type="text" placeholder="Tag Note" value="test">
 		<button id="btnAddTag" class = "btn btn-action">Add Tag</button>
@@ -183,7 +183,7 @@ body {
 
 	<div class="responseContainer">
 	</div>
-
+ -->
 
 <script src="js/app.js"></script>
 

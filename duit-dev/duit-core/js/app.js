@@ -30,7 +30,7 @@ let config = {
 };
 firebase.initializeApp(config);
 
-
+// Initialize event listeners
 const txtEmail = document.getElementById('txtEmail');
 const txtPassword = document.getElementById('txtPassword');
 const btnDisplayDus = document.getElementById('btnDisplayDus');
@@ -43,19 +43,18 @@ const btnLoginDisplay = document.getElementById('btnLoginDisplay');
 const btnLoginHide = document.getElementById('btnLoginHide');
 const btnCreateActDisplay = document.getElementById('btnCreateActDisplay');
 const btnLoginRedisplay = document.getElementById('btnLoginRedisplay');
-
+const btnDisplayTags = document.getElementById('btnDisplayTags');
+const btnDisplayUsers = document.getElementById('btnDisplayUsers');
+const btnAddTag = document.getElementById('btnAddTag');
 const overlay = document.getElementById('overlay');
 
 
-//$('.deleteDu')
-
 // Add login event
-if (btnLogin) {
-	btnLogin.addEventListener('click', e=>{
-		login();
-	});
-}
+$(document).on('click','#btnLogin',function(e){
+	login();
+});
 
+//Logins the user using Promises
 function login(){
 	// Get email and pass
 	const email = txtEmail.value;
@@ -64,37 +63,36 @@ function login(){
 	// Sign in
 	const promise = auth.signInWithEmailAndPassword(email,pass);
 	promise.catch(e=>console.log(e.message));
+	promise.then(function(){
+		//Directs user to next page
+		let url = "app.php";
+		window.location = url;
+		window.open(url);
+	});
 
 }
 
 // Add dus table display event
-if (btnDisplayDus) {
-		btnDisplayDus.addEventListener('click',e=>{
-			callServer("displayAsTableDus");
-	});
-}
+$(document).on('click','#btnDisplayDus',function(e){
+	callServer("btnDisplayDus");
+});
 
 // Add tags table display event
-if (btnDisplayTags) {
-		btnDisplayTags.addEventListener('click',e=>{
-			callServer("displayAsTableTags");
-	});
-}
+$(document).on('click','#btnDisplayTags',function(e){
+	callServer("btnDisplayTags");
+});
 
-// Add users table display event
-if (btnDisplayUsers) {
-		btnDisplayUsers.addEventListener('click',e=>{
-			callServer("displayAsTableUsers");
-	});
-}
+
+$(document).on('click','#btnDisplayUsers',function(e){
+	callServer("btnDisplayUsers");
+});
 
 // Delete selected du
-if (deleteDuList) {
-	$(document).on('click','.deleteDu',function(e){
-		deleteDu(e);
-	});
-}
+$(document).on('click','.deleteDu',function(e){
+	deleteDu(e);
+});
 
+//Deletes a du by parsing the class name of the du and taking the id out of it
 function deleteDu(event){
 	let du_id = $(event.currentTarget).attr('class').slice(12);
 	let params = {
@@ -103,45 +101,39 @@ function deleteDu(event){
 	callServer("deleteDu",params);
 }
 
-// Add new du
-if (btnAddDu) {
-	btnAddDu.addEventListener('click',e=>{
-		addDu();
-	});
-}
+$(document).on('click','#btnAddDu',function(e){
+	addDu();
+});
 
-if (btnLoginDisplay){
-	btnLoginDisplay.addEventListener('click',e=>{
-		displayLogin();
-	});
-}
+$(document).on('click','#btnLoginDisplay',function(e){
+	displayLogin();
+});
 
-if (btnCreateActDisplay){
-	btnCreateActDisplay.addEventListener('click',e=>{
-		displayCreate();
-	});
-}
+$(document).on('click','#btnCreateActDisplay',function(e){
+	displayCreate();
+});
 
-if (btnLoginRedisplay){
-	btnLoginRedisplay.addEventListener('click',e=>{
-		hideCreate();
-	});
-}
+$(document).on('click','#btnLoginRedisplay',function(e){
+	hideCreate();
+});
 
-if (overlay){
-	overlay.addEventListener('click',e=>{hideLogin();});
-}
+$(document).on('click','#overlay',function(e){
+	hideLogin();
+});
 
+//Used to display login view
 function displayLogin(){
 	$(".login_form").removeClass('hide');
 	$("#overlay").removeClass('hide');
 }
 
+//Used to display create account view
 function displayCreate(){
 	$('.login_form_contents').addClass('hide');
 	$('.signup_form_contents').removeClass('hide');
 }
 
+//Used to hide create account view
 function hideCreate(){
 	$('.login_form_contents').removeClass('hide');
 	$('.signup_form_contents').addClass('hide');	
@@ -158,6 +150,7 @@ function hideLogin(){
 	$("#overlay").addClass('hide');	
 }
 
+//Does some processing to categorize the dus, and then sends to PHP 
 function addDu(){
 	let du_name = $("#du_name").val();
 	let du_time_start = $('#du_time_start').val();
@@ -212,12 +205,42 @@ function addDu(){
 
 }
 
-//add new user
-// if(btnAddUser){
-// 	btnAddUser.addEventListener('click',e=>{
-// 		addUser();
-// 	})
-// }
+//formats AMPM, from stack overflow
+function formatAMPM(date) {
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  let ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  let strTime = hours + ':' + minutes + ' ' + ampm;
+  return strTime;
+}
+
+//format date, from stack overflow
+function formatDate(now){
+	let days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+	let months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+	let day = days[ now.getDay() ];
+	let month = months[ now.getMonth() ];
+
+	return day+", "+month+" "+now.getDay()+", "+now.getFullYear();
+}
+
+//updates time
+function timeDisplay(){
+	let now = new Date();
+
+	document.getElementById('time').innerHTML = formatAMPM(now);
+	document.getElementById('date').innerHTML = formatDate(now);
+}
+
+//initially displays the time
+timeDisplay();
+
+//will continuously update time
+setInterval(timeDisplay(),1000);
 
 function addUser(){
 	let user_name = $('#user_name').val();
@@ -287,6 +310,15 @@ function signOut(){
 // Add a real time listener for changes in user state
 firebase.auth().onAuthStateChanged(user=>{
 	if (user){
+
+		//TODO: Non hardcode URL
+		//TODO: Forward only after user has been created on MySQL DB
+		let url = "http://localhost:8888/cs135/duit/duit-dev/duit-core/app.php";
+		if (window.location != url) {
+			window.location = url;
+			window.open(url);
+		}
+
 		console.log(user);
 		if (btnLogout) {
 			btnLogout.classList.remove('hide');
@@ -299,7 +331,7 @@ firebase.auth().onAuthStateChanged(user=>{
 	}
 });
 
-
+//Helper function to add items to the payload 
 function updatePayload(input,payload,params) {
 	if(input in params && params[input] !== ""){
 		payload += "&"+input+"="+params[input];
@@ -307,6 +339,9 @@ function updatePayload(input,payload,params) {
 	return payload;
 }
 
+//One the primary functions within app.js, makes AJAX calls to the auth.php
+//given a function to be called as well as the paramters as well with an optional
+// callback 
 function callServer(function_name,params = {},callback){
 	firebase.auth().currentUser.getToken(/* forceRefresh */ true).then(function(idToken) {
 		// Send token to your backend via HTTPS
