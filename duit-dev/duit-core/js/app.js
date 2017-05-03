@@ -30,7 +30,7 @@ let config = {
 };
 firebase.initializeApp(config);
 
-
+// Initialize event listeners
 const txtEmail = document.getElementById('txtEmail');
 const txtPassword = document.getElementById('txtPassword');
 const btnDisplayDus = document.getElementById('btnDisplayDus');
@@ -54,7 +54,7 @@ $(document).on('click','#btnLogin',function(e){
 	login();
 });
 
-
+//Logins the user using Promises
 function login(){
 	// Get email and pass
 	const email = txtEmail.value;
@@ -64,6 +64,7 @@ function login(){
 	const promise = auth.signInWithEmailAndPassword(email,pass);
 	promise.catch(e=>console.log(e.message));
 	promise.then(function(){
+		//Directs user to next page
 		let url = "app.php";
 		window.location = url;
 		window.open(url);
@@ -91,6 +92,7 @@ $(document).on('click','.deleteDu',function(e){
 	deleteDu(e);
 });
 
+//Deletes a du by parsing the class name of the du and taking the id out of it
 function deleteDu(event){
 	let du_id = $(event.currentTarget).attr('class').slice(12);
 	let params = {
@@ -119,16 +121,19 @@ $(document).on('click','#overlay',function(e){
 	hideLogin();
 });
 
+//Used to display login view
 function displayLogin(){
 	$(".login_form").removeClass('hide');
 	$("#overlay").removeClass('hide');
 }
 
+//Used to display create account view
 function displayCreate(){
 	$('.login_form_contents').addClass('hide');
 	$('.signup_form_contents').removeClass('hide');
 }
 
+//Used to hide create account view
 function hideCreate(){
 	$('.login_form_contents').removeClass('hide');
 	$('.signup_form_contents').addClass('hide');	
@@ -145,6 +150,7 @@ function hideLogin(){
 	$("#overlay").addClass('hide');	
 }
 
+//Does some processing to categorize the dus, and then sends to PHP 
 function addDu(){
 	let du_name = $("#du_name").val();
 	let du_time_start = $('#du_time_start').val();
@@ -199,13 +205,7 @@ function addDu(){
 
 }
 
-//add new user
-// if(btnAddUser){
-// 	btnAddUser.addEventListener('click',e=>{
-// 		addUser();
-// 	})
-// }
-
+//formats AMPM, from stack overflow
 function formatAMPM(date) {
   let hours = date.getHours();
   let minutes = date.getMinutes();
@@ -217,6 +217,7 @@ function formatAMPM(date) {
   return strTime;
 }
 
+//format date, from stack overflow
 function formatDate(now){
 	let days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 	let months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -227,6 +228,7 @@ function formatDate(now){
 	return day+", "+month+" "+now.getDay()+", "+now.getFullYear();
 }
 
+//updates time
 function timeDisplay(){
 	let now = new Date();
 
@@ -237,6 +239,7 @@ function timeDisplay(){
 //initially displays the time
 timeDisplay();
 
+//will continuously update time
 setInterval(timeDisplay(),1000);
 
 function addUser(){
@@ -328,7 +331,7 @@ firebase.auth().onAuthStateChanged(user=>{
 	}
 });
 
-
+//Helper function to add items to the payload 
 function updatePayload(input,payload,params) {
 	if(input in params && params[input] !== ""){
 		payload += "&"+input+"="+params[input];
@@ -336,6 +339,9 @@ function updatePayload(input,payload,params) {
 	return payload;
 }
 
+//One the primary functions within app.js, makes AJAX calls to the auth.php
+//given a function to be called as well as the paramters as well with an optional
+// callback 
 function callServer(function_name,params = {},callback){
 	firebase.auth().currentUser.getToken(/* forceRefresh */ true).then(function(idToken) {
 		// Send token to your backend via HTTPS
