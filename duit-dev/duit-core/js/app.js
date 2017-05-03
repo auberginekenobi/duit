@@ -232,8 +232,10 @@ function formatDate(now){
 function timeDisplay(){
 	let now = new Date();
 
-	document.getElementById('time').innerHTML = formatAMPM(now);
-	document.getElementById('date').innerHTML = formatDate(now);
+	if (document.getElementById('time') != null && document.getElementById('date') != null){
+		document.getElementById('time').innerHTML = formatAMPM(now);
+		document.getElementById('date').innerHTML = formatDate(now);
+	}
 }
 
 //initially displays the time
@@ -248,7 +250,15 @@ function addUser(){
 	let params = {
 		"user_name" : user_name
 	}
-	callServer("addUser",params);
+	callServer("addUser",params,redirect);
+}
+
+function redirect(){
+	let url = "http://localhost:8888/cs135/duit/duit-dev/duit-core/app.php";
+	if (window.location != url) {
+		window.location = url;
+		window.open(url);
+	}
 }
 
 //add new tag
@@ -274,19 +284,18 @@ function addTag() {
 	callServer("addTag",params);
 }
 
-// Add signup event
-if (btnSignUp) {
-	btnSignUp.addEventListener('click', e=> {
-		signUp();
-	});
-}
+
+
+$(document).on('click','#btnSignUp',function(e){
+	signUp();
+});
 
 function signUp(){
 	// Get email and pass
 	const email = txtEmail.value;
 	const pass = txtPassword.value;
 	const auth = firebase.auth();
-	
+
 	// Sign in
 	const promise = auth.createUserWithEmailAndPassword(email,pass).then(function(){
 		//create a user
@@ -313,11 +322,11 @@ firebase.auth().onAuthStateChanged(user=>{
 
 		//TODO: Non hardcode URL
 		//TODO: Forward only after user has been created on MySQL DB
-		let url = "http://localhost:8888/cs135/duit/duit-dev/duit-core/app.php";
-		if (window.location != url) {
-			window.location = url;
-			window.open(url);
-		}
+		// let url = "http://localhost:8888/cs135/duit/duit-dev/duit-core/app.php";
+		// if (window.location != url) {
+		// 	window.location = url;
+		// 	window.open(url);
+		// }
 
 		console.log(user);
 		if (btnLogout) {
@@ -368,6 +377,10 @@ function callServer(function_name,params = {},callback){
 			data: payload, 
 			success: function(msg){
 				$(".responseContainer").html(msg);
+
+				if (typeof callback === "function"){
+					callback();
+				}
 			},
 			error: function(e){
 				console.log(e);
